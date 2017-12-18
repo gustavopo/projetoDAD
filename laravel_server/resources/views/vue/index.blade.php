@@ -3,9 +3,9 @@
 @section('title', 'Jogo da Memória')
 
 @section('content')
-    <router-link to="/users">Users</router-link>
-    <router-link to="/singlegame">Jogo da Memória - SinglePlayer </router-link> -
-    <router-link to="/multigame">Jogo da Memória - Multiplayer </router-link>
+    <router-link to="/users">Users</router-link> -
+    <router-link to="/singlegame"> SinglePlayer </router-link> -
+    <router-link to="/multigame"> Multiplayer </router-link>
 
     <router-view></router-view>
 @endsection

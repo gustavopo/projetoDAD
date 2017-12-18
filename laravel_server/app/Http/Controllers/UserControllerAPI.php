@@ -48,7 +48,6 @@ class UserControllerAPI extends Controller
         $request->validate([
             'name' => 'required',
             'email' => 'required|email|unique:users,email,'.$id,
-            'age' => 'integer|between:18,75'
         ]);
         $user = User::findOrFail($id);
         $user->update($request->all());
