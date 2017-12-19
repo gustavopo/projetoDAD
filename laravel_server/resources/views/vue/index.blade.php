@@ -4,8 +4,8 @@
 
 @section('content')
     <router-link to="/users">Users</router-link> -
-    <router-link to="/singlegame"> SinglePlayer </router-link> -
-    <router-link to="/multigame"> Multiplayer </router-link>
+    <router-link to="/singlememorygame"> SinglePlayer </router-link> -
+    <router-link to="/multimemorygame"> Multiplayer </router-link>
 
     <router-view></router-view>
 @endsection
