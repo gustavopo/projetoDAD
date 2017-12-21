@@ -3,6 +3,15 @@
         <div class="jumbotron">
             <h1>{{ title }}</h1>
         </div>
+        <user-list :users="users" @edit-click="editUser" @delete-click="deleteUser" @message="childMessage" ref="usersListRef"></user-list>
+
+        <div class="alert alert-success" v-if="showSuccess">
+
+            <button type="button" class="close-btn" v-on:click="showSuccess=false">&times;</button>
+            <strong>{{ successMessage }}</strong>
+        </div>
+        <user-edit :user="currentUser" @user-saved="savedUser" @user-canceled="cancelEdit" v-if="currentUser"></user-edit>
+
 
     </div>
 </template>
