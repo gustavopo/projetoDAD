@@ -14,11 +14,18 @@
                 <strong>{{ successMessage }} &nbsp;&nbsp;&nbsp;&nbsp;<a v-show="gameEnded" v-on:click.prevent="restartGame">Restart</a></strong>
             </div>
 
+            <board :columns="4" :rows="4">
+
+            </board>
+
+            <!--
             <div class="board">
                 <div v-for="(piece, key) of board" >
                     <img v-bind:src="pieceImageURL(piece)" v-on:click="clickPiece(index)">
                 </div>
             </div>
+            -->
+
             <hr>
         </div>
 
@@ -27,7 +34,7 @@
 
 <script>
 
-    import Tile from './tile.vue';
+    import Board from './board.vue';
 
     export default {
         data: function(){
@@ -38,43 +45,18 @@
                 successMessage: '',
                 failMessage: '',
                 currentValue: 1,
-                tileFlipped: false,
-                gameEnded:false,
                 player1User: undefined,
                 player2User: undefined,
-                board: [7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7]
+                gameEnded:false,
+
 
             }
         },
 
         methods:{
-
-            pieceImageURL: function (piece) {
-                var imgSrc = String(piece);
-                if(this.tileFlipped){
-                    return 'img/' + imgSrc + '.png';
-                }else{
-                    return 'img/0.png';
-                }
-            },
-
-            clickPiece: function(index) {
-                if(this.gameEnded){
-                    console.log('juca');
-                    return;
-                }
-
-                this.tileFlipped=true;
-                //this.board[index] = this.currentValue;
-                this.successMessage = this.currentPlayer+' has Played';
-                this.showSuccess = true;
-                //this.currentValue = (this.currentValue == 1)? 2 : 1;
-                // this.checkGameEnded();
-            },
-
             restartGame: function(){
                 console.log('restartGame');
-                this.board= [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0];
+               // this.board= [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0];
                 this.showSuccess= false;
                 this.showFailure= false;
                 this.successMessage= '';
@@ -97,7 +79,7 @@
         },
 
         components: {
-            'tile': Tile
+            'board': Board
         },
 
     }
