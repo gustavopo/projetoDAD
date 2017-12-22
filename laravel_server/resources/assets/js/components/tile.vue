@@ -1,6 +1,7 @@
 <template>
     <div>
         <img v-bind:src="pieceImageURL(img)"> <!--v-on:click="clickTile(key)-->
+        <p>{{img}}</p>
     </div>
 </template>
 

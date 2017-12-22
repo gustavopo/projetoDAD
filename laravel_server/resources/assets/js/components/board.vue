@@ -1,10 +1,9 @@
 <template>
     <div class="board">
-        <div v-for="c in this.columns">
+        <div v-for="(c,c1) in columns">
             <div class="board-row">
-                <div v-for="r in this.rows">
-
-                    <tile @click-tile="clickTile" :img="4" >
+                <div v-for="(r,r1) in rows">
+                    <tile @click-tile="clickTile" :img="board[r1][c1]" >
 
                     </tile>
                 </div>
@@ -68,7 +67,7 @@
                 {
                     for(let j=0; j<this.columns; ++j)
                     {
-                        this.board[i][j] = 2;
+                        this.board[i][j] = 3;
 
                         console.log(this.board[i][j]);
                     }
