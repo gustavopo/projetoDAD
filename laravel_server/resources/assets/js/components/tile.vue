@@ -29,8 +29,6 @@ export default {
             this.tileFlipped = true;
             this.$emit('click-tile',r1, c1);
         }
-
-
     },
     beforeMount() {
 
