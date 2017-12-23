@@ -1375,7 +1375,7 @@ module.exports = Cancel;
 /***/ (function(module, exports, __webpack_require__) {
 
 __webpack_require__(13);
-module.exports = __webpack_require__(71);
+module.exports = __webpack_require__(74);
 
 
 /***/ }),
@@ -1408,7 +1408,7 @@ Vue.use(__WEBPACK_IMPORTED_MODULE_1_vue_socket_io___default.a, 'http://192.168.1
 
 var user = Vue.component('user', __webpack_require__(43));
 var singleplayerGame = Vue.component('singlegame', __webpack_require__(59));
-var multiplayerGame = Vue.component('multiplayergame', __webpack_require__(65));
+var multiplayerGame = Vue.component('multiplayergame', __webpack_require__(68));
 
 var routes = [{ path: '/', redirect: '/users' }, { path: '/users', component: user }, { path: '/singlememorygame', component: singleplayerGame }, { path: '/multimemorygame', component: multiplayerGame }];
 
@@ -1424,7 +1424,7 @@ var app = new Vue({
     }
 }).$mount('#app');
 
-Vue.component('example-component', __webpack_require__(68));
+Vue.component('example-component', __webpack_require__(71));
 
 /***/ }),
 /* 14 */
@@ -46594,7 +46594,7 @@ var normalizeComponent = __webpack_require__(1)
 /* script */
 var __vue_script__ = __webpack_require__(60)
 /* template */
-var __vue_template__ = __webpack_require__(64)
+var __vue_template__ = __webpack_require__(67)
 /* template functional */
 var __vue_template_functional__ = false
 /* styles */
@@ -46638,7 +46638,7 @@ module.exports = Component.exports
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__board_vue__ = __webpack_require__(80);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__board_vue__ = __webpack_require__(61);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__board_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0__board_vue__);
 //
 //
@@ -46734,7 +46734,154 @@ var normalizeComponent = __webpack_require__(1)
 /* script */
 var __vue_script__ = __webpack_require__(62)
 /* template */
-var __vue_template__ = __webpack_require__(63)
+var __vue_template__ = __webpack_require__(66)
+/* template functional */
+var __vue_template_functional__ = false
+/* styles */
+var __vue_styles__ = null
+/* scopeId */
+var __vue_scopeId__ = null
+/* moduleIdentifier (server only) */
+var __vue_module_identifier__ = null
+var Component = normalizeComponent(
+  __vue_script__,
+  __vue_template__,
+  __vue_template_functional__,
+  __vue_styles__,
+  __vue_scopeId__,
+  __vue_module_identifier__
+)
+Component.options.__file = "resources/assets/js/components/board.vue"
+
+/* hot reload */
+if (false) {(function () {
+  var hotAPI = require("vue-hot-reload-api")
+  hotAPI.install(require("vue"), false)
+  if (!hotAPI.compatible) return
+  module.hot.accept()
+  if (!module.hot.data) {
+    hotAPI.createRecord("data-v-7035745f", Component.options)
+  } else {
+    hotAPI.reload("data-v-7035745f", Component.options)
+  }
+  module.hot.dispose(function (data) {
+    disposed = true
+  })
+})()}
+
+module.exports = Component.exports
+
+
+/***/ }),
+/* 62 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__tile_vue__ = __webpack_require__(63);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__tile_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0__tile_vue__);
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
+
+
+
+/* harmony default export */ __webpack_exports__["default"] = ({
+
+    props: ['columns', 'rows'],
+    data: function data() {
+
+        return {
+
+            board: new Array(this.rows),
+            tileFlipped: false,
+            currentValue: 1
+
+        };
+    },
+
+    methods: {
+
+        pieceImageURL: function pieceImageURL(img) {
+            var imgSrc = String(img);
+            console.log('na board');
+            return 'img/' + imgSrc + '.png';
+        },
+
+        clickTile: function clickTile(posicaoLinha, posicaoColuna) {
+            if (this.gameEnded) {
+                console.log('juca');
+                return;
+            }
+
+            console.log(posicaoLinha, posicaoColuna);
+
+            this.board[(posicaoLinha, posicaoColuna)] = this.currentValue;
+            this.currentValue = this.currentValue == 1 ? 2 : 1;
+
+            this.tileFlipped = true;
+            //this.board[index] = this.currentValue;
+            this.successMessage = this.currentPlayer + ' has Played';
+            this.showSuccess = true;
+            //this.currentValue = (this.currentValue == 1)? 2 : 1;
+            // this.checkGameEnded();
+        },
+
+        fillBoard: function fillBoard() {
+
+            for (var k = 0; k < this.rows; ++k) {
+                this.board[k] = new Array(this.columns);
+            }
+
+            for (var i = 0; i < this.rows; ++i) {
+                for (var j = 0; j < this.columns; ++j) {
+                    this.board[i][j] = "hidden";
+
+                    // console.log(this.board[i][j]);
+                }
+            }
+        }
+    },
+
+    computed: {
+        numberOfTiles: function numberOfTiles() {
+            return this.rows * this.columns;
+        }
+    },
+    beforeMount: function beforeMount() {
+        this.fillBoard();
+    },
+
+
+    components: {
+        'tile': __WEBPACK_IMPORTED_MODULE_0__tile_vue___default.a
+    }
+});
+
+/***/ }),
+/* 63 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var disposed = false
+var normalizeComponent = __webpack_require__(1)
+/* script */
+var __vue_script__ = __webpack_require__(64)
+/* template */
+var __vue_template__ = __webpack_require__(65)
 /* template functional */
 var __vue_template_functional__ = false
 /* styles */
@@ -46773,7 +46920,7 @@ module.exports = Component.exports
 
 
 /***/ }),
-/* 62 */
+/* 64 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -46789,37 +46936,32 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
 /* harmony default export */ __webpack_exports__["default"] = ({
 
-    props: ['img'],
+    props: ['img', 'r1', 'c1'],
     data: function data() {
         return {
             tileFlipped: false
-
         };
     },
 
     methods: {
-        pieceImageURL: function pieceImageURL(tile) {
-            var imgSrc = String(tile);
-            console.log("g" + this.img);
+        pieceImageURL: function pieceImageURL(img) {
+            var imgSrc = String(img);
+            console.log('na tile');
             return 'img/' + imgSrc + '.png';
         },
 
-        clickTile: function clickTile(tile) {
-            if (this.gameEnded) {
-                console.log('juca');
-                return;
-            }
+        clickTile: function clickTile(r1, c1) {
+            //console.log(r1+" " + c1);
             this.tileFlipped = true;
-            this.$emmit('click-tile', tile);
+            this.$emit('click-tile', r1, c1);
         }
+
     },
-    beforeMount: function beforeMount() {
-        console.log(this.img);
-    }
+    beforeMount: function beforeMount() {}
 });
 
 /***/ }),
-/* 63 */
+/* 65 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var render = function() {
@@ -46827,7 +46969,15 @@ var render = function() {
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
   return _c("div", [
-    _c("img", { attrs: { src: _vm.pieceImageURL(_vm.img) } }),
+    _c("img", {
+      attrs: { src: _vm.pieceImageURL(_vm.img) },
+      on: {
+        click: function($event) {
+          $event.preventDefault()
+          _vm.clickTile(_vm.r1, _vm.c1)
+        }
+      }
+    }),
     _vm._v(" "),
     _c("p", [_vm._v(_vm._s(_vm.img))])
   ])
@@ -46843,7 +46993,50 @@ if (false) {
 }
 
 /***/ }),
-/* 64 */
+/* 66 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _c(
+    "div",
+    { staticClass: "board" },
+    _vm._l(_vm.columns, function(c, c1) {
+      return _c("div", [
+        _c(
+          "div",
+          { staticClass: "board-row" },
+          _vm._l(_vm.rows, function(r, r1) {
+            return _c(
+              "div",
+              [
+                _c("tile", {
+                  attrs: { r1: r1, c1: c1, img: _vm.board[r1][c1] },
+                  on: { "click-tile": _vm.clickTile }
+                })
+              ],
+              1
+            )
+          })
+        )
+      ])
+    })
+  )
+}
+var staticRenderFns = []
+render._withStripped = true
+module.exports = { render: render, staticRenderFns: staticRenderFns }
+if (false) {
+  module.hot.accept()
+  if (module.hot.data) {
+    require("vue-hot-reload-api")      .rerender("data-v-7035745f", module.exports)
+  }
+}
+
+/***/ }),
+/* 67 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var render = function() {
@@ -46924,15 +47117,15 @@ if (false) {
 }
 
 /***/ }),
-/* 65 */
+/* 68 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var disposed = false
 var normalizeComponent = __webpack_require__(1)
 /* script */
-var __vue_script__ = __webpack_require__(66)
+var __vue_script__ = __webpack_require__(69)
 /* template */
-var __vue_template__ = __webpack_require__(67)
+var __vue_template__ = __webpack_require__(70)
 /* template functional */
 var __vue_template_functional__ = false
 /* styles */
@@ -46971,7 +47164,7 @@ module.exports = Component.exports
 
 
 /***/ }),
-/* 66 */
+/* 69 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -47000,7 +47193,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 });
 
 /***/ }),
-/* 67 */
+/* 70 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var render = function() {
@@ -47043,15 +47236,15 @@ if (false) {
 }
 
 /***/ }),
-/* 68 */
+/* 71 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var disposed = false
 var normalizeComponent = __webpack_require__(1)
 /* script */
-var __vue_script__ = __webpack_require__(69)
+var __vue_script__ = __webpack_require__(72)
 /* template */
-var __vue_template__ = __webpack_require__(70)
+var __vue_template__ = __webpack_require__(73)
 /* template functional */
 var __vue_template_functional__ = false
 /* styles */
@@ -47090,7 +47283,7 @@ module.exports = Component.exports
 
 
 /***/ }),
-/* 69 */
+/* 72 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -47119,7 +47312,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 });
 
 /***/ }),
-/* 70 */
+/* 73 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var render = function() {
@@ -47162,203 +47355,10 @@ if (false) {
 }
 
 /***/ }),
-/* 71 */
+/* 74 */
 /***/ (function(module, exports) {
 
 // removed by extract-text-webpack-plugin
-
-/***/ }),
-/* 72 */,
-/* 73 */,
-/* 74 */,
-/* 75 */,
-/* 76 */,
-/* 77 */,
-/* 78 */,
-/* 79 */,
-/* 80 */
-/***/ (function(module, exports, __webpack_require__) {
-
-var disposed = false
-var normalizeComponent = __webpack_require__(1)
-/* script */
-var __vue_script__ = __webpack_require__(81)
-/* template */
-var __vue_template__ = __webpack_require__(82)
-/* template functional */
-var __vue_template_functional__ = false
-/* styles */
-var __vue_styles__ = null
-/* scopeId */
-var __vue_scopeId__ = null
-/* moduleIdentifier (server only) */
-var __vue_module_identifier__ = null
-var Component = normalizeComponent(
-  __vue_script__,
-  __vue_template__,
-  __vue_template_functional__,
-  __vue_styles__,
-  __vue_scopeId__,
-  __vue_module_identifier__
-)
-Component.options.__file = "resources/assets/js/components/board.vue"
-
-/* hot reload */
-if (false) {(function () {
-  var hotAPI = require("vue-hot-reload-api")
-  hotAPI.install(require("vue"), false)
-  if (!hotAPI.compatible) return
-  module.hot.accept()
-  if (!module.hot.data) {
-    hotAPI.createRecord("data-v-7035745f", Component.options)
-  } else {
-    hotAPI.reload("data-v-7035745f", Component.options)
-  }
-  module.hot.dispose(function (data) {
-    disposed = true
-  })
-})()}
-
-module.exports = Component.exports
-
-
-/***/ }),
-/* 81 */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__tile_vue__ = __webpack_require__(61);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__tile_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0__tile_vue__);
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-
-
-
-
-/* harmony default export */ __webpack_exports__["default"] = ({
-
-    props: ['columns', 'rows', 'tileFlipped'],
-    data: function data() {
-
-        return {
-
-            board: new Array(this.rows)
-
-        };
-    },
-
-    methods: {
-        /*       pieceImageURL: function (piece) {
-                    var imgSrc = String(piece);
-                   console.log(this.columns);
-                   return 'img/' + imgSrc + '.png';
-                 },
-        */
-        clickTile: function clickTile(tile) {
-            if (this.gameEnded) {
-                console.log('juca');
-                return;
-            }
-            console.log(this.numberOfTiles());
-
-            this.tileFlipped = true;
-            //this.board[index] = this.currentValue;
-            this.successMessage = this.currentPlayer + ' has Played';
-            this.showSuccess = true;
-            //this.currentValue = (this.currentValue == 1)? 2 : 1;
-            // this.checkGameEnded();
-        },
-
-        fillBoard: function fillBoard() {
-
-            for (var k = 0; k < this.rows; ++k) {
-                this.board[k] = new Array(this.columns);
-            }
-
-            for (var i = 0; i < this.rows; ++i) {
-                for (var j = 0; j < this.columns; ++j) {
-                    this.board[i][j] = 3;
-
-                    console.log(this.board[i][j]);
-                }
-            }
-        }
-    },
-
-    computed: {
-        numberOfTiles: function numberOfTiles() {
-            return this.rows * this.columns;
-        }
-    },
-    beforeMount: function beforeMount() {
-        console.log(this.board + "1");
-        this.fillBoard();
-        console.log(this.board);
-    },
-
-
-    components: {
-        'tile': __WEBPACK_IMPORTED_MODULE_0__tile_vue___default.a
-    }
-});
-
-/***/ }),
-/* 82 */
-/***/ (function(module, exports, __webpack_require__) {
-
-var render = function() {
-  var _vm = this
-  var _h = _vm.$createElement
-  var _c = _vm._self._c || _h
-  return _c(
-    "div",
-    { staticClass: "board" },
-    _vm._l(_vm.columns, function(c, c1) {
-      return _c("div", [
-        _c(
-          "div",
-          { staticClass: "board-row" },
-          _vm._l(_vm.rows, function(r, r1) {
-            return _c(
-              "div",
-              [
-                _c("tile", {
-                  attrs: { img: _vm.board[r1][c1] },
-                  on: { "click-tile": _vm.clickTile }
-                })
-              ],
-              1
-            )
-          })
-        )
-      ])
-    })
-  )
-}
-var staticRenderFns = []
-render._withStripped = true
-module.exports = { render: render, staticRenderFns: staticRenderFns }
-if (false) {
-  module.hot.accept()
-  if (module.hot.data) {
-    require("vue-hot-reload-api")      .rerender("data-v-7035745f", module.exports)
-  }
-}
 
 /***/ })
 /******/ ]);

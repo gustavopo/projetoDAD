@@ -3,11 +3,11 @@
         <div v-for="(c,c1) in columns">
             <div class="board-row">
                 <div v-for="(r,r1) in rows">
-                    <tile @click-tile="clickTile" :img="board[r1][c1]" >
-
+                    <tile :r1="r1" :c1="c1" :img="board[r1][c1]" @click-tile="clickTile">
+                <!--:img="board[r1][c1]"-->
                     </tile>
+                   <!-- <img v-bind:src="pieceImageURL(board[r1][c1])">-->
                 </div>
-                <!-- <img v-bind:src="pieceImageURL(piece)" v-on:click="clickPiece(index)"> -->
             </div>
         </div>
     </div>
@@ -16,38 +16,45 @@
 
 <script>
 
-    import Tile from './tile.vue';
+import Tile from './tile.vue';
 
-    export default {
+export default {
 
-        props: ['columns', 'rows', 'tileFlipped'],
-        data: function () {
+    props: ['columns', 'rows'],
+    data: function () {
 
-            return {
+        return {
 
-                board: new Array(this.rows)
+            board: new Array(this.rows),
+            tileFlipped:false,
+            currentValue: 1,
 
-            }
+        }
+    },
+
+    methods: {
+
+        pieceImageURL: function (img) {
+            var imgSrc = String(img);
+            console.log('na board');
+            return 'img/' + imgSrc + '.png';
         },
 
-        methods: {
-     /*       pieceImageURL: function (piece) {
 
-                var imgSrc = String(piece);
-                console.log(this.columns);
-                return 'img/' + imgSrc + '.png';
+        clickTile: function (posicaoLinha, posicaoColuna) {
+            if (this.gameEnded) {
+                console.log('juca');
+                return;
+            }
+
+            console.log(posicaoLinha, posicaoColuna);
 
 
-            },
-*/
-            clickTile: function (tile) {
-                if (this.gameEnded) {
-                    console.log('juca');
-                    return;
-                }
-                console.log(this.numberOfTiles());
+            this.board[posicaoLinha,posicaoColuna] = this.currentValue;
+            this.currentValue = (this.currentValue == 1)? 2 : 1;
 
-                this.tileFlipped = true;
+
+            this.tileFlipped = true;
                 //this.board[index] = this.currentValue;
                 this.successMessage = this.currentPlayer + ' has Played';
                 this.showSuccess = true;
@@ -67,29 +74,27 @@
                 {
                     for(let j=0; j<this.columns; ++j)
                     {
-                        this.board[i][j] = 3;
+                        this.board[i][j] = "hidden";
 
-                        console.log(this.board[i][j]);
-                    }
-                }
+                       // console.log(this.board[i][j]);
+                   }
+               }
 
-            }
-        },
+           },
+       },
 
-        computed: {
-            numberOfTiles: function () {
-                return this.rows * this.columns;
-            }
-        },
-        beforeMount() {
-            console.log(this.board+ "1");
-            this.fillBoard();
-           console.log(this.board);
-        },
-
-        components: {
-            'tile': Tile
+       computed: {
+        numberOfTiles: function () {
+            return this.rows * this.columns;
         }
+    },
+    beforeMount() {
+        this.fillBoard();
+    },
+
+    components: {
+        'tile': Tile
     }
+}
 
 </script>

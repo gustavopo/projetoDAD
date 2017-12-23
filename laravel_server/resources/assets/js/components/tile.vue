@@ -1,6 +1,6 @@
 <template>
     <div>
-        <img v-bind:src="pieceImageURL(img)"> <!--v-on:click="clickTile(key)-->
+        <img v-bind:src="pieceImageURL(img)" v-on:click.prevent="clickTile(r1,c1)"> 
         <p>{{img}}</p>
     </div>
 </template>
@@ -8,34 +8,33 @@
 <script type="text/javascript">
 
 
-    export default {
+export default {
 
-        props: ['img'],
-        data: function () {
-            return {
-                tileFlipped: false,
+    props: ['img','r1','c1'],
+    data: function () {
+        return {
+            tileFlipped: false,
+        }
+    },
 
-            }
-        },
+    methods: {
+        pieceImageURL: function (img) {
+            var imgSrc = String(img);
+            console.log('na tile');
+            return 'img/' + imgSrc + '.png';
+           },
 
-        methods: {
-            pieceImageURL: function (tile) {
-                var imgSrc = String(tile);
-                console.log("g" + this.img);
-                return 'img/' + imgSrc + '.png';
-            },
+           clickTile: function (r1, c1) {
+            //console.log(r1+" " + c1);
+            this.tileFlipped = true;
+            this.$emit('click-tile',r1, c1);
+        }
 
-            clickTile: function (tile) {
-                if (this.gameEnded) {
-                    console.log('juca');
-                    return;
-                }
-                this.tileFlipped = true;
-                this.$emmit('click-tile', tile);
-            },
-        },
+
+    },
     beforeMount() {
-        console.log(this.img);
+
     }
-    }
+
+}
 </script>
