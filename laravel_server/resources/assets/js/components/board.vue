@@ -1,22 +1,25 @@
 <template>
     <div class="board">
-        <div v-for="(c,c1) in columns">
+         <div v-for="(c,c1) in columns">
             <div class="board-row">
                 <div v-for="(r,r1) in rows">
-                    <tile :r1="r1" :c1="c1" :img="board[r1][c1]" @click-tile="clickTile">
-                <!--:img="board[r1][c1]"-->
+                    <tile :r1="r1" :c1="c1" :img="board[r1][c1].image" @click-tile="clickTile">
+                        <!--:img="board[r1][c1]"-->
                     </tile>
-                   <!-- <img v-bind:src="pieceImageURL(board[r1][c1])">-->
                 </div>
             </div>
-        </div>
+        </div> 
     </div>
+
+</div>
 </template>
 
 
 <script>
 
-import Tile from './tile.vue';
+import TileComponent from './tile.vue';
+import Tile from '../Classes/Tile.js'
+
 
 export default {
 
@@ -45,12 +48,23 @@ export default {
             if (this.gameEnded) {
                 console.log('juca');
                 return;
-            }
+            };
 
             console.log(posicaoLinha, posicaoColuna);
+            console.log(this.board[posicaoLinha][posicaoColuna]);
 
 
-            this.board[posicaoLinha,posicaoColuna] = this.currentValue;
+            let tile = new Tile(17,false,`${posicaoLinha}${posicaoColuna}`)
+
+            //this.board[posicaoLinha][posicaoColuna] = tile;
+            Object.assign(this.board[posicaoLinha][posicaoColuna],tile);
+            
+            this.$forceUpdate();
+
+
+            console.log(this.board[posicaoLinha][posicaoColuna]);
+
+
             this.currentValue = (this.currentValue == 1)? 2 : 1;
 
 
@@ -61,7 +75,6 @@ export default {
                 //this.currentValue = (this.currentValue == 1)? 2 : 1;
                 // this.checkGameEnded();
             },
-
 
             fillBoard: function () {
 
@@ -74,7 +87,25 @@ export default {
                 {
                     for(let j=0; j<this.columns; ++j)
                     {
-                        this.board[i][j] = "hidden";
+                        /*this.board[0][0] = new Tile("5",false);
+                        this.board[0][1] = new Tile("1",false);
+                        this.board[0][2] = new Tile("2",false);
+                        this.board[0][3] = new Tile("20",false);
+                        this.board[1][0] = new Tile("3",false);
+                        this.board[1][1] = new Tile("3",false);
+                        this.board[1][2] = new Tile("3",false);
+                        this.board[1][3] = new Tile("3",false);
+                        this.board[2][0] = new Tile("3",false);
+                        this.board[2][1] = new Tile("3",false);
+                        this.board[2][2] = new Tile("3",false);
+                        this.board[2][3] = new Tile("3",false);
+                        this.board[3][0] = new Tile("3",false);
+                        this.board[3][1] = new Tile("3",false);
+                        this.board[3][2] = new Tile("3",false);
+                        this.board[3][3] = new Tile("3",false);*/
+
+                        this.board[i][j] = new Tile("3",false,`${i}${j}`);
+                        console.log(this.board[i][j].key);
 
                        // console.log(this.board[i][j]);
                    }
@@ -90,10 +121,11 @@ export default {
     },
     beforeMount() {
         this.fillBoard();
+        //this.fillBoard1();
     },
 
     components: {
-        'tile': Tile
+        'tile': TileComponent
     }
 }
 
