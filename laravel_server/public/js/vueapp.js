@@ -46877,29 +46877,32 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                 return;
             }
 
-            if (this.picks == 0) {
-                this.firstchoice = this.board[(posicaoLinha, posicaoColuna)];
-                console.log("firstchoice ok");
+            if (this.picks === 0) {
 
                 //TODO: show image corresponding to first card clicked
+                this.firstchoice = this.board[posicaoLinha][posicaoColuna].image;
                 this.picks = 1;
-                console.log("First choice: " + this.board[(posicaoLinha, posicaoColuna)]);
+                console.log("First choice IMAGEM: " + this.board[posicaoLinha][posicaoColuna].image);
                 console.log("picks: " + this.picks);
             } else {
-
-                this.second = this.board[(posicaoLinha, posicaoColuna)];
                 //TODO: show image corresponding to second card clicked
+                this.secondchoice = this.board[posicaoLinha][posicaoColuna].image;
                 this.picks = 2;
-                console.log("Second choice: " + this.board[(posicaoLinha, posicaoColuna)]);
+                console.log("Second choice: " + this.board[posicaoLinha][posicaoColuna].image);
                 console.log("picks: " + this.picks);
             }
         },
+
         checkCards: function checkCards() {
 
             // increment numAttempts by 1
 
             //TODO: Os valores estão a dar UNDEFINED
-            if (this.secondchoice.img == this.firstchoice.img) {
+            if (this.secondchoice === this.firstchoice) {
+                console.log("Entrei no If do CheckCards");
+                console.log("1st choice: " + this.firstchoice);
+                console.log("2nd choice: " + this.secondchoice);
+
                 this.matches++;
                 this.picks = 0;
                 /*
@@ -46909,11 +46912,11 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                 ENDIF
                 */
             } else {
-                /*turn over first card to show back
-                 turn over second card to show back*/
+                    /*turn over first card to show back
+                     turn over second card to show back*/
 
-                this.picks = 0;
-            }
+                    //this.picks=0;
+                }
         },
         clickTile: function clickTile(posicaoLinha, posicaoColuna) {
             if (this.gameEnded) {
@@ -46935,11 +46938,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                 this.$forceUpdate();
             */
 
-            console.log("this" + this.board[posicaoLinha][posicaoColuna].img);
-            console.log("img2" + this.secondchoice);
-            console.log("img1" + this.firstchoice);
-
-            this.currentValue = this.currentValue == 1 ? 2 : 1;
+            console.log("this board -> " + this.board[posicaoLinha][posicaoColuna].image);
 
             this.tileFlipped = true;
             //this.board[index] = this.currentValue;
@@ -46974,10 +46973,8 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                     this.board[3][2] = new Tile("3",false);
                     this.board[3][3] = new Tile("3",false);*/
 
-                    this.board[i][j] = new __WEBPACK_IMPORTED_MODULE_1__Classes_Tile_js__["a" /* default */]("hidden", false, '' + i + j);
+                    this.board[i][j] = new __WEBPACK_IMPORTED_MODULE_1__Classes_Tile_js__["a" /* default */]("3", false, '' + i + j);
                     console.log(this.board[i][j].key);
-
-                    // console.log(this.board[i][j]);
                 }
             }
         },
@@ -46996,8 +46993,6 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             //TODO Verificar que os elementos não se repetem ao fazer o random
             for (var i = 0; i < numPares; i++) {
                 // this.board[this.rows,this.columns] = this.allTiles[Math.floor(Math.random()*this.allTiles.length)];
-
-
             }
         },
 
@@ -47029,7 +47024,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
     beforeMount: function beforeMount() {
         this.getAllTiles();
         this.fillBoard();
-        this.getNTiles();
+        //  this.getNTiles();
     },
 
 
@@ -47113,7 +47108,12 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         pieceImageURL: function pieceImageURL(img) {
             var imgSrc = String(img);
             console.log(img);
-            return 'img/' + imgSrc + '.png';
+
+            if (!this.tileFlipped) {
+                return 'img/hidden.png';
+            } else {
+                return 'img/' + imgSrc + '.png';
+            }
         },
 
         clickTile: function clickTile(r1, c1) {

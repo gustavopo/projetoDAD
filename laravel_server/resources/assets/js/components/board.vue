@@ -48,7 +48,7 @@
         methods: {
 
             pieceImageURL: function (img) {
-                var imgSrc = String(img);
+                let imgSrc = String(img);
                 console.log('na board');
                 return 'img/' + imgSrc + '.png';
             },
@@ -62,34 +62,37 @@
                 }
 
 
-                if (this.picks == 0) {
-                    this.firstchoice = this.board[posicaoLinha, posicaoColuna];
-                    console.log("firstchoice ok");
+                if (this.picks === 0) {
 
                     //TODO: show image corresponding to first card clicked
+                    this.firstchoice = this.board[posicaoLinha][posicaoColuna].image;
                     this.picks = 1;
-                    console.log("First choice: " + this.board[posicaoLinha, posicaoColuna]);
+                    console.log("First choice IMAGEM: " + this.board[posicaoLinha][posicaoColuna].image);
                     console.log("picks: " + this.picks);
 
                 }
                 else {
-
-                    this.second = this.board[posicaoLinha, posicaoColuna];
                     //TODO: show image corresponding to second card clicked
+                    this.secondchoice = this.board[posicaoLinha][posicaoColuna].image;
                     this.picks = 2;
-                    console.log("Second choice: " + this.board[posicaoLinha, posicaoColuna]);
+                    console.log("Second choice: " +  this.board[posicaoLinha][posicaoColuna].image);
                     console.log("picks: " + this.picks);
                 }
 
 
             },
+
             checkCards: function () {
 
                 // increment numAttempts by 1
 
                 //TODO: Os valores estão a dar UNDEFINED
-                if(this.secondchoice.img == this.firstchoice.img)
+                if(this.secondchoice === this.firstchoice)
                 {
+                    console.log("Entrei no If do CheckCards");
+                    console.log("1st choice: " + this.firstchoice);
+                    console.log("2nd choice: " + this.secondchoice);
+
                     this.matches++;
                     this.picks=0;
                     /*
@@ -104,7 +107,7 @@
                     /*turn over first card to show back
                      turn over second card to show back*/
 
-                    this.picks=0;
+                    //this.picks=0;
                 }
 
             },
@@ -129,12 +132,7 @@
                     this.$forceUpdate();
                 */
 
-                console.log("this"+this.board[posicaoLinha][posicaoColuna].img);
-                console.log("img2"+this.secondchoice);
-                console.log("img1"+this.firstchoice);
-
-
-                this.currentValue = (this.currentValue == 1) ? 2 : 1;
+                console.log("this board -> "+this.board[posicaoLinha][posicaoColuna].image);
 
 
                 this.tileFlipped = true;
@@ -170,10 +168,8 @@
                         this.board[3][2] = new Tile("3",false);
                         this.board[3][3] = new Tile("3",false);*/
 
-                        this.board[i][j] = new Tile("hidden", false, `${i}${j}`);
+                        this.board[i][j] = new Tile("3", false, `${i}${j}`);
                         console.log(this.board[i][j].key);
-
-                        // console.log(this.board[i][j]);
                     }
                 }
 
@@ -183,8 +179,6 @@
                 for (let i=0; i<=40; i++)
                 {
                     this.allTiles[i] = i;
-
-
                 }
             },
 
@@ -197,8 +191,6 @@
                 for(let i=0; i< numPares; i++)
                 {
                    // this.board[this.rows,this.columns] = this.allTiles[Math.floor(Math.random()*this.allTiles.length)];
-
-
                 }
             },
 
@@ -234,7 +226,7 @@
         beforeMount() {
             this.getAllTiles();
             this.fillBoard();
-            this.getNTiles();
+          //  this.getNTiles();
         },
 
         components: {
