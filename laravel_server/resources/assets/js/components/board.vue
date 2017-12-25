@@ -19,7 +19,6 @@
     import Tile from '../Classes/Tile.js';
 
 
-
     export default {
 
         props: ['columns', 'rows'],
@@ -34,7 +33,7 @@
                 firstchoice: '', //stores index of first card selected
                 secondchoice: '', //stores index of second card selected
                 picks: 0,  //counts how many picks have been made in each turn
-                matches:0, //counts number of matches made
+                matches: 0, //counts number of matches made
 
                 /*
                 numAttempts = 0  //counts the number of attempts made
@@ -75,7 +74,7 @@
                     //TODO: show image corresponding to second card clicked
                     this.secondchoice = this.board[posicaoLinha][posicaoColuna].image;
                     this.picks = 2;
-                    console.log("Second choice: " +  this.board[posicaoLinha][posicaoColuna].image);
+                    console.log("Second choice: " + this.board[posicaoLinha][posicaoColuna].image);
                     console.log("picks: " + this.picks);
                 }
 
@@ -87,14 +86,11 @@
                 // increment numAttempts by 1
 
                 //TODO: Os valores estão a dar UNDEFINED
-                if(this.secondchoice === this.firstchoice)
-                {
-                    console.log("Entrei no If do CheckCards");
-                    console.log("1st choice: " + this.firstchoice);
-                    console.log("2nd choice: " + this.secondchoice);
+                if (this.secondchoice === this.firstchoice) {
+                    console.log("As imagens são iguais!");
 
                     this.matches++;
-                    this.picks=0;
+                    this.picks = 0;
                     /*
                     IF all matches found THEN
                         show alert declaring game over and how many attempts were taken
@@ -106,21 +102,24 @@
                 else {
                     /*turn over first card to show back
                      turn over second card to show back*/
-
-                    //this.picks=0;
+                    console.log("As imagens sao diferentes");
+                    //TODO: Virar as cartas para baixo
+                    this.picks = 0;
                 }
 
             },
             clickTile: function (posicaoLinha, posicaoColuna) {
                 if (this.gameEnded) {
-                    console.log('juca');
                     return;
                 }
 
                 //Escolha carta 1 e 2
                 this.chooseCard(posicaoLinha, posicaoColuna);
                 //compara cartas escolhidas
-                this.checkCards();
+
+                if (this.picks === 2) {
+                    this.checkCards(posicaoLinha, posicaoColuna);
+                }
 
                 console.log("linha: " + posicaoLinha + " -- Coluna: " + posicaoColuna);
 
@@ -132,7 +131,7 @@
                     this.$forceUpdate();
                 */
 
-                console.log("this board -> "+this.board[posicaoLinha][posicaoColuna].image);
+                console.log("this board -> " + this.board[posicaoLinha][posicaoColuna].image);
 
 
                 this.tileFlipped = true;
@@ -144,59 +143,67 @@
             },
 
             fillBoard: function () {
+                let pairingArray= new Array(this.rows);
 
                 for (let k = 0; k < this.rows; ++k) {
                     this.board[k] = new Array(this.columns);
+                    pairingArray[k] = new Array(this.columns);
                 }
 
                 for (let i = 0; i < this.rows; ++i) {
-                    for (let j = 0; j < this.columns; ++j) {
-                        /*this.board[0][0] = new Tile("5",false);
-                        this.board[0][1] = new Tile("1",false);
-                        this.board[0][2] = new Tile("2",false);
-                        this.board[0][3] = new Tile("20",false);
-                        this.board[1][0] = new Tile("3",false);
-                        this.board[1][1] = new Tile("3",false);
-                        this.board[1][2] = new Tile("3",false);
-                        this.board[1][3] = new Tile("3",false);
-                        this.board[2][0] = new Tile("3",false);
-                        this.board[2][1] = new Tile("3",false);
-                        this.board[2][2] = new Tile("3",false);
-                        this.board[2][3] = new Tile("3",false);
-                        this.board[3][0] = new Tile("3",false);
-                        this.board[3][1] = new Tile("3",false);
-                        this.board[3][2] = new Tile("3",false);
-                        this.board[3][3] = new Tile("3",false);*/
+                    for (let j = 0; j < this.columns / 2; ++j) {
 
-                        this.board[i][j] = new Tile("3", false, `${i}${j}`);
-                        console.log(this.board[i][j].key);
+                        this.board[i][j] = new Tile(this.allTiles[Math.floor(Math.random() * this.allTiles.length)], false, `${i}${j}`);
+                        //this.board[i][j] = new Tile("3", false, `${i}${j}`);
+                       // console.log("Primeira metade" + this.board[i][j].key);
+                        pairingArray[i][j]= this.board[i][j];
+                        console.log("1-pairing array:" + pairingArray[i][j].key);
+                    }
+                }
+
+
+                for (let i = 0; i < this.rows; ++i) {
+                    for (let j = this.columns/2; j < this.columns; ++j) {
+                        this.board[i][j] = pairingArray[i][Math.ceil(j/2-1)];
+                        //this.board[i][j] = new Tile(this.allTiles[Math.floor(Math.random() * this.allTiles.length)], false, `${i}${j}`);
+                        //this.board[i][j] = new Tile("3", false, `${i}${j}`);
+                        //console.log("Segunda metade" + this.board[i][j].key);
+                        //console.log("2-pairing array:" + pairingArray[i][j].image);
                     }
                 }
 
             },
 
-            getAllTiles: function(){
-                for (let i=0; i<=40; i++)
-                {
+            getAllTiles: function () {
+                for (let i = 0; i <= 40; i++) {
                     this.allTiles[i] = i;
                 }
             },
 
-            getNTiles: function(){
+            getNTiles: function () {
 
-                let numPares = (this.rows * this.columns)/2;
+                let numPares = (this.rows * this.columns) / 2;
                 numPares = Math.floor(numPares);
 
                 //TODO Verificar que os elementos não se repetem ao fazer o random
-                for(let i=0; i< numPares; i++)
-                {
-                   // this.board[this.rows,this.columns] = this.allTiles[Math.floor(Math.random()*this.allTiles.length)];
+                /*     for (let i = 0; i < numPares; i++) {
+                         for (let k = 0; k < numPares; k++) {
+                          //   this.board[i][k] = this.allTiles[Math.floor(Math.random() * this.allTiles.length)];
+                             console.log("--> GETNTILES-> " + this.board[i][k].image);
+                         }
+                     }
+                 */
+
+                for (let i = 0; i < this.rows; ++i) {
+                    for (let j = 0; j < this.columns; ++j) {
+                        this.board[i][j] = new Tile(this.allTiles[Math.floor(Math.random() * this.allTiles.length)], false, `${i}${j}`);
+                        console.log("AQUI -" + this.board[i][j])
+                    }
                 }
             },
 
 
-            shuffle: function()
-            {
+            shuffle: function () {
 
                 /* Algoritmo:
 
@@ -226,7 +233,7 @@
         beforeMount() {
             this.getAllTiles();
             this.fillBoard();
-          //  this.getNTiles();
+            //this.getNTiles();
         },
 
         components: {

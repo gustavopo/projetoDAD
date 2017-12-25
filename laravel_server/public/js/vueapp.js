@@ -46899,9 +46899,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
             //TODO: Os valores estão a dar UNDEFINED
             if (this.secondchoice === this.firstchoice) {
-                console.log("Entrei no If do CheckCards");
-                console.log("1st choice: " + this.firstchoice);
-                console.log("2nd choice: " + this.secondchoice);
+                console.log("As imagens são iguais!");
 
                 this.matches++;
                 this.picks = 0;
@@ -46912,22 +46910,25 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                 ENDIF
                 */
             } else {
-                    /*turn over first card to show back
-                     turn over second card to show back*/
-
-                    //this.picks=0;
-                }
+                /*turn over first card to show back
+                 turn over second card to show back*/
+                console.log("As imagens sao diferentes");
+                //TODO: Virar as cartas para baixo
+                this.picks = 0;
+            }
         },
         clickTile: function clickTile(posicaoLinha, posicaoColuna) {
             if (this.gameEnded) {
-                console.log('juca');
                 return;
             }
 
             //Escolha carta 1 e 2
             this.chooseCard(posicaoLinha, posicaoColuna);
             //compara cartas escolhidas
-            this.checkCards();
+
+            if (this.picks === 2) {
+                this.checkCards(posicaoLinha, posicaoColuna);
+            }
 
             console.log("linha: " + posicaoLinha + " -- Coluna: " + posicaoColuna);
 
@@ -46949,32 +46950,31 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         },
 
         fillBoard: function fillBoard() {
+            var pairingArray = new Array(this.rows);
 
             for (var k = 0; k < this.rows; ++k) {
                 this.board[k] = new Array(this.columns);
+                pairingArray[k] = new Array(this.columns);
             }
 
             for (var i = 0; i < this.rows; ++i) {
-                for (var j = 0; j < this.columns; ++j) {
-                    /*this.board[0][0] = new Tile("5",false);
-                    this.board[0][1] = new Tile("1",false);
-                    this.board[0][2] = new Tile("2",false);
-                    this.board[0][3] = new Tile("20",false);
-                    this.board[1][0] = new Tile("3",false);
-                    this.board[1][1] = new Tile("3",false);
-                    this.board[1][2] = new Tile("3",false);
-                    this.board[1][3] = new Tile("3",false);
-                    this.board[2][0] = new Tile("3",false);
-                    this.board[2][1] = new Tile("3",false);
-                    this.board[2][2] = new Tile("3",false);
-                    this.board[2][3] = new Tile("3",false);
-                    this.board[3][0] = new Tile("3",false);
-                    this.board[3][1] = new Tile("3",false);
-                    this.board[3][2] = new Tile("3",false);
-                    this.board[3][3] = new Tile("3",false);*/
+                for (var j = 0; j < this.columns / 2; ++j) {
 
-                    this.board[i][j] = new __WEBPACK_IMPORTED_MODULE_1__Classes_Tile_js__["a" /* default */]("3", false, '' + i + j);
-                    console.log(this.board[i][j].key);
+                    this.board[i][j] = new __WEBPACK_IMPORTED_MODULE_1__Classes_Tile_js__["a" /* default */](this.allTiles[Math.floor(Math.random() * this.allTiles.length)], false, '' + i + j);
+                    //this.board[i][j] = new Tile("3", false, `${i}${j}`);
+                    // console.log("Primeira metade" + this.board[i][j].key);
+                    pairingArray[i][j] = this.board[i][j];
+                    console.log("1-pairing array:" + pairingArray[i][j].key);
+                }
+            }
+
+            for (var _i = 0; _i < this.rows; ++_i) {
+                for (var _j = this.columns / 2; _j < this.columns; ++_j) {
+                    this.board[_i][_j] = pairingArray[_i][Math.ceil(_j / 2 - 1)];
+                    //this.board[i][j] = new Tile(this.allTiles[Math.floor(Math.random() * this.allTiles.length)], false, `${i}${j}`);
+                    //this.board[i][j] = new Tile("3", false, `${i}${j}`);
+                    //console.log("Segunda metade" + this.board[i][j].key);
+                    //console.log("2-pairing array:" + pairingArray[i][j].image);
                 }
             }
         },
@@ -46991,8 +46991,19 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             numPares = Math.floor(numPares);
 
             //TODO Verificar que os elementos não se repetem ao fazer o random
-            for (var i = 0; i < numPares; i++) {
-                // this.board[this.rows,this.columns] = this.allTiles[Math.floor(Math.random()*this.allTiles.length)];
+            /*     for (let i = 0; i < numPares; i++) {
+                     for (let k = 0; k < numPares; k++) {
+                      //   this.board[i][k] = this.allTiles[Math.floor(Math.random() * this.allTiles.length)];
+                         console.log("--> GETNTILES-> " + this.board[i][k].image);
+                     }
+                 }
+             */
+
+            for (var i = 0; i < this.rows; ++i) {
+                for (var j = 0; j < this.columns; ++j) {
+                    this.board[i][j] = new __WEBPACK_IMPORTED_MODULE_1__Classes_Tile_js__["a" /* default */](this.allTiles[Math.floor(Math.random() * this.allTiles.length)], false, '' + i + j);
+                    console.log("AQUI -" + this.board[i][j]);
+                }
             }
         },
 
@@ -47024,7 +47035,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
     beforeMount: function beforeMount() {
         this.getAllTiles();
         this.fillBoard();
-        //  this.getNTiles();
+        //this.getNTiles();
     },
 
 

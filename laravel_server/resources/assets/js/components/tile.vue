@@ -22,7 +22,7 @@
                 var imgSrc = String(img);
                 console.log(img);
 
-                if (!this.tileFlipped) {
+                if (!this.tileFlipped ) {
                     return 'img/hidden.png';
                 } else {
                     return 'img/' + imgSrc + '.png';
