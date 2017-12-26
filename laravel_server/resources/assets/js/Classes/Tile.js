@@ -1,7 +1,7 @@
 export default class Tile {
-	constructor(image, flipped, key) {
+	constructor(image, matched, key) {
 		this.image = image;
-		this.flipped = flipped;
+		this.matched = matched;
 		this.key = key;
 	}
 }

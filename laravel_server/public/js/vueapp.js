@@ -46880,29 +46880,36 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             if (this.picks === 0) {
 
                 //TODO: show image corresponding to first card clicked
-                this.firstchoice = this.board[posicaoLinha][posicaoColuna].image;
+                this.firstchoice = this.board[posicaoLinha][posicaoColuna];
                 this.picks = 1;
                 console.log("First choice IMAGEM: " + this.board[posicaoLinha][posicaoColuna].image);
-                console.log("picks: " + this.picks);
+                // console.log("picks: " + this.picks);
             } else {
+
                 //TODO: show image corresponding to second card clicked
-                this.secondchoice = this.board[posicaoLinha][posicaoColuna].image;
+                this.secondchoice = this.board[posicaoLinha][posicaoColuna];
                 this.picks = 2;
                 console.log("Second choice: " + this.board[posicaoLinha][posicaoColuna].image);
-                console.log("picks: " + this.picks);
+                //console.log("picks: " + this.picks);
             }
         },
 
         checkCards: function checkCards() {
 
             // increment numAttempts by 1
-
-            //TODO: Os valores estão a dar UNDEFINED
-            if (this.secondchoice === this.firstchoice) {
+            if (this.secondchoice.image === this.firstchoice.image) {
                 console.log("As imagens são iguais!");
 
                 this.matches++;
                 this.picks = 0;
+
+                this.firstchoice.matched = true;
+                this.secondchoice.matched = true;
+
+                this.firstchoice.image = 'empty';
+                this.secondchoice.image = 'empty';
+
+                this.$forceUpdate();
                 /*
                 IF all matches found THEN
                     show alert declaring game over and how many attempts were taken
@@ -46918,7 +46925,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             }
         },
         clickTile: function clickTile(posicaoLinha, posicaoColuna) {
-            if (this.gameEnded) {
+            if (this.board[posicaoLinha][posicaoColuna].image === "empty") {
                 return;
             }
 
@@ -46927,7 +46934,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             //compara cartas escolhidas
 
             if (this.picks === 2) {
-                this.checkCards(posicaoLinha, posicaoColuna);
+                this.checkCards();
             }
 
             console.log("linha: " + posicaoLinha + " -- Coluna: " + posicaoColuna);
@@ -46939,13 +46946,9 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                 this.$forceUpdate();
             */
 
-            console.log("this board -> " + this.board[posicaoLinha][posicaoColuna].image);
-
-            this.tileFlipped = true;
-            //this.board[index] = this.currentValue;
             this.successMessage = this.currentPlayer + ' has Played';
             this.showSuccess = true;
-            //this.currentValue = (this.currentValue == 1)? 2 : 1;
+
             // this.checkGameEnded();
         },
 
@@ -46957,26 +46960,37 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                 pairingArray[k] = new Array(this.columns);
             }
 
-            for (var i = 0; i < this.rows; ++i) {
-                for (var j = 0; j < this.columns / 2; ++j) {
+            if (this.columns % 2 === 0) {
+                //Quando Num colunas é PAR
+                for (var i = 0; i < this.rows; ++i) {
+                    for (var j = 0; j < this.columns / 2; ++j) {
 
-                    this.board[i][j] = new __WEBPACK_IMPORTED_MODULE_1__Classes_Tile_js__["a" /* default */](this.allTiles[Math.floor(Math.random() * this.allTiles.length)], false, '' + i + j);
-                    //this.board[i][j] = new Tile("3", false, `${i}${j}`);
-                    // console.log("Primeira metade" + this.board[i][j].key);
-                    pairingArray[i][j] = this.board[i][j];
-                    console.log("1-pairing array:" + pairingArray[i][j].key);
+                        this.board[i][j] = new __WEBPACK_IMPORTED_MODULE_1__Classes_Tile_js__["a" /* default */](this.allTiles[Math.floor(Math.random() * this.allTiles.length)], false, '' + i + j);
+                        pairingArray[i][j] = this.board[i][j];
+                    }
+                }
+
+                for (var _i = 0; _i < this.rows; ++_i) {
+                    for (var _j = this.columns / 2; _j < this.columns; ++_j) {
+                        this.board[_i][_j] = pairingArray[_i][_j - this.columns / 2];
+                    }
+                }
+            } else {
+                //Quando Num colunas é IMPAR
+                for (var _i2 = 0; _i2 < this.rows / 2; ++_i2) {
+                    for (var _j2 = 0; _j2 < this.columns; ++_j2) {
+                        this.board[_i2][_j2] = new __WEBPACK_IMPORTED_MODULE_1__Classes_Tile_js__["a" /* default */](this.allTiles[Math.floor(Math.random() * this.allTiles.length)], false, '' + _i2 + _j2);
+                        pairingArray[_i2][_j2] = this.board[_i2][_j2];
+                    }
+                }
+
+                for (var _i3 = this.rows / 2; _i3 < this.rows; ++_i3) {
+                    for (var _j3 = 0; _j3 < this.columns; ++_j3) {
+                        this.board[_i3][_j3] = pairingArray[_i3 - this.rows / 2][_j3];
+                    }
                 }
             }
-
-            for (var _i = 0; _i < this.rows; ++_i) {
-                for (var _j = this.columns / 2; _j < this.columns; ++_j) {
-                    this.board[_i][_j] = pairingArray[_i][Math.ceil(_j / 2 - 1)];
-                    //this.board[i][j] = new Tile(this.allTiles[Math.floor(Math.random() * this.allTiles.length)], false, `${i}${j}`);
-                    //this.board[i][j] = new Tile("3", false, `${i}${j}`);
-                    //console.log("Segunda metade" + this.board[i][j].key);
-                    //console.log("2-pairing array:" + pairingArray[i][j].image);
-                }
-            }
+            this.shuffle();
         },
 
         getAllTiles: function getAllTiles() {
@@ -46985,46 +46999,33 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             }
         },
 
-        getNTiles: function getNTiles() {
-
-            var numPares = this.rows * this.columns / 2;
-            numPares = Math.floor(numPares);
-
-            //TODO Verificar que os elementos não se repetem ao fazer o random
-            /*     for (let i = 0; i < numPares; i++) {
-                     for (let k = 0; k < numPares; k++) {
-                      //   this.board[i][k] = this.allTiles[Math.floor(Math.random() * this.allTiles.length)];
-                         console.log("--> GETNTILES-> " + this.board[i][k].image);
-                     }
-                 }
-             */
-
-            for (var i = 0; i < this.rows; ++i) {
-                for (var j = 0; j < this.columns; ++j) {
-                    this.board[i][j] = new __WEBPACK_IMPORTED_MODULE_1__Classes_Tile_js__["a" /* default */](this.allTiles[Math.floor(Math.random() * this.allTiles.length)], false, '' + i + j);
-                    console.log("AQUI -" + this.board[i][j]);
-                }
-            }
-        },
-
         shuffle: function shuffle() {
 
-            /* Algoritmo:
-             temp //temp variable used for swapping
-            swaps  //counter for number of swaps made
-            i      //random number
-            j      //random number
-             FOR swaps = 1 to 10
-            i = choose random index from array
-            j = choose random index from array
-            Move card[i] to temp
-            Move card[j] to card[i]
-            Move temp to card[j]
-            END
-            END
-             */
+            var temp = void 0;
+            var swaps = 0;
+            do {
+                var randomi = Math.floor(Math.random() * this.rows);
+                var randomj = Math.floor(Math.random() * this.columns);
 
+                var randomi2 = Math.floor(Math.random() * this.rows);
+                var randomj2 = Math.floor(Math.random() * this.columns);
+
+                // console.log("randomi: " + randomi + "randomj: " + randomj + "randomi: " + randomi2 + "randomi2: " + randomj2);
+
+                temp = this.board[randomi][randomj];
+                this.board[randomi][randomj] = this.board[randomi2][randomj2];
+                this.board[randomi2][randomj2] = temp;
+
+                swaps++;
+            } while (swaps !== 20);
+        },
+
+        sleep: function sleep(miliseconds) {
+            var currentTime = new Date().getTime();
+
+            while (currentTime + miliseconds >= new Date().getTime()) {}
         }
+
     },
 
     computed: {
@@ -47035,7 +47036,6 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
     beforeMount: function beforeMount() {
         this.getAllTiles();
         this.fillBoard();
-        //this.getNTiles();
     },
 
 
@@ -47108,7 +47108,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
 /* harmony default export */ __webpack_exports__["default"] = ({
 
-    props: ['img', 'r1', 'c1'],
+    props: ['img', 'r1', 'c1', ''],
     data: function data() {
         return {
             tileFlipped: false
@@ -47130,6 +47130,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         clickTile: function clickTile(r1, c1) {
             //console.log(r1+" " + c1);
             this.tileFlipped = true;
+            setTimeout(function () {}, 3000);
             this.$emit('click-tile', r1, c1);
         }
     },
@@ -47175,11 +47176,11 @@ if (false) {
 "use strict";
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
-var Tile = function Tile(image, flipped, key) {
+var Tile = function Tile(image, matched, key) {
 	_classCallCheck(this, Tile);
 
 	this.image = image;
-	this.flipped = flipped;
+	this.matched = matched;
 	this.key = key;
 };
 

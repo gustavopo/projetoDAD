@@ -10,7 +10,7 @@
 
     export default {
 
-        props: ['img', 'r1', 'c1'],
+        props: ['img', 'r1', 'c1', ''],
         data: function () {
             return {
                 tileFlipped: false,
@@ -19,10 +19,10 @@
 
         methods: {
             pieceImageURL: function (img) {
-                var imgSrc = String(img);
+                let imgSrc = String(img);
                 console.log(img);
 
-                if (!this.tileFlipped ) {
+                if (!this.tileFlipped) {
                     return 'img/hidden.png';
                 } else {
                     return 'img/' + imgSrc + '.png';
@@ -32,7 +32,11 @@
             clickTile: function (r1, c1) {
                 //console.log(r1+" " + c1);
                 this.tileFlipped = true;
+                setTimeout(function(){
+
+                }, 3000);
                 this.$emit('click-tile', r1, c1);
+
             }
         },
         beforeMount() {

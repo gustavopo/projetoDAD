@@ -3,8 +3,8 @@
         <div v-for="(c,c1) in columns">
             <div class="board-row">
                 <div v-for="(r,r1) in rows">
-                    <tile :r1="r1" :c1="c1" :img="board[r1][c1].image" @click-tile="clickTile">
-                        <!--:img="board[r1][c1]"-->
+                    <tile :r1="r1" :c1="c1" :img="board[r1][c1].image" @click-tile="clickTile"  >
+                        <!--:img="board[r1][c1]"-->  <!--v-if="!board[r1][c1].matched"-->
                     </tile>
                 </div>
             </div>
@@ -64,18 +64,19 @@
                 if (this.picks === 0) {
 
                     //TODO: show image corresponding to first card clicked
-                    this.firstchoice = this.board[posicaoLinha][posicaoColuna].image;
+                    this.firstchoice = this.board[posicaoLinha][posicaoColuna];
                     this.picks = 1;
                     console.log("First choice IMAGEM: " + this.board[posicaoLinha][posicaoColuna].image);
-                    console.log("picks: " + this.picks);
+                    // console.log("picks: " + this.picks);
 
                 }
                 else {
+                    
                     //TODO: show image corresponding to second card clicked
-                    this.secondchoice = this.board[posicaoLinha][posicaoColuna].image;
+                    this.secondchoice = this.board[posicaoLinha][posicaoColuna];
                     this.picks = 2;
                     console.log("Second choice: " + this.board[posicaoLinha][posicaoColuna].image);
-                    console.log("picks: " + this.picks);
+                    //console.log("picks: " + this.picks);
                 }
 
 
@@ -84,13 +85,19 @@
             checkCards: function () {
 
                 // increment numAttempts by 1
-
-                //TODO: Os valores estão a dar UNDEFINED
-                if (this.secondchoice === this.firstchoice) {
+                if (this.secondchoice.image === this.firstchoice.image) {
                     console.log("As imagens são iguais!");
 
                     this.matches++;
                     this.picks = 0;
+
+                    this.firstchoice.matched = true;
+                    this.secondchoice.matched=true;
+
+                    this.firstchoice.image = 'empty';
+                    this.secondchoice.image = 'empty';
+
+                    this.$forceUpdate();
                     /*
                     IF all matches found THEN
                         show alert declaring game over and how many attempts were taken
@@ -99,17 +106,19 @@
                     */
 
                 }
+
                 else {
                     /*turn over first card to show back
                      turn over second card to show back*/
                     console.log("As imagens sao diferentes");
                     //TODO: Virar as cartas para baixo
                     this.picks = 0;
+
                 }
 
             },
             clickTile: function (posicaoLinha, posicaoColuna) {
-                if (this.gameEnded) {
+                if (this.board[posicaoLinha][posicaoColuna].image==="empty") {
                     return;
                 }
 
@@ -118,7 +127,8 @@
                 //compara cartas escolhidas
 
                 if (this.picks === 2) {
-                    this.checkCards(posicaoLinha, posicaoColuna);
+                    this.checkCards();
+
                 }
 
                 console.log("linha: " + posicaoLinha + " -- Coluna: " + posicaoColuna);
@@ -131,47 +141,53 @@
                     this.$forceUpdate();
                 */
 
-                console.log("this board -> " + this.board[posicaoLinha][posicaoColuna].image);
-
-
-                this.tileFlipped = true;
-                //this.board[index] = this.currentValue;
                 this.successMessage = this.currentPlayer + ' has Played';
                 this.showSuccess = true;
-                //this.currentValue = (this.currentValue == 1)? 2 : 1;
+
+
                 // this.checkGameEnded();
             },
 
             fillBoard: function () {
-                let pairingArray= new Array(this.rows);
+                let pairingArray = new Array(this.rows);
 
                 for (let k = 0; k < this.rows; ++k) {
                     this.board[k] = new Array(this.columns);
                     pairingArray[k] = new Array(this.columns);
                 }
 
-                for (let i = 0; i < this.rows; ++i) {
-                    for (let j = 0; j < this.columns / 2; ++j) {
+                if ((this.columns) % 2 === 0) {
+                    //Quando Num colunas é PAR
+                    for (let i = 0; i < this.rows; ++i) {
+                        for (let j = 0; j < this.columns / 2; ++j) {
 
-                        this.board[i][j] = new Tile(this.allTiles[Math.floor(Math.random() * this.allTiles.length)], false, `${i}${j}`);
-                        //this.board[i][j] = new Tile("3", false, `${i}${j}`);
-                       // console.log("Primeira metade" + this.board[i][j].key);
-                        pairingArray[i][j]= this.board[i][j];
-                        console.log("1-pairing array:" + pairingArray[i][j].key);
+                            this.board[i][j] = new Tile(this.allTiles[Math.floor(Math.random() * this.allTiles.length)], false, `${i}${j}`);
+                            pairingArray[i][j] = this.board[i][j];
+                        }
                     }
-                }
 
-
-                for (let i = 0; i < this.rows; ++i) {
-                    for (let j = this.columns/2; j < this.columns; ++j) {
-                        this.board[i][j] = pairingArray[i][Math.ceil(j/2-1)];
-                        //this.board[i][j] = new Tile(this.allTiles[Math.floor(Math.random() * this.allTiles.length)], false, `${i}${j}`);
-                        //this.board[i][j] = new Tile("3", false, `${i}${j}`);
-                        //console.log("Segunda metade" + this.board[i][j].key);
-                        //console.log("2-pairing array:" + pairingArray[i][j].image);
+                    for (let i = 0; i < this.rows; ++i) {
+                        for (let j = this.columns / 2; j < this.columns; ++j) {
+                            this.board[i][j] = pairingArray[i][j - (this.columns / 2)];
+                        }
                     }
-                }
+                } else {
+                    //Quando Num colunas é IMPAR
+                    for (let i = 0; i < this.rows / 2; ++i) {
+                        for (let j = 0; j < this.columns; ++j) {
+                            this.board[i][j] = new Tile(this.allTiles[Math.floor(Math.random() * this.allTiles.length)], false, `${i}${j}`);
+                            pairingArray[i][j] = this.board[i][j];
+                        }
+                    }
 
+                    for (let i = this.rows / 2; i < this.rows; ++i) {
+                        for (let j = 0; j < this.columns; ++j) {
+                            this.board[i][j] = pairingArray[i - (this.rows / 2)][j];
+                        }
+                    }
+
+                }
+                this.shuffle();
             },
 
             getAllTiles: function () {
@@ -180,49 +196,35 @@
                 }
             },
 
-            getNTiles: function () {
-
-                let numPares = (this.rows * this.columns) / 2;
-                numPares = Math.floor(numPares);
-
-                //TODO Verificar que os elementos não se repetem ao fazer o random
-                /*     for (let i = 0; i < numPares; i++) {
-                         for (let k = 0; k < numPares; k++) {
-                          //   this.board[i][k] = this.allTiles[Math.floor(Math.random() * this.allTiles.length)];
-                             console.log("--> GETNTILES-> " + this.board[i][k].image);
-                         }
-                     }
-                 */
-
-                for (let i = 0; i < this.rows; ++i) {
-                    for (let j = 0; j < this.columns; ++j) {
-                        this.board[i][j] = new Tile(this.allTiles[Math.floor(Math.random() * this.allTiles.length)], false, `${i}${j}`);
-                        console.log("AQUI -" + this.board[i][j])
-                    }
-                }
-            },
-
-
             shuffle: function () {
 
-                /* Algoritmo:
+                let temp;
+                let swaps = 0;
+                do {
+                    let randomi = Math.floor(Math.random() * this.rows);
+                    let randomj = Math.floor(Math.random() * this.columns);
 
-                temp //temp variable used for swapping
-                swaps  //counter for number of swaps made
-                i      //random number
-                j      //random number
+                    let randomi2 = Math.floor(Math.random() * this.rows);
+                    let randomj2 = Math.floor(Math.random() * this.columns);
 
-                FOR swaps = 1 to 10
-                i = choose random index from array
-                j = choose random index from array
-                Move card[i] to temp
-                Move card[j] to card[i]
-                Move temp to card[j]
-                END
-                END
-                 */
+                // console.log("randomi: " + randomi + "randomj: " + randomj + "randomi: " + randomi2 + "randomi2: " + randomj2);
 
+                    temp = this.board[randomi][randomj];
+                    this.board[randomi][randomj] = this.board[randomi2][randomj2];
+                    this.board[randomi2][randomj2] = temp;
+
+                    swaps++;
+                } while (swaps !== 20);
+
+            },
+
+            sleep: function (miliseconds) {
+                var currentTime = new Date().getTime();
+
+                while (currentTime + miliseconds >= new Date().getTime()) {
+                }
             }
+
         },
 
         computed: {
@@ -233,7 +235,6 @@
         beforeMount() {
             this.getAllTiles();
             this.fillBoard();
-            //this.getNTiles();
         },
 
         components: {
