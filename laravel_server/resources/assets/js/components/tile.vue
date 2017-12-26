@@ -8,34 +8,44 @@
 <script type="text/javascript">
 
 
-    export default {
+export default {
 
-        props: ['img', 'r1', 'c1', ''],
-        data: function () {
-            return {
-                tileFlipped: false,
+    props: ['img', 'r1', 'c1', 'missed'],
+    data: function () {
+        return {
+            tileFlipped: false,
+            oldImg:null,
+            missedTile:false,
+        }
+    },
+
+    methods: {
+        pieceImageURL: function (img) {
+            let imgSrc = String(img);
+            console.log(img);
+
+            if(this.missed){
+                this.missedTile = true;
+            }else{
+                console.log("ENTRA CONA");
+                this.missedTile = false;
+            }
+
+
+            if (!this.tileFlipped || (this.missedTile && this.missed)) {
+                return 'img/hidden.png';
+            } else {
+                return 'img/' + imgSrc + '.png';
             }
         },
 
-        methods: {
-            pieceImageURL: function (img) {
-                let imgSrc = String(img);
-                console.log(img);
-
-                if (!this.tileFlipped) {
-                    return 'img/hidden.png';
-                } else {
-                    return 'img/' + imgSrc + '.png';
-                }
-            },
-
-            clickTile: function (r1, c1) {
+        clickTile: function (r1, c1) {
                 //console.log(r1+" " + c1);
-                this.tileFlipped = true;
-                setTimeout(function(){
 
-                }, 3000);
+
+                this.tileFlipped = true;
                 this.$emit('click-tile', r1, c1);
+
 
             }
         },
@@ -44,4 +54,4 @@
         }
 
     }
-</script>
+    </script>

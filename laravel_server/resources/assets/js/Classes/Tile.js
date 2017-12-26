@@ -1,7 +1,7 @@
 export default class Tile {
-	constructor(image, matched, key) {
+	constructor(image, missed, key) {
 		this.image = image;
-		this.matched = matched;
+		this.missed = missed;
 		this.key = key;
 	}
 }
