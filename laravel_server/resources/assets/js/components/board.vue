@@ -3,8 +3,7 @@
         <div v-for="(c,c1) in columns">
             <div class="board-row">
                 <div v-for="(r,r1) in rows">
-                    <tile :r1="r1" :c1="c1" :img="board[r1][c1].image" :missed="board[r1][c1].missed" 
-                    @click-tile="clickTile" >
+                    <tile :r1="r1" :c1="c1" :img="board[r1][c1].image" :missed="board[r1][c1].missed" :matched="board[r1][c1].matched" @click-tile="clickTile" >
                     <!--:img="board[r1][c1]"-->  <!--v-if="!board[r1][c1].matched"-->
                 </tile>
             </div>
@@ -75,7 +74,6 @@ export default {
                     //show image corresponding to second card clicked
                     this.secondchoice = this.board[posicaoLinha][posicaoColuna];
                     this.secondchoice.missed=false;
-
                     //check is 
                     if(this.secondchoice.key===this.firstchoice.key){
                         console.log("são a mesma peça!");
@@ -100,44 +98,23 @@ export default {
                     this.matches++;
                     this.picks = 0;
 
-                    this.firstchoice.image = 'empty';
-                    this.secondchoice.image = 'empty';
 
-
-                    setTimeout(function () { self.$forceUpdate();}, 2000)
-
-
-                    //this.$forceUpdate();
-                    /*
-                    IF all matches found THEN
-                        show alert declaring game over and how many attempts were taken
-                        reload the game
-                    ENDIF
-                    */
+                    setTimeout(function () { self.firstchoice.matched=true;}, 1000);
+                    setTimeout(function () { self.secondchoice.matched=true;}, 1000);
+                    setTimeout(function () { self.$forceUpdate();}, 2000);
 
                 }
 
                 else {
                     /*turn over first card to show back
                     turn over second card to show back*/
-                   // console.log("As imagens sao diferentes");
-                    //TODO: Virar as cartas para baixo
                     let self = this;
-                    console.log("Second choice missed: "+this.secondchoice.missed);
+                    console.log("NÃO ENTRAS PUTA");
 
-                    //para o tile saber que falhou e virar
-
-
-                    this.firstchoice.missed=true;
-                    this.secondchoice.missed=true;
-
-
-
-                   // this.secondchoice.missed=true;
-
-
-                   setTimeout(function () { self.$forceUpdate();}, 1000)
-
+                    
+                    setTimeout(function () { self.firstchoice.missed=true;}, 1000);
+                    setTimeout(function () { self.secondchoice.missed=true;}, 1000);
+                    setTimeout(function () { self.$forceUpdate();}, 2000);
 
                     //para poder voltar a carregar nelas
                     this.picks = 0;
@@ -150,13 +127,13 @@ export default {
                     return;
                 }
 
+                this.board[posicaoLinha][posicaoColuna].missed = false;
                 //Escolha carta 1 e 2
                 this.chooseCard(posicaoLinha, posicaoColuna);
                 //compara cartas escolhidas
 
                 if (this.picks === 2) {
                     this.checkCards();
-
                 }
 
                 console.log("linha: " + posicaoLinha + " -- Coluna: " + posicaoColuna);
@@ -256,37 +233,34 @@ export default {
 
         },
 
-        sleep: function (miliseconds) {
-            var currentTime = new Date().getTime();
+        sleep :function(ms) {
+          return new Promise(resolve => setTimeout(resolve, ms));
+      },
 
-            while (currentTime + miliseconds >= new Date().getTime()) {
-            }
-        },
-
-        checkNonRepeated: function(){
-            while(this.imagesArray.includes(this.randomImage)){
-                this.randomImage = this.allTiles[Math.floor(Math.random() * this.allTiles.length)];
-            }
+      checkNonRepeated: function(){
+        while(this.imagesArray.includes(this.randomImage)){
+            this.randomImage = this.allTiles[Math.floor(Math.random() * this.allTiles.length)];
         }
-
-
-    },
-
-    computed: {
-        numberOfTiles: function () {
-            return this.rows * this.columns;
-        }
-    },
-    beforeMount() {
-        this.getAllTiles();
-        this.fillBoard();
-    },
-
-
-
-    components: {
-        'tile': TileComponent
     }
+
+
+},
+
+computed: {
+    numberOfTiles: function () {
+        return this.rows * this.columns;
+    }
+},
+beforeMount() {
+    this.getAllTiles();
+    this.fillBoard();
+},
+
+
+
+components: {
+    'tile': TileComponent
+}
 }
 
 </script>

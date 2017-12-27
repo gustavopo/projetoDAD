@@ -10,12 +10,12 @@
 
 export default {
 
-    props: ['img', 'r1', 'c1', 'missed'],
+    props: ['img', 'r1', 'c1', 'missed', 'matched'],
     data: function () {
         return {
             tileFlipped: false,
-            oldImg:null,
             missedTile:false,
+
         }
     },
 
@@ -23,21 +23,22 @@ export default {
         pieceImageURL: function (img) {
             let imgSrc = String(img);
             console.log(img);
- 
+            let self = this;
 
-            if (!this.tileFlipped ||  this.missed) {
+
+            if (!this.tileFlipped || this.missed) {
                 return 'img/hidden.png';
-            } else {
+            }if(this.tileFlipped && !this.matched) {
                 return 'img/' + imgSrc + '.png';
+            }else{
+                return 'img/empty.png';
             }
         },
 
         clickTile: function (r1, c1) {
-                //console.log(r1+" " + c1);
                 console.log("misssed: "+this.missed);
                 this.tileFlipped = true;
                 this.$emit('click-tile', r1, c1);
-
 
             }
         },

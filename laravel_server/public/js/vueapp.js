@@ -46832,7 +46832,6 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
-//
 
 
 
@@ -46887,7 +46886,6 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                 //show image corresponding to second card clicked
                 this.secondchoice = this.board[posicaoLinha][posicaoColuna];
                 this.secondchoice.missed = false;
-
                 //check is 
                 if (this.secondchoice.key === this.firstchoice.key) {
                     console.log("são a mesma peça!");
@@ -46909,40 +46907,30 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                 this.matches++;
                 this.picks = 0;
 
-                this.firstchoice.image = 'empty';
-                this.secondchoice.image = 'empty';
-
+                setTimeout(function () {
+                    self.firstchoice.matched = true;
+                }, 1000);
+                setTimeout(function () {
+                    self.secondchoice.matched = true;
+                }, 1000);
                 setTimeout(function () {
                     self.$forceUpdate();
                 }, 2000);
-
-                //this.$forceUpdate();
-                /*
-                IF all matches found THEN
-                    show alert declaring game over and how many attempts were taken
-                    reload the game
-                ENDIF
-                */
             } else {
                 /*turn over first card to show back
                 turn over second card to show back*/
-                // console.log("As imagens sao diferentes");
-                //TODO: Virar as cartas para baixo
                 var _self = this;
-                console.log("Second choice missed: " + this.secondchoice.missed);
-
-                //para o tile saber que falhou e virar
-
-
-                this.firstchoice.missed = true;
-                this.secondchoice.missed = true;
-
-                // this.secondchoice.missed=true;
-
+                console.log("NÃO ENTRAS PUTA");
 
                 setTimeout(function () {
-                    _self.$forceUpdate();
+                    _self.firstchoice.missed = true;
                 }, 1000);
+                setTimeout(function () {
+                    _self.secondchoice.missed = true;
+                }, 1000);
+                setTimeout(function () {
+                    _self.$forceUpdate();
+                }, 2000);
 
                 //para poder voltar a carregar nelas
                 this.picks = 0;
@@ -46953,6 +46941,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                 return;
             }
 
+            this.board[posicaoLinha][posicaoColuna].missed = false;
             //Escolha carta 1 e 2
             this.chooseCard(posicaoLinha, posicaoColuna);
             //compara cartas escolhidas
@@ -47054,10 +47043,10 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             } while (swaps !== 20);
         },
 
-        sleep: function sleep(miliseconds) {
-            var currentTime = new Date().getTime();
-
-            while (currentTime + miliseconds >= new Date().getTime()) {}
+        sleep: function sleep(ms) {
+            return new Promise(function (resolve) {
+                return setTimeout(resolve, ms);
+            });
         },
 
         checkNonRepeated: function checkNonRepeated() {
@@ -47148,12 +47137,12 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
 /* harmony default export */ __webpack_exports__["default"] = ({
 
-    props: ['img', 'r1', 'c1', 'missed'],
+    props: ['img', 'r1', 'c1', 'missed', 'matched'],
     data: function data() {
         return {
             tileFlipped: false,
-            oldImg: null,
             missedTile: false
+
         };
     },
 
@@ -47161,16 +47150,18 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         pieceImageURL: function pieceImageURL(img) {
             var imgSrc = String(img);
             console.log(img);
+            var self = this;
 
             if (!this.tileFlipped || this.missed) {
                 return 'img/hidden.png';
-            } else {
+            }if (this.tileFlipped && !this.matched) {
                 return 'img/' + imgSrc + '.png';
+            } else {
+                return 'img/empty.png';
             }
         },
 
         clickTile: function clickTile(r1, c1) {
-            //console.log(r1+" " + c1);
             console.log("misssed: " + this.missed);
             this.tileFlipped = true;
             this.$emit('click-tile', r1, c1);
@@ -47218,12 +47209,13 @@ if (false) {
 "use strict";
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
-var Tile = function Tile(image, missed, key) {
+var Tile = function Tile(image, missed, key, matched) {
 	_classCallCheck(this, Tile);
 
 	this.image = image;
 	this.missed = missed;
 	this.key = key;
+	this.matched = matched;
 };
 
 /* harmony default export */ __webpack_exports__["a"] = (Tile);
@@ -47253,7 +47245,8 @@ var render = function() {
                     r1: r1,
                     c1: c1,
                     img: _vm.board[r1][c1].image,
-                    missed: _vm.board[r1][c1].missed
+                    missed: _vm.board[r1][c1].missed,
+                    matched: _vm.board[r1][c1].matched
                   },
                   on: { "click-tile": _vm.clickTile }
                 })

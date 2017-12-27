@@ -15,8 +15,7 @@ class Game extends Model
         'status',
         'player1',
         'player2',
-        'winner',
-    ];
+        'winnerme'    ];
     public function getWinnerName()
     {
         if ($this->winner == 1) {
