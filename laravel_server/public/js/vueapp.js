@@ -46850,9 +46850,11 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             tileFlipped: false,
             currentValue: 1,
             firstchoice: null, //stores index of first card selected
-            secondchoice: '', //stores index of second card selected
+            secondchoice: null, //stores index of second card selected
             picks: 0, //counts how many picks have been made in each turn
-            matches: 0 //counts number of matches made
+            matches: 0, //counts number of matches made
+            imagesArray: new Array(this.rows * this.columns / 2),
+            randomImage: null
 
             /*
             numAttempts = 0  //counts the number of attempts made
@@ -46876,15 +46878,17 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
                 //TODO: show image corresponding to first card clicked
                 this.firstchoice = this.board[posicaoLinha][posicaoColuna];
+                this.firstchoice.missed = false;
                 this.picks = 1;
                 console.log("First choice IMAGEM: " + this.board[posicaoLinha][posicaoColuna].image);
                 // console.log("picks: " + this.picks);
             } else {
 
-                //TODO: show image corresponding to second card clicked
+                //show image corresponding to second card clicked
                 this.secondchoice = this.board[posicaoLinha][posicaoColuna];
+                this.secondchoice.missed = false;
 
-                // increment numAttempts by 1
+                //check is 
                 if (this.secondchoice.key === this.firstchoice.key) {
                     console.log("são a mesma peça!");
                     return;
@@ -46899,7 +46903,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         checkCards: function checkCards() {
 
             if (this.secondchoice.image === this.firstchoice.image) {
-                console.log("As imagens são iguais!");
+                //console.log("As imagens são iguais!");
                 var self = this;
 
                 this.matches++;
@@ -46908,9 +46912,9 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                 this.firstchoice.image = 'empty';
                 this.secondchoice.image = 'empty';
 
-                setInterval(function () {
+                setTimeout(function () {
                     self.$forceUpdate();
-                }, 1000);
+                }, 2000);
 
                 //this.$forceUpdate();
                 /*
@@ -46922,17 +46926,23 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             } else {
                 /*turn over first card to show back
                 turn over second card to show back*/
-                console.log("As imagens sao diferentes");
+                // console.log("As imagens sao diferentes");
                 //TODO: Virar as cartas para baixo
                 var _self = this;
+                console.log("Second choice missed: " + this.secondchoice.missed);
 
                 //para o tile saber que falhou e virar
+
+
                 this.firstchoice.missed = true;
                 this.secondchoice.missed = true;
 
-                setInterval(function () {
+                // this.secondchoice.missed=true;
+
+
+                setTimeout(function () {
                     _self.$forceUpdate();
-                }, 2000);
+                }, 1000);
 
                 //para poder voltar a carregar nelas
                 this.picks = 0;
@@ -46968,6 +46978,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
         fillBoard: function fillBoard() {
             var pairingArray = new Array(this.rows);
+            var contadorImagens = 0;
 
             for (var k = 0; k < this.rows; ++k) {
                 this.board[k] = new Array(this.columns);
@@ -46976,11 +46987,20 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
             if (this.columns % 2 === 0) {
                 //Quando Num colunas é PAR
+
+
                 for (var i = 0; i < this.rows; ++i) {
                     for (var j = 0; j < this.columns / 2; ++j) {
+                        this.randomImage = this.allTiles[Math.floor(Math.random() * this.allTiles.length)];
+                        this.checkNonRepeated();
 
-                        this.board[i][j] = new __WEBPACK_IMPORTED_MODULE_1__Classes_Tile_js__["a" /* default */](this.allTiles[Math.floor(Math.random() * this.allTiles.length)], false, '' + i + j);
+                        this.board[i][j] = new __WEBPACK_IMPORTED_MODULE_1__Classes_Tile_js__["a" /* default */](this.randomImage, false, '' + i + j);
                         pairingArray[i][j] = this.board[i][j];
+
+                        //meter imagens no array de imagens
+                        this.imagesArray[contadorImagens] = this.board[i][j].image;
+                        console.log("imagem " + contadorImagens + ": " + this.imagesArray[contadorImagens]);
+                        contadorImagens++;
                     }
                 }
 
@@ -47038,6 +47058,12 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             var currentTime = new Date().getTime();
 
             while (currentTime + miliseconds >= new Date().getTime()) {}
+        },
+
+        checkNonRepeated: function checkNonRepeated() {
+            while (this.imagesArray.includes(this.randomImage)) {
+                this.randomImage = this.allTiles[Math.floor(Math.random() * this.allTiles.length)];
+            }
         }
 
     },
@@ -47136,14 +47162,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             var imgSrc = String(img);
             console.log(img);
 
-            if (this.missed) {
-                this.missedTile = true;
-            } else {
-                console.log("ENTRA CONA");
-                this.missedTile = false;
-            }
-
-            if (!this.tileFlipped || this.missedTile && this.missed) {
+            if (!this.tileFlipped || this.missed) {
                 return 'img/hidden.png';
             } else {
                 return 'img/' + imgSrc + '.png';
@@ -47152,8 +47171,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
         clickTile: function clickTile(r1, c1) {
             //console.log(r1+" " + c1);
-
-
+            console.log("misssed: " + this.missed);
             this.tileFlipped = true;
             this.$emit('click-tile', r1, c1);
         }

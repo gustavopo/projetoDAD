@@ -32,9 +32,11 @@ export default {
             tileFlipped: false,
             currentValue: 1,
                 firstchoice: null, //stores index of first card selected
-                secondchoice: '', //stores index of second card selected
+                secondchoice: null, //stores index of second card selected
                 picks: 0,  //counts how many picks have been made in each turn
                 matches: 0, //counts number of matches made
+                imagesArray: new Array((this.rows*this.columns)/2),
+                randomImage:null,
 
                 /*
                 numAttempts = 0  //counts the number of attempts made
@@ -56,10 +58,12 @@ export default {
                 }
 
 
+
                 if (this.picks === 0) {
 
                     //TODO: show image corresponding to first card clicked
                     this.firstchoice = this.board[posicaoLinha][posicaoColuna];
+                    this.firstchoice.missed = false;
                     this.picks = 1;
                     console.log("First choice IMAGEM: " + this.board[posicaoLinha][posicaoColuna].image);
                     // console.log("picks: " + this.picks);
@@ -67,18 +71,20 @@ export default {
                 }
                 else {
 
-                    //TODO: show image corresponding to second card clicked
+
+                    //show image corresponding to second card clicked
                     this.secondchoice = this.board[posicaoLinha][posicaoColuna];
+                    this.secondchoice.missed=false;
 
-                                    // increment numAttempts by 1
-                                    if(this.secondchoice.key===this.firstchoice.key){
-                                        console.log("são a mesma peça!");
-                                        return;
-                                    }
+                    //check is 
+                    if(this.secondchoice.key===this.firstchoice.key){
+                        console.log("são a mesma peça!");
+                        return;
+                    }
 
 
-                                    this.picks = 2;
-                                    console.log("Second choice: " + this.board[posicaoLinha][posicaoColuna].image);
+                    this.picks = 2;
+                    console.log("Second choice: " + this.board[posicaoLinha][posicaoColuna].image);
                     //console.log("picks: " + this.picks);
                 }
 
@@ -88,7 +94,7 @@ export default {
             checkCards: function () {
 
                 if (this.secondchoice.image === this.firstchoice.image) {
-                    console.log("As imagens são iguais!");
+                    //console.log("As imagens são iguais!");
                     let self = this;
 
                     this.matches++;
@@ -98,7 +104,7 @@ export default {
                     this.secondchoice.image = 'empty';
 
 
-                    setInterval(function () { self.$forceUpdate();}, 1000)
+                    setTimeout(function () { self.$forceUpdate();}, 2000)
 
 
                     //this.$forceUpdate();
@@ -114,15 +120,23 @@ export default {
                 else {
                     /*turn over first card to show back
                     turn over second card to show back*/
-                    console.log("As imagens sao diferentes");
+                   // console.log("As imagens sao diferentes");
                     //TODO: Virar as cartas para baixo
                     let self = this;
+                    console.log("Second choice missed: "+this.secondchoice.missed);
 
                     //para o tile saber que falhou e virar
-                    this.firstchoice.missed = true;
+
+
+                    this.firstchoice.missed=true;
                     this.secondchoice.missed=true;
 
-                    setInterval(function () { self.$forceUpdate();}, 2000)
+
+
+                   // this.secondchoice.missed=true;
+
+
+                   setTimeout(function () { self.$forceUpdate();}, 1000)
 
 
                     //para poder voltar a carregar nelas
@@ -158,12 +172,13 @@ export default {
                     this.successMessage = this.currentPlayer + ' has Played';
                     this.showSuccess = true;
 
-
                 // this.checkGameEnded();
             },
 
+
             fillBoard: function () {
                 let pairingArray = new Array(this.rows);
+                let contadorImagens=0;
 
                 for (let k = 0; k < this.rows; ++k) {
                     this.board[k] = new Array(this.columns);
@@ -172,11 +187,20 @@ export default {
 
                 if ((this.columns) % 2 === 0) {
                     //Quando Num colunas é PAR
+
+
                     for (let i = 0; i < this.rows; ++i) {
                         for (let j = 0; j < this.columns / 2; ++j) {
+                            this.randomImage = this.allTiles[Math.floor(Math.random() * this.allTiles.length)];
+                            this.checkNonRepeated();
 
-                            this.board[i][j] = new Tile(this.allTiles[Math.floor(Math.random() * this.allTiles.length)], false, `${i}${j}`);
+                            this.board[i][j] = new Tile(this.randomImage, false, `${i}${j}`);
                             pairingArray[i][j] = this.board[i][j];
+
+                            //meter imagens no array de imagens
+                            this.imagesArray[contadorImagens] = this.board[i][j].image;
+                            console.log("imagem " + contadorImagens + ": " + this.imagesArray[contadorImagens]);
+                            contadorImagens++;
                         }
                     }
 
@@ -237,7 +261,14 @@ export default {
 
             while (currentTime + miliseconds >= new Date().getTime()) {
             }
+        },
+
+        checkNonRepeated: function(){
+            while(this.imagesArray.includes(this.randomImage)){
+                this.randomImage = this.allTiles[Math.floor(Math.random() * this.allTiles.length)];
+            }
         }
+
 
     },
 

@@ -23,16 +23,9 @@ export default {
         pieceImageURL: function (img) {
             let imgSrc = String(img);
             console.log(img);
+ 
 
-            if(this.missed){
-                this.missedTile = true;
-            }else{
-                console.log("ENTRA CONA");
-                this.missedTile = false;
-            }
-
-
-            if (!this.tileFlipped || (this.missedTile && this.missed)) {
+            if (!this.tileFlipped ||  this.missed) {
                 return 'img/hidden.png';
             } else {
                 return 'img/' + imgSrc + '.png';
@@ -41,8 +34,7 @@ export default {
 
         clickTile: function (r1, c1) {
                 //console.log(r1+" " + c1);
-
-
+                console.log("misssed: "+this.missed);
                 this.tileFlipped = true;
                 this.$emit('click-tile', r1, c1);
 
