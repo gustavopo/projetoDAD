@@ -46,7 +46,10 @@ class UserControllerAPI extends Controller
         $user = new User();
 
         $user->fill($request->all());
-        $user->verifyToken = Str::random(40);
+
+        // Feito no
+        //$user->verifyToken = Str::random(40);
+
         $user->password = Hash::make($user->password);
 
 

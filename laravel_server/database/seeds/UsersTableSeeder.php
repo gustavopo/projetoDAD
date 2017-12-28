@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Database\Seeder;
+use Illuminate\Support\Str;
 
 class UsersTableSeeder extends Seeder
 {
@@ -16,12 +17,12 @@ class UsersTableSeeder extends Seeder
         $faker = Faker\Factory::create('pt_PT');
 
         DB::table('users')->insert($this->fakeUser($faker, true));
-
+/*
         for ($i = 0; $i < $this->numberOfUsers; ++$i) {
             DB::table('users')->insert($this->fakeUser($faker, false));
         }
-
-        factory(App\User::class, 50)->create();
+*/
+        factory(App\User::class, 20)->create();
     }
 
     private function fakeUser(Faker\Generator $faker, $admin)
@@ -30,18 +31,20 @@ class UsersTableSeeder extends Seeder
         $createdAt = Carbon\Carbon::now()->subDays(30);
         $updatedAt = $faker->dateTimeBetween($createdAt);
 
-        $nickname = $admin ? 'admin' : $faker->unique()->userName;
         $email = $admin ? 'admin@mail.dad' : $faker->unique()->safeEmail;
+        $verifyToken= Str::random(40);
         
         return [
             'name' => $faker->name,
+            'nickname' => $faker->userName,
             'email' => $email,
             'password' => $password ?: $password = bcrypt('secret'),
-            'nickname' => $nickname,
             'admin' => $admin,
             'blocked' => false,
             'reason_blocked' => null,
             'reason_reactivated' => null,
+            'verifyToken' =>  $verifyToken,
+            'status' => 0,
             'created_at' => $createdAt,
             'updated_at' => $updatedAt,
         ];
