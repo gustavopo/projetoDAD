@@ -1389,6 +1389,8 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_vue_socket_io___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1_vue_socket_io__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_vue_resource__ = __webpack_require__(43);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__packages_auth_Auth_js__ = __webpack_require__(45);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4_axios__ = __webpack_require__(19);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4_axios___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_4_axios__);
 /**
  * First we will load all of this project's JavaScript dependencies which
  * includes Vue and other libraries. It is a great starting point when
@@ -1396,6 +1398,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
  */
 __webpack_require__(14);
 window.Vue = __webpack_require__(38);
+
 
 
 
@@ -48657,32 +48660,38 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony default export */ __webpack_exports__["default"] = ({
     data: function data() {
         return {
-            name: '',
-            nickname: '',
-            email: '',
-            password: '',
-            title: 'Registar Novo Utilizador'
+            title: 'Registar Novo Utilizador',
+            User: {
+                name: '',
+                nickname: '',
+                email: '',
+                password: ''
+            }
+
         };
     },
 
 
     methods: {
-        registerClick: function registerClick() {
-            /* CODIGO DO LOGIN
-            let data =
-                {
-                    client_id: 2,
-                    client_secret: 'Qe0mbwcLZprCg28nIEOWM5w7Fn5o3nmAtYpU8A5A',
-                    grant_type: 'password',
-                    username: this.email,
-                    password: this.password
-                }
-             this.$http.post("http://projetodad.dad/oauth/token", data)
-                .then(function (response) {
-                    console.log(response);
-                    this.$auth.setToken(response.body.access_token, response.body.expires_in + Date.now())
-                })*/
+        registerUser: function registerUser() {
 
+            var newUser = {
+                name: this.User.name,
+                nickname: this.User.nickname,
+                email: this.User.email,
+                password: this.User.password
+            };
+
+            console.log(newUser);
+            axios.post('/api/register', newUser).then(function (response) {
+                console.log(response);
+            }).catch(function (error) {
+                var data = error.response.data;
+
+                console.log(data);
+            });
+
+            console.log("UTILIZADOR CRIADO COM SUCESSO");
             //TODO: ONClick register -> enviar email de confirmação
         }
     }
@@ -48711,19 +48720,19 @@ var render = function() {
                   {
                     name: "model",
                     rawName: "v-model",
-                    value: _vm.name,
-                    expression: "name"
+                    value: _vm.User.name,
+                    expression: "User.name"
                   }
                 ],
                 staticClass: "form-control",
                 attrs: { type: "text", placeholder: "Nome completo" },
-                domProps: { value: _vm.name },
+                domProps: { value: _vm.User.name },
                 on: {
                   input: function($event) {
                     if ($event.target.composing) {
                       return
                     }
-                    _vm.name = $event.target.value
+                    _vm.$set(_vm.User, "name", $event.target.value)
                   }
                 }
               })
@@ -48735,19 +48744,19 @@ var render = function() {
                   {
                     name: "model",
                     rawName: "v-model",
-                    value: _vm.nickname,
-                    expression: "nickname"
+                    value: _vm.User.nickname,
+                    expression: "User.nickname"
                   }
                 ],
                 staticClass: "form-control",
                 attrs: { type: "text", placeholder: "Nickname" },
-                domProps: { value: _vm.nickname },
+                domProps: { value: _vm.User.nickname },
                 on: {
                   input: function($event) {
                     if ($event.target.composing) {
                       return
                     }
-                    _vm.nickname = $event.target.value
+                    _vm.$set(_vm.User, "nickname", $event.target.value)
                   }
                 }
               })
@@ -48759,19 +48768,19 @@ var render = function() {
                   {
                     name: "model",
                     rawName: "v-model",
-                    value: _vm.email,
-                    expression: "email"
+                    value: _vm.User.email,
+                    expression: "User.email"
                   }
                 ],
                 staticClass: "form-control",
                 attrs: { type: "email", placeholder: "Email" },
-                domProps: { value: _vm.email },
+                domProps: { value: _vm.User.email },
                 on: {
                   input: function($event) {
                     if ($event.target.composing) {
                       return
                     }
-                    _vm.email = $event.target.value
+                    _vm.$set(_vm.User, "email", $event.target.value)
                   }
                 }
               })
@@ -48783,19 +48792,19 @@ var render = function() {
                   {
                     name: "model",
                     rawName: "v-model",
-                    value: _vm.password,
-                    expression: "password"
+                    value: _vm.User.password,
+                    expression: "User.password"
                   }
                 ],
                 staticClass: "form-control",
                 attrs: { type: "password", placeholder: "Password" },
-                domProps: { value: _vm.password },
+                domProps: { value: _vm.User.password },
                 on: {
                   input: function($event) {
                     if ($event.target.composing) {
                       return
                     }
-                    _vm.password = $event.target.value
+                    _vm.$set(_vm.User, "password", $event.target.value)
                   }
                 }
               })
@@ -48805,9 +48814,18 @@ var render = function() {
               "button",
               {
                 staticClass: "btn btn-success pull-right",
-                on: { click: _vm.registerClick }
+                on: {
+                  click: function($event) {
+                    $event.preventDefault()
+                    _vm.registerUser($event)
+                  }
+                }
               },
-              [_vm._v("\n                    Registar\n                ")]
+              [
+                _vm._v(
+                  "\n                        Registar\n                    "
+                )
+              ]
             )
           ])
         ])
