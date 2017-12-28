@@ -1,19 +1,23 @@
 <template>
-    <div id="board" class="board">
-        <div v-for="(c,c1) in columns">
-            <div class="board-row">
-                <div v-for="(r,r1) in rows">
-                    <tile :r1="r1" :c1="c1" :img="board[r1][c1].image" :missed="board[r1][c1].missed" :matched="board[r1][c1].matched" @click-tile="clickTile" >
-                        <!--:img="board[r1][c1]"-->  <!--v-if="!board[r1][c1].matched"-->
-                    </tile>
+    <div class="pull-md-right">
+        <div v-show="win" class="alert alert-success">GANHASTE JOGADOR</div>
+        <div id="board" class="board">
+            <div v-for="(c,c1) in columns">
+                <div class="board-row">
+                    <div v-for="(r,r1) in rows">
+                        <tile :r1="r1" :c1="c1" :img="board[r1][c1].image" :missed="board[r1][c1].missed" :matched="board[r1][c1].matched" :tileFlipped="board[r1][c1].tileFlipped" @click-tile="clickTile" >
+                            <!--:img="board[r1][c1]"-->  <!--v-if="!board[r1][c1].matched"-->
+                        </tile>
+                    </div>
                 </div>
             </div>
         </div>
+
+
         <div id="reset">
-            <div v-if="win">Reset</div>
+            <h2><strong>&nbsp;&nbsp;&nbsp;&nbsp;<a v-show="win" v-on:click.prevent="restartGame" >Restart</a></strong></h2>
         </div>
     </div>
-
 </template>
 
 
@@ -32,16 +36,14 @@ export default {
 
             allTiles: new Array(40),
             board: new Array(this.rows),
-            tileFlipped: false,
-            currentValue: 1,
-                firstchoice: null, //stores index of first card selected
-                secondchoice: null, //stores index of second card selected
-                picks: 0,  //counts how many picks have been made in each turn
-                matches: 0, //counts number of matches made
-                imagesArray: new Array((this.rows*this.columns)/2),
-                randomImage:null,
-                contadorParesMatched:0,
-                win:false,
+            firstchoice: null, //stores index of first card selected
+            secondchoice: null, //stores index of second card selected
+            picks: 0,  //counts how many picks have been made in each turn
+            matches: 0, //counts number of matches made
+            imagesArray: new Array((this.rows*this.columns)/2),
+            randomImage:null,
+            contadorParesMatched:0,
+            win:false,
 
                 /*
                 numAttempts = 0  //counts the number of attempts made
@@ -53,6 +55,34 @@ export default {
         },
 
         methods: {
+
+            clickTile: function (posicaoLinha, posicaoColuna) {
+                if (this.board[posicaoLinha][posicaoColuna].image==="empty") {
+                    return;
+                }
+
+                //para virar a tile e dar update na imagem
+                this.board[posicaoLinha][posicaoColuna].tileFlipped = true;
+                this.$forceUpdate();
+
+                this.board[posicaoLinha][posicaoColuna].missed = false;
+                //Escolha carta 1 e 2
+                this.chooseCard(posicaoLinha, posicaoColuna);
+                //compara cartas escolhidas
+
+                if (this.picks === 2) {
+                    this.checkCards();
+                    let boardClass = document.getElementById("board").classList;
+                    setTimeout(function () { boardClass.remove("noClicks");}, 1200);
+                }
+
+                console.log("linha: " + posicaoLinha + " -- Coluna: " + posicaoColuna);
+
+                this.successMessage = this.currentPlayer + ' has Played';
+                this.showSuccess = true;
+
+                this.checkGameEnded();
+            },
 
 
             chooseCard: function (posicaoLinha, posicaoColuna) {
@@ -109,10 +139,9 @@ export default {
                     this.matches++;
                     this.picks = 0;
 
-
                     setTimeout(function () { self.firstchoice.matched=true;}, 1000);
                     setTimeout(function () { self.secondchoice.matched=true;}, 1000);
-                    setTimeout(function () { self.$forceUpdate();}, 2000);
+                    self.$forceUpdate();
                     this.contadorParesMatched+=2;
 
                 }
@@ -124,7 +153,7 @@ export default {
                     
                     setTimeout(function () { self.firstchoice.missed=true;}, 1000);
                     setTimeout(function () { self.secondchoice.missed=true;}, 1000);
-                    setTimeout(function () { self.$forceUpdate();}, 2000);
+                    self.$forceUpdate();
 
                     //para poder voltar a carregar nelas
 
@@ -132,33 +161,10 @@ export default {
                     
                     setTimeout(function () {console.log("picks: " +this.picks);}, 2500);
 
-
                 }
 
             },
-            clickTile: function (posicaoLinha, posicaoColuna) {
-                if (this.board[posicaoLinha][posicaoColuna].image==="empty") {
-                    return;
-                }
 
-                this.board[posicaoLinha][posicaoColuna].missed = false;
-                //Escolha carta 1 e 2
-                this.chooseCard(posicaoLinha, posicaoColuna);
-                //compara cartas escolhidas
-
-                if (this.picks === 2) {
-                    this.checkCards();
-                    let boardClass = document.getElementById("board").classList;
-                    setTimeout(function () { boardClass.remove("noClicks");}, 1800);
-                }
-
-                console.log("linha: " + posicaoLinha + " -- Coluna: " + posicaoColuna);
-
-                this.successMessage = this.currentPlayer + ' has Played';
-                this.showSuccess = true;
-
-                this.checkGameEnded();
-            },
 
 
             fillBoard: function () {
@@ -179,7 +185,7 @@ export default {
                             this.randomImage = this.allTiles[Math.floor(Math.random() * this.allTiles.length)];
                             this.checkNonRepeated();
 
-                            this.board[i][j] = new Tile(this.randomImage, false, `${i}${j}`);
+                            this.board[i][j] = new Tile(this.randomImage, false, `${i}${j}`, false, false);
                             pairingArray[i][j] = this.board[i][j];
 
                             //meter imagens no array de imagens
@@ -191,7 +197,7 @@ export default {
 
                     for (let i = 0; i < this.rows; ++i) {
                         for (let j = this.columns / 2; j < this.columns; ++j) {
-                            this.board[i][j] = new Tile(pairingArray[i][j - (this.columns / 2)].image, false,`${i}${j}`) ;
+                            this.board[i][j] = new Tile(pairingArray[i][j - (this.columns / 2)].image, false,`${i}${j}`, false, false) ;
                         }
                     }
                 } else {
@@ -252,36 +258,49 @@ export default {
             console.log("contadorParesMatched: "+this.contadorParesMatched);
 
             if(this.contadorParesMatched===(this.columns*this.rows)){
-                setTimeout(function () {alert("GANHASTE CARALHO!!");}, 2000);
-                //this.win = true;
-           }
+                //setTimeout(function () {alert("GANHASTE CARALHO!!");}, 2100);
+                this.win = true;
+            }
 
-       }
+        },
+
+        restartGame: function(){
+            this.firstchoice= null; //stores index of first card selected
+            this.secondchoice= null; //stores index of second card selected
+            this.picks= 0;  //counts how many picks have been made in each turn
+            this.matches= 0; //counts number of matches made
+            this.imagesArray= new Array((this.rows*this.columns)/2);
+            this.randomImage=null;
+            this.contadorParesMatched=0;
+            this.win=false;
+            this.fillBoard();
+        }
 
 
-   },
+    },
 
-   computed: {
-    numberOfTiles: function () {
-        return this.rows * this.columns;
+    computed: {
+        numberOfTiles: function () {
+            return this.rows * this.columns;
+        }
+    },
+    beforeMount() {
+        this.getAllTiles();
+        this.fillBoard();
+    },
+
+
+
+    components: {
+        'tile': TileComponent
     }
-},
-beforeMount() {
-    this.getAllTiles();
-    this.fillBoard();
-},
-
-
-
-components: {
-    'tile': TileComponent
-}
 }
 
 </script>
 
 
 <style scoped>
+
 .noClicks{
   pointer-events: none;
 }

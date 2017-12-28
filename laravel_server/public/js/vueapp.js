@@ -486,133 +486,6 @@ module.exports = function normalizeComponent (
 /* 2 */
 /***/ (function(module, exports) {
 
-var g;
-
-// This works in non-strict mode
-g = (function() {
-	return this;
-})();
-
-try {
-	// This works if eval is allowed (see CSP)
-	g = g || Function("return this")() || (1,eval)("this");
-} catch(e) {
-	// This works if the window reference is available
-	if(typeof window === "object")
-		g = window;
-}
-
-// g can still be undefined, but nothing to do about it...
-// We return undefined, instead of nothing here, so it's
-// easier to handle this case. if(!global) { ...}
-
-module.exports = g;
-
-
-/***/ }),
-/* 3 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-/* WEBPACK VAR INJECTION */(function(process) {
-
-var utils = __webpack_require__(0);
-var normalizeHeaderName = __webpack_require__(23);
-
-var DEFAULT_CONTENT_TYPE = {
-  'Content-Type': 'application/x-www-form-urlencoded'
-};
-
-function setContentTypeIfUnset(headers, value) {
-  if (!utils.isUndefined(headers) && utils.isUndefined(headers['Content-Type'])) {
-    headers['Content-Type'] = value;
-  }
-}
-
-function getDefaultAdapter() {
-  var adapter;
-  if (typeof XMLHttpRequest !== 'undefined') {
-    // For browsers use XHR adapter
-    adapter = __webpack_require__(8);
-  } else if (typeof process !== 'undefined') {
-    // For node use HTTP adapter
-    adapter = __webpack_require__(8);
-  }
-  return adapter;
-}
-
-var defaults = {
-  adapter: getDefaultAdapter(),
-
-  transformRequest: [function transformRequest(data, headers) {
-    normalizeHeaderName(headers, 'Content-Type');
-    if (utils.isFormData(data) ||
-      utils.isArrayBuffer(data) ||
-      utils.isBuffer(data) ||
-      utils.isStream(data) ||
-      utils.isFile(data) ||
-      utils.isBlob(data)
-    ) {
-      return data;
-    }
-    if (utils.isArrayBufferView(data)) {
-      return data.buffer;
-    }
-    if (utils.isURLSearchParams(data)) {
-      setContentTypeIfUnset(headers, 'application/x-www-form-urlencoded;charset=utf-8');
-      return data.toString();
-    }
-    if (utils.isObject(data)) {
-      setContentTypeIfUnset(headers, 'application/json;charset=utf-8');
-      return JSON.stringify(data);
-    }
-    return data;
-  }],
-
-  transformResponse: [function transformResponse(data) {
-    /*eslint no-param-reassign:0*/
-    if (typeof data === 'string') {
-      try {
-        data = JSON.parse(data);
-      } catch (e) { /* Ignore */ }
-    }
-    return data;
-  }],
-
-  timeout: 0,
-
-  xsrfCookieName: 'XSRF-TOKEN',
-  xsrfHeaderName: 'X-XSRF-TOKEN',
-
-  maxContentLength: -1,
-
-  validateStatus: function validateStatus(status) {
-    return status >= 200 && status < 300;
-  }
-};
-
-defaults.headers = {
-  common: {
-    'Accept': 'application/json, text/plain, */*'
-  }
-};
-
-utils.forEach(['delete', 'get', 'head'], function forEachMethodNoData(method) {
-  defaults.headers[method] = {};
-});
-
-utils.forEach(['post', 'put', 'patch'], function forEachMethodWithData(method) {
-  defaults.headers[method] = utils.merge(DEFAULT_CONTENT_TYPE);
-});
-
-module.exports = defaults;
-
-/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(7)))
-
-/***/ }),
-/* 4 */
-/***/ (function(module, exports) {
-
 /*
 	MIT License http://www.opensource.org/licenses/mit-license.php
 	Author Tobias Koppers @sokra
@@ -692,7 +565,7 @@ function toComment(sourceMap) {
 
 
 /***/ }),
-/* 5 */
+/* 3 */
 /***/ (function(module, exports, __webpack_require__) {
 
 /*
@@ -911,6 +784,133 @@ function applyToTag (styleElement, obj) {
   }
 }
 
+
+/***/ }),
+/* 4 */
+/***/ (function(module, exports) {
+
+var g;
+
+// This works in non-strict mode
+g = (function() {
+	return this;
+})();
+
+try {
+	// This works if eval is allowed (see CSP)
+	g = g || Function("return this")() || (1,eval)("this");
+} catch(e) {
+	// This works if the window reference is available
+	if(typeof window === "object")
+		g = window;
+}
+
+// g can still be undefined, but nothing to do about it...
+// We return undefined, instead of nothing here, so it's
+// easier to handle this case. if(!global) { ...}
+
+module.exports = g;
+
+
+/***/ }),
+/* 5 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+/* WEBPACK VAR INJECTION */(function(process) {
+
+var utils = __webpack_require__(0);
+var normalizeHeaderName = __webpack_require__(23);
+
+var DEFAULT_CONTENT_TYPE = {
+  'Content-Type': 'application/x-www-form-urlencoded'
+};
+
+function setContentTypeIfUnset(headers, value) {
+  if (!utils.isUndefined(headers) && utils.isUndefined(headers['Content-Type'])) {
+    headers['Content-Type'] = value;
+  }
+}
+
+function getDefaultAdapter() {
+  var adapter;
+  if (typeof XMLHttpRequest !== 'undefined') {
+    // For browsers use XHR adapter
+    adapter = __webpack_require__(8);
+  } else if (typeof process !== 'undefined') {
+    // For node use HTTP adapter
+    adapter = __webpack_require__(8);
+  }
+  return adapter;
+}
+
+var defaults = {
+  adapter: getDefaultAdapter(),
+
+  transformRequest: [function transformRequest(data, headers) {
+    normalizeHeaderName(headers, 'Content-Type');
+    if (utils.isFormData(data) ||
+      utils.isArrayBuffer(data) ||
+      utils.isBuffer(data) ||
+      utils.isStream(data) ||
+      utils.isFile(data) ||
+      utils.isBlob(data)
+    ) {
+      return data;
+    }
+    if (utils.isArrayBufferView(data)) {
+      return data.buffer;
+    }
+    if (utils.isURLSearchParams(data)) {
+      setContentTypeIfUnset(headers, 'application/x-www-form-urlencoded;charset=utf-8');
+      return data.toString();
+    }
+    if (utils.isObject(data)) {
+      setContentTypeIfUnset(headers, 'application/json;charset=utf-8');
+      return JSON.stringify(data);
+    }
+    return data;
+  }],
+
+  transformResponse: [function transformResponse(data) {
+    /*eslint no-param-reassign:0*/
+    if (typeof data === 'string') {
+      try {
+        data = JSON.parse(data);
+      } catch (e) { /* Ignore */ }
+    }
+    return data;
+  }],
+
+  timeout: 0,
+
+  xsrfCookieName: 'XSRF-TOKEN',
+  xsrfHeaderName: 'X-XSRF-TOKEN',
+
+  maxContentLength: -1,
+
+  validateStatus: function validateStatus(status) {
+    return status >= 200 && status < 300;
+  }
+};
+
+defaults.headers = {
+  common: {
+    'Accept': 'application/json, text/plain, */*'
+  }
+};
+
+utils.forEach(['delete', 'get', 'head'], function forEachMethodNoData(method) {
+  defaults.headers[method] = {};
+});
+
+utils.forEach(['post', 'put', 'patch'], function forEachMethodWithData(method) {
+  defaults.headers[method] = utils.merge(DEFAULT_CONTENT_TYPE);
+});
+
+module.exports = defaults;
+
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(7)))
 
 /***/ }),
 /* 6 */
@@ -1375,7 +1375,7 @@ module.exports = Cancel;
 /***/ (function(module, exports, __webpack_require__) {
 
 __webpack_require__(13);
-module.exports = __webpack_require__(84);
+module.exports = __webpack_require__(86);
 
 
 /***/ }),
@@ -1414,7 +1414,7 @@ var login = Vue.component('login', __webpack_require__(62));
 var register = Vue.component('register', __webpack_require__(65));
 /** GAME ROUTES **/
 var singleplayerGame = Vue.component('singlegame', __webpack_require__(68));
-var multiplayerGame = Vue.component('multiplayergame', __webpack_require__(78));
+var multiplayerGame = Vue.component('multiplayergame', __webpack_require__(80));
 
 var routes = [{ path: '/', redirect: '/users' }, { path: '/users', component: user }, {
     path: '/singlememorygame', component: singleplayerGame,
@@ -1438,30 +1438,29 @@ var router = new __WEBPACK_IMPORTED_MODULE_0_vue_router__["a" /* default */]({
     routes: routes
 });
 
-router.beforeEach(function (to, from, next) {
-    //Quando uma navegaçao é ativada
-    //#NavigationGuard
-    //to => where we want to go
-    //from => current route
-    if (to.matched.some(function (record) {
-        return record.meta.forVisitors;
-    })) {
-        if (Vue.auth.isAuthenticated()) {
-            next({
-                path: '/singlememorygame'
-            });
-        } else next();
-    } else if (to.matched.some(function (record) {
-        return record.meta.forAuth;
-    })) {
-        if (!Vue.auth.isAuthenticated()) {
-            next({
-                path: '/login'
-            });
-        } else next();
-    } else next();
-    //$route.matched
-});
+/*router.beforeEach(
+    (to, from, next) => {
+        //Quando uma navegaçao é ativada
+        //#NavigationGuard
+        //to => where we want to go
+        //from => current route
+        if (to.matched.some(record => record.meta.forVisitors)) {
+            if (Vue.auth.isAuthenticated()) {
+                next({
+                    path: '/singlememorygame'
+                })
+            } else next()
+
+        } else if (to.matched.some(record => record.meta.forAuth)) {
+            if ( !Vue.auth.isAuthenticated()) {
+                next({
+                    path: '/login'
+                })
+            } else next()
+        } else next()
+        //$route.matched
+    }
+)*/
 
 var app = new Vue({
     router: router,
@@ -1471,7 +1470,7 @@ var app = new Vue({
     }
 }).$mount('#app');
 
-Vue.component('example-component', __webpack_require__(81));
+Vue.component('example-component', __webpack_require__(83));
 
 /***/ }),
 /* 14 */
@@ -18621,7 +18620,7 @@ if (token) {
   }
 }.call(this));
 
-/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(2), __webpack_require__(16)(module)))
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(4), __webpack_require__(16)(module)))
 
 /***/ }),
 /* 16 */
@@ -31310,7 +31309,7 @@ module.exports = __webpack_require__(20);
 var utils = __webpack_require__(0);
 var bind = __webpack_require__(6);
 var Axios = __webpack_require__(22);
-var defaults = __webpack_require__(3);
+var defaults = __webpack_require__(5);
 
 /**
  * Create an instance of Axios
@@ -31393,7 +31392,7 @@ function isSlowBuffer (obj) {
 "use strict";
 
 
-var defaults = __webpack_require__(3);
+var defaults = __webpack_require__(5);
 var utils = __webpack_require__(0);
 var InterceptorManager = __webpack_require__(31);
 var dispatchRequest = __webpack_require__(32);
@@ -31925,7 +31924,7 @@ module.exports = InterceptorManager;
 var utils = __webpack_require__(0);
 var transformData = __webpack_require__(33);
 var isCancel = __webpack_require__(10);
-var defaults = __webpack_require__(3);
+var defaults = __webpack_require__(5);
 
 /**
  * Throws a `Cancel` if cancellation has been requested.
@@ -43026,7 +43025,7 @@ Vue$3.compile = compileToFunctions;
 
 module.exports = Vue$3;
 
-/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(2), __webpack_require__(39).setImmediate))
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(4), __webpack_require__(39).setImmediate))
 
 /***/ }),
 /* 39 */
@@ -43278,7 +43277,7 @@ exports.clearImmediate = clearImmediate;
     attachTo.clearImmediate = clearImmediate;
 }(typeof self === "undefined" ? typeof global === "undefined" ? this : global : self));
 
-/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(2), __webpack_require__(7)))
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(4), __webpack_require__(7)))
 
 /***/ }),
 /* 41 */
@@ -47614,7 +47613,7 @@ var content = __webpack_require__(48);
 if(typeof content === 'string') content = [[module.i, content, '']];
 if(content.locals) module.exports = content.locals;
 // add the styles to the DOM
-var update = __webpack_require__(5)("22138fbc", content, false);
+var update = __webpack_require__(3)("22138fbc", content, false);
 // Hot Module Replacement
 if(false) {
  // When the styles change, update the <style> tags
@@ -47633,7 +47632,7 @@ if(false) {
 /* 48 */
 /***/ (function(module, exports, __webpack_require__) {
 
-exports = module.exports = __webpack_require__(4)(undefined);
+exports = module.exports = __webpack_require__(2)(undefined);
 // imports
 
 
@@ -47827,7 +47826,7 @@ var content = __webpack_require__(53);
 if(typeof content === 'string') content = [[module.i, content, '']];
 if(content.locals) module.exports = content.locals;
 // add the styles to the DOM
-var update = __webpack_require__(5)("763f7a78", content, false);
+var update = __webpack_require__(3)("763f7a78", content, false);
 // Hot Module Replacement
 if(false) {
  // When the styles change, update the <style> tags
@@ -47846,7 +47845,7 @@ if(false) {
 /* 53 */
 /***/ (function(module, exports, __webpack_require__) {
 
-exports = module.exports = __webpack_require__(4)(undefined);
+exports = module.exports = __webpack_require__(2)(undefined);
 // imports
 
 
@@ -48082,7 +48081,7 @@ var content = __webpack_require__(58);
 if(typeof content === 'string') content = [[module.i, content, '']];
 if(content.locals) module.exports = content.locals;
 // add the styles to the DOM
-var update = __webpack_require__(5)("0ff2e222", content, false);
+var update = __webpack_require__(3)("0ff2e222", content, false);
 // Hot Module Replacement
 if(false) {
  // When the styles change, update the <style> tags
@@ -48101,7 +48100,7 @@ if(false) {
 /* 58 */
 /***/ (function(module, exports, __webpack_require__) {
 
-exports = module.exports = __webpack_require__(4)(undefined);
+exports = module.exports = __webpack_require__(2)(undefined);
 // imports
 
 
@@ -48835,7 +48834,7 @@ var normalizeComponent = __webpack_require__(1)
 /* script */
 var __vue_script__ = __webpack_require__(69)
 /* template */
-var __vue_template__ = __webpack_require__(77)
+var __vue_template__ = __webpack_require__(79)
 /* template functional */
 var __vue_template_functional__ = false
 /* styles */
@@ -48881,7 +48880,6 @@ module.exports = Component.exports
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__board_vue__ = __webpack_require__(70);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__board_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0__board_vue__);
-//
 //
 //
 //
@@ -48973,13 +48971,13 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 var disposed = false
 function injectStyle (ssrContext) {
   if (disposed) return
-  __webpack_require__(93)
+  __webpack_require__(71)
 }
 var normalizeComponent = __webpack_require__(1)
 /* script */
-var __vue_script__ = __webpack_require__(71)
+var __vue_script__ = __webpack_require__(73)
 /* template */
-var __vue_template__ = __webpack_require__(95)
+var __vue_template__ = __webpack_require__(78)
 /* template functional */
 var __vue_template_functional__ = false
 /* styles */
@@ -49019,13 +49017,57 @@ module.exports = Component.exports
 
 /***/ }),
 /* 71 */
+/***/ (function(module, exports, __webpack_require__) {
+
+// style-loader: Adds some css to the DOM by adding a <style> tag
+
+// load the styles
+var content = __webpack_require__(72);
+if(typeof content === 'string') content = [[module.i, content, '']];
+if(content.locals) module.exports = content.locals;
+// add the styles to the DOM
+var update = __webpack_require__(3)("394c1f08", content, false);
+// Hot Module Replacement
+if(false) {
+ // When the styles change, update the <style> tags
+ if(!content.locals) {
+   module.hot.accept("!!../../../../node_modules/css-loader/index.js!../../../../node_modules/vue-loader/lib/style-compiler/index.js?{\"vue\":true,\"id\":\"data-v-7035745f\",\"scoped\":true,\"hasInlineConfig\":true}!../../../../node_modules/vue-loader/lib/selector.js?type=styles&index=0&bustCache!./board.vue", function() {
+     var newContent = require("!!../../../../node_modules/css-loader/index.js!../../../../node_modules/vue-loader/lib/style-compiler/index.js?{\"vue\":true,\"id\":\"data-v-7035745f\",\"scoped\":true,\"hasInlineConfig\":true}!../../../../node_modules/vue-loader/lib/selector.js?type=styles&index=0&bustCache!./board.vue");
+     if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
+     update(newContent);
+   });
+ }
+ // When the module is disposed, remove the <style> tags
+ module.hot.dispose(function() { update(); });
+}
+
+/***/ }),
+/* 72 */
+/***/ (function(module, exports, __webpack_require__) {
+
+exports = module.exports = __webpack_require__(2)(undefined);
+// imports
+
+
+// module
+exports.push([module.i, "\n.noClicks[data-v-7035745f]{\n  pointer-events: none;\n}\n\n", ""]);
+
+// exports
+
+
+/***/ }),
+/* 73 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__tile_vue__ = __webpack_require__(72);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__tile_vue__ = __webpack_require__(74);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__tile_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0__tile_vue__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__Classes_Tile_js__ = __webpack_require__(75);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__Classes_Tile_js__ = __webpack_require__(77);
+//
+//
+//
+//
 //
 //
 //
@@ -49059,8 +49101,6 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
             allTiles: new Array(40),
             board: new Array(this.rows),
-            tileFlipped: false,
-            currentValue: 1,
             firstchoice: null, //stores index of first card selected
             secondchoice: null, //stores index of second card selected
             picks: 0, //counts how many picks have been made in each turn
@@ -49080,6 +49120,36 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
     },
 
     methods: {
+
+        clickTile: function clickTile(posicaoLinha, posicaoColuna) {
+            if (this.board[posicaoLinha][posicaoColuna].image === "empty") {
+                return;
+            }
+
+            //para virar a tile e dar update na imagem
+            this.board[posicaoLinha][posicaoColuna].tileFlipped = true;
+            this.$forceUpdate();
+
+            this.board[posicaoLinha][posicaoColuna].missed = false;
+            //Escolha carta 1 e 2
+            this.chooseCard(posicaoLinha, posicaoColuna);
+            //compara cartas escolhidas
+
+            if (this.picks === 2) {
+                this.checkCards();
+                var boardClass = document.getElementById("board").classList;
+                setTimeout(function () {
+                    boardClass.remove("noClicks");
+                }, 1200);
+            }
+
+            console.log("linha: " + posicaoLinha + " -- Coluna: " + posicaoColuna);
+
+            this.successMessage = this.currentPlayer + ' has Played';
+            this.showSuccess = true;
+
+            this.checkGameEnded();
+        },
 
         chooseCard: function chooseCard(posicaoLinha, posicaoColuna) {
 
@@ -49133,9 +49203,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                 setTimeout(function () {
                     self.secondchoice.matched = true;
                 }, 1000);
-                setTimeout(function () {
-                    self.$forceUpdate();
-                }, 2000);
+                self.$forceUpdate();
                 this.contadorParesMatched += 2;
             } else {
                 /*turn over first card to show back
@@ -49148,9 +49216,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                 setTimeout(function () {
                     _self.secondchoice.missed = true;
                 }, 1000);
-                setTimeout(function () {
-                    _self.$forceUpdate();
-                }, 2000);
+                _self.$forceUpdate();
 
                 //para poder voltar a carregar nelas
 
@@ -49160,31 +49226,6 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                     console.log("picks: " + this.picks);
                 }, 2500);
             }
-        },
-        clickTile: function clickTile(posicaoLinha, posicaoColuna) {
-            if (this.board[posicaoLinha][posicaoColuna].image === "empty") {
-                return;
-            }
-
-            this.board[posicaoLinha][posicaoColuna].missed = false;
-            //Escolha carta 1 e 2
-            this.chooseCard(posicaoLinha, posicaoColuna);
-            //compara cartas escolhidas
-
-            if (this.picks === 2) {
-                this.checkCards();
-                var boardClass = document.getElementById("board").classList;
-                setTimeout(function () {
-                    boardClass.remove("noClicks");
-                }, 1800);
-            }
-
-            console.log("linha: " + posicaoLinha + " -- Coluna: " + posicaoColuna);
-
-            this.successMessage = this.currentPlayer + ' has Played';
-            this.showSuccess = true;
-
-            this.checkGameEnded();
         },
 
         fillBoard: function fillBoard() {
@@ -49205,7 +49246,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                         this.randomImage = this.allTiles[Math.floor(Math.random() * this.allTiles.length)];
                         this.checkNonRepeated();
 
-                        this.board[i][j] = new __WEBPACK_IMPORTED_MODULE_1__Classes_Tile_js__["a" /* default */](this.randomImage, false, '' + i + j);
+                        this.board[i][j] = new __WEBPACK_IMPORTED_MODULE_1__Classes_Tile_js__["a" /* default */](this.randomImage, false, '' + i + j, false, false);
                         pairingArray[i][j] = this.board[i][j];
 
                         //meter imagens no array de imagens
@@ -49217,7 +49258,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
                 for (var _i = 0; _i < this.rows; ++_i) {
                     for (var _j = this.columns / 2; _j < this.columns; ++_j) {
-                        this.board[_i][_j] = new __WEBPACK_IMPORTED_MODULE_1__Classes_Tile_js__["a" /* default */](pairingArray[_i][_j - this.columns / 2].image, false, '' + _i + _j);
+                        this.board[_i][_j] = new __WEBPACK_IMPORTED_MODULE_1__Classes_Tile_js__["a" /* default */](pairingArray[_i][_j - this.columns / 2].image, false, '' + _i + _j, false, false);
                     }
                 }
             } else {
@@ -49276,11 +49317,21 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             console.log("contadorParesMatched: " + this.contadorParesMatched);
 
             if (this.contadorParesMatched === this.columns * this.rows) {
-                setTimeout(function () {
-                    alert("GANHASTE CARALHO!!");
-                }, 2000);
-                //this.win = true;
+                //setTimeout(function () {alert("GANHASTE CARALHO!!");}, 2100);
+                this.win = true;
             }
+        },
+
+        restartGame: function restartGame() {
+            this.firstchoice = null; //stores index of first card selected
+            this.secondchoice = null; //stores index of second card selected
+            this.picks = 0; //counts how many picks have been made in each turn
+            this.matches = 0; //counts number of matches made
+            this.imagesArray = new Array(this.rows * this.columns / 2);
+            this.randomImage = null;
+            this.contadorParesMatched = 0;
+            this.win = false;
+            this.fillBoard();
         }
 
     },
@@ -49302,15 +49353,15 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 });
 
 /***/ }),
-/* 72 */
+/* 74 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var disposed = false
 var normalizeComponent = __webpack_require__(1)
 /* script */
-var __vue_script__ = __webpack_require__(73)
+var __vue_script__ = __webpack_require__(75)
 /* template */
-var __vue_template__ = __webpack_require__(74)
+var __vue_template__ = __webpack_require__(76)
 /* template functional */
 var __vue_template_functional__ = false
 /* styles */
@@ -49349,7 +49400,7 @@ module.exports = Component.exports
 
 
 /***/ }),
-/* 73 */
+/* 75 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -49360,17 +49411,14 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
-//
 
 
 /* harmony default export */ __webpack_exports__["default"] = ({
 
-    props: ['img', 'r1', 'c1', 'missed', 'matched'],
+    props: ['img', 'r1', 'c1', 'missed', 'matched', 'tileFlipped'],
     data: function data() {
         return {
-            tileFlipped: false,
             missedTile: false
-
         };
     },
 
@@ -49379,6 +49427,12 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             var imgSrc = String(img);
             console.log(img);
             var self = this;
+
+            console.log("win : " + this.restartGame);
+
+            if (this.restartGame) {
+                this.tileFlipped = true;
+            }
 
             if (!this.tileFlipped || this.missed) {
                 return 'img/hidden.png';
@@ -49390,8 +49444,6 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         },
 
         clickTile: function clickTile(r1, c1) {
-            console.log("misssed: " + this.missed);
-            this.tileFlipped = true;
             this.$emit('click-tile', r1, c1);
         }
     },
@@ -49399,7 +49451,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 });
 
 /***/ }),
-/* 74 */
+/* 76 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var render = function() {
@@ -49415,9 +49467,7 @@ var render = function() {
           _vm.clickTile(_vm.r1, _vm.c1)
         }
       }
-    }),
-    _vm._v(" "),
-    _c("p", [_vm._v(_vm._s(_vm.img))])
+    })
   ])
 }
 var staticRenderFns = []
@@ -49431,33 +49481,124 @@ if (false) {
 }
 
 /***/ }),
-/* 75 */
+/* 77 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
-var Tile = function Tile(image, missed, key, matched) {
+var Tile = function Tile(image, missed, key, matched, tileFlipped) {
 	_classCallCheck(this, Tile);
 
 	this.image = image;
 	this.missed = missed;
 	this.key = key;
 	this.matched = matched;
+	this.tileFlipped = tileFlipped;
 };
 
 /* harmony default export */ __webpack_exports__["a"] = (Tile);
 
 /***/ }),
-/* 76 */,
-/* 77 */
+/* 78 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _c("div", [
+  return _c("div", { staticClass: "pull-md-right" }, [
+    _c(
+      "div",
+      {
+        directives: [
+          { name: "show", rawName: "v-show", value: _vm.win, expression: "win" }
+        ],
+        staticClass: "alert alert-success"
+      },
+      [_vm._v("GANHASTE JOGADOR")]
+    ),
+    _vm._v(" "),
+    _c(
+      "div",
+      { staticClass: "board", attrs: { id: "board" } },
+      _vm._l(_vm.columns, function(c, c1) {
+        return _c("div", [
+          _c(
+            "div",
+            { staticClass: "board-row" },
+            _vm._l(_vm.rows, function(r, r1) {
+              return _c(
+                "div",
+                [
+                  _c("tile", {
+                    attrs: {
+                      r1: r1,
+                      c1: c1,
+                      img: _vm.board[r1][c1].image,
+                      missed: _vm.board[r1][c1].missed,
+                      matched: _vm.board[r1][c1].matched,
+                      tileFlipped: _vm.board[r1][c1].tileFlipped
+                    },
+                    on: { "click-tile": _vm.clickTile }
+                  })
+                ],
+                1
+              )
+            })
+          )
+        ])
+      })
+    ),
+    _vm._v(" "),
+    _c("div", { attrs: { id: "reset" } }, [
+      _c("h2", [
+        _c("strong", [
+          _vm._v("    "),
+          _c(
+            "a",
+            {
+              directives: [
+                {
+                  name: "show",
+                  rawName: "v-show",
+                  value: _vm.win,
+                  expression: "win"
+                }
+              ],
+              on: {
+                click: function($event) {
+                  $event.preventDefault()
+                  _vm.restartGame($event)
+                }
+              }
+            },
+            [_vm._v("Restart")]
+          )
+        ])
+      ])
+    ])
+  ])
+}
+var staticRenderFns = []
+render._withStripped = true
+module.exports = { render: render, staticRenderFns: staticRenderFns }
+if (false) {
+  module.hot.accept()
+  if (module.hot.data) {
+    require("vue-hot-reload-api")      .rerender("data-v-7035745f", module.exports)
+  }
+}
+
+/***/ }),
+/* 79 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _c("div", { staticStyle: { "text-align": "center" } }, [
     _c("div", [
       _c("h3", { staticClass: "text-center" }, [_vm._v(_vm._s(_vm.title))]),
       _vm._v(" "),
@@ -49468,7 +49609,10 @@ var render = function() {
     _vm._v(" "),
     _c(
       "div",
-      { staticClass: "game-zone-content" },
+      {
+        staticClass: "game-zone-content",
+        staticStyle: { display: "inline-block" }
+      },
       [
         _vm.showSuccess
           ? _c("div", { staticClass: "alert alert-success" }, [
@@ -49512,7 +49656,7 @@ var render = function() {
             ])
           : _vm._e(),
         _vm._v(" "),
-        _c("board", { attrs: { columns: 4, rows: 4 } }),
+        _c("board", { attrs: { columns: 2, rows: 2 } }),
         _vm._v(" "),
         _c("hr")
       ],
@@ -49531,15 +49675,15 @@ if (false) {
 }
 
 /***/ }),
-/* 78 */
+/* 80 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var disposed = false
 var normalizeComponent = __webpack_require__(1)
 /* script */
-var __vue_script__ = __webpack_require__(79)
+var __vue_script__ = __webpack_require__(81)
 /* template */
-var __vue_template__ = __webpack_require__(80)
+var __vue_template__ = __webpack_require__(82)
 /* template functional */
 var __vue_template_functional__ = false
 /* styles */
@@ -49578,7 +49722,7 @@ module.exports = Component.exports
 
 
 /***/ }),
-/* 79 */
+/* 81 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -49607,7 +49751,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 });
 
 /***/ }),
-/* 80 */
+/* 82 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var render = function() {
@@ -49650,15 +49794,15 @@ if (false) {
 }
 
 /***/ }),
-/* 81 */
+/* 83 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var disposed = false
 var normalizeComponent = __webpack_require__(1)
 /* script */
-var __vue_script__ = __webpack_require__(82)
+var __vue_script__ = __webpack_require__(84)
 /* template */
-var __vue_template__ = __webpack_require__(83)
+var __vue_template__ = __webpack_require__(85)
 /* template functional */
 var __vue_template_functional__ = false
 /* styles */
@@ -49697,7 +49841,7 @@ module.exports = Component.exports
 
 
 /***/ }),
-/* 82 */
+/* 84 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -49726,7 +49870,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 });
 
 /***/ }),
-/* 83 */
+/* 85 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var render = function() {
@@ -49769,114 +49913,10 @@ if (false) {
 }
 
 /***/ }),
-/* 84 */
+/* 86 */
 /***/ (function(module, exports) {
 
 // removed by extract-text-webpack-plugin
-
-/***/ }),
-/* 85 */,
-/* 86 */,
-/* 87 */,
-/* 88 */,
-/* 89 */,
-/* 90 */,
-/* 91 */,
-/* 92 */,
-/* 93 */
-/***/ (function(module, exports, __webpack_require__) {
-
-// style-loader: Adds some css to the DOM by adding a <style> tag
-
-// load the styles
-var content = __webpack_require__(94);
-if(typeof content === 'string') content = [[module.i, content, '']];
-if(content.locals) module.exports = content.locals;
-// add the styles to the DOM
-var update = __webpack_require__(5)("394c1f08", content, false);
-// Hot Module Replacement
-if(false) {
- // When the styles change, update the <style> tags
- if(!content.locals) {
-   module.hot.accept("!!../../../../node_modules/css-loader/index.js!../../../../node_modules/vue-loader/lib/style-compiler/index.js?{\"vue\":true,\"id\":\"data-v-7035745f\",\"scoped\":true,\"hasInlineConfig\":true}!../../../../node_modules/vue-loader/lib/selector.js?type=styles&index=0&bustCache!./board.vue", function() {
-     var newContent = require("!!../../../../node_modules/css-loader/index.js!../../../../node_modules/vue-loader/lib/style-compiler/index.js?{\"vue\":true,\"id\":\"data-v-7035745f\",\"scoped\":true,\"hasInlineConfig\":true}!../../../../node_modules/vue-loader/lib/selector.js?type=styles&index=0&bustCache!./board.vue");
-     if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
-     update(newContent);
-   });
- }
- // When the module is disposed, remove the <style> tags
- module.hot.dispose(function() { update(); });
-}
-
-/***/ }),
-/* 94 */
-/***/ (function(module, exports, __webpack_require__) {
-
-exports = module.exports = __webpack_require__(4)(undefined);
-// imports
-
-
-// module
-exports.push([module.i, "\n.noClicks[data-v-7035745f]{\n  pointer-events: none;\n}\n\n", ""]);
-
-// exports
-
-
-/***/ }),
-/* 95 */
-/***/ (function(module, exports, __webpack_require__) {
-
-var render = function() {
-  var _vm = this
-  var _h = _vm.$createElement
-  var _c = _vm._self._c || _h
-  return _c(
-    "div",
-    { staticClass: "board", attrs: { id: "board" } },
-    [
-      _vm._l(_vm.columns, function(c, c1) {
-        return _c("div", [
-          _c(
-            "div",
-            { staticClass: "board-row" },
-            _vm._l(_vm.rows, function(r, r1) {
-              return _c(
-                "div",
-                [
-                  _c("tile", {
-                    attrs: {
-                      r1: r1,
-                      c1: c1,
-                      img: _vm.board[r1][c1].image,
-                      missed: _vm.board[r1][c1].missed,
-                      matched: _vm.board[r1][c1].matched
-                    },
-                    on: { "click-tile": _vm.clickTile }
-                  })
-                ],
-                1
-              )
-            })
-          )
-        ])
-      }),
-      _vm._v(" "),
-      _c("div", { attrs: { id: "reset" } }, [
-        _vm.win ? _c("div", [_vm._v("Reset")]) : _vm._e()
-      ])
-    ],
-    2
-  )
-}
-var staticRenderFns = []
-render._withStripped = true
-module.exports = { render: render, staticRenderFns: staticRenderFns }
-if (false) {
-  module.hot.accept()
-  if (module.hot.data) {
-    require("vue-hot-reload-api")      .rerender("data-v-7035745f", module.exports)
-  }
-}
 
 /***/ })
 /******/ ]);

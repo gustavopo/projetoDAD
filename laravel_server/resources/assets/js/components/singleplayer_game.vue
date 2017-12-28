@@ -1,5 +1,5 @@
 <template>
-    <div >
+    <div style="text-align: center">
         <div>
             <h3 class="text-center">{{ title }}</h3>
             <br>
@@ -8,14 +8,13 @@
         </div>
 
 
-        <div class="game-zone-content">
+        <div class="game-zone-content" style="display: inline-block">
             <div class="alert alert-success" v-if="showSuccess">
                 <button type="button" class="close-btn" v-on:click="showSuccess=false">&times;</button>
                 <strong>{{ successMessage }} &nbsp;&nbsp;&nbsp;&nbsp;<a v-show="gameEnded" v-on:click.prevent="restartGame">Restart</a></strong>
             </div>
 
-            <board :columns="4" :rows="4">
-
+            <board :columns="2" :rows="2">
             </board>
 
             <!--
