@@ -8350,6 +8350,10 @@ button.close {
   }
 }
 
+.noClicks {
+  pointer-events: none;
+}
+
 .board {
   float: left;
   display: -webkit-box;
