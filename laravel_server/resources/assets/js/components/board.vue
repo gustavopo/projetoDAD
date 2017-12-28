@@ -1,15 +1,19 @@
 <template>
-    <div class="board">
+    <div id="board" class="board">
         <div v-for="(c,c1) in columns">
             <div class="board-row">
                 <div v-for="(r,r1) in rows">
                     <tile :r1="r1" :c1="c1" :img="board[r1][c1].image" :missed="board[r1][c1].missed" :matched="board[r1][c1].matched" @click-tile="clickTile" >
-                    <!--:img="board[r1][c1]"-->  <!--v-if="!board[r1][c1].matched"-->
-                </tile>
+                        <!--:img="board[r1][c1]"-->  <!--v-if="!board[r1][c1].matched"-->
+                    </tile>
+                </div>
             </div>
         </div>
+        <div id="reset">
+            <div v-if="win">Reset</div>
+        </div>
     </div>
-</div>
+
 </template>
 
 
@@ -36,6 +40,8 @@ export default {
                 matches: 0, //counts number of matches made
                 imagesArray: new Array((this.rows*this.columns)/2),
                 randomImage:null,
+                contadorParesMatched:0,
+                win:false,
 
                 /*
                 numAttempts = 0  //counts the number of attempts made
@@ -82,6 +88,11 @@ export default {
 
 
                     this.picks = 2;
+
+                    //para não se poder carregar
+                    let boardClass = document.getElementById("board").classList;
+                    boardClass.add("noClicks");
+
                     console.log("Second choice: " + this.board[posicaoLinha][posicaoColuna].image);
                     //console.log("picks: " + this.picks);
                 }
@@ -102,6 +113,7 @@ export default {
                     setTimeout(function () { self.firstchoice.matched=true;}, 1000);
                     setTimeout(function () { self.secondchoice.matched=true;}, 1000);
                     setTimeout(function () { self.$forceUpdate();}, 2000);
+                    this.contadorParesMatched+=2;
 
                 }
 
@@ -109,15 +121,17 @@ export default {
                     /*turn over first card to show back
                     turn over second card to show back*/
                     let self = this;
-                    console.log("NÃO ENTRAS PUTA");
-
                     
                     setTimeout(function () { self.firstchoice.missed=true;}, 1000);
                     setTimeout(function () { self.secondchoice.missed=true;}, 1000);
                     setTimeout(function () { self.$forceUpdate();}, 2000);
 
                     //para poder voltar a carregar nelas
+
                     this.picks = 0;
+                    
+                    setTimeout(function () {console.log("picks: " +this.picks);}, 2500);
+
 
                 }
 
@@ -134,22 +148,16 @@ export default {
 
                 if (this.picks === 2) {
                     this.checkCards();
+                    let boardClass = document.getElementById("board").classList;
+                    setTimeout(function () { boardClass.remove("noClicks");}, 1800);
                 }
 
                 console.log("linha: " + posicaoLinha + " -- Coluna: " + posicaoColuna);
 
-                /* Figueiredo Code Object (TILE)
+                this.successMessage = this.currentPlayer + ' has Played';
+                this.showSuccess = true;
 
-                   let tile = new Tile(17, false, `${posicaoLinha}${posicaoColuna}`)
-                    //this.board[posicaoLinha][posicaoColuna] = tile;
-                    Object.assign(this.board[posicaoLinha][posicaoColuna], tile);
-                    this.$forceUpdate();
-                    */
-
-                    this.successMessage = this.currentPlayer + ' has Played';
-                    this.showSuccess = true;
-
-                // this.checkGameEnded();
+                this.checkGameEnded();
             },
 
 
@@ -233,20 +241,27 @@ export default {
 
         },
 
-        sleep :function(ms) {
-          return new Promise(resolve => setTimeout(resolve, ms));
-      },
+        checkNonRepeated: function(){
+            while(this.imagesArray.includes(this.randomImage)){
+                this.randomImage = this.allTiles[Math.floor(Math.random() * this.allTiles.length)];
+            }
+        },
 
-      checkNonRepeated: function(){
-        while(this.imagesArray.includes(this.randomImage)){
-            this.randomImage = this.allTiles[Math.floor(Math.random() * this.allTiles.length)];
-        }
-    }
+        checkGameEnded: function(){
+
+            console.log("contadorParesMatched: "+this.contadorParesMatched);
+
+            if(this.contadorParesMatched===(this.columns*this.rows)){
+                setTimeout(function () {alert("GANHASTE CARALHO!!");}, 2000);
+                //this.win = true;
+           }
+
+       }
 
 
-},
+   },
 
-computed: {
+   computed: {
     numberOfTiles: function () {
         return this.rows * this.columns;
     }
@@ -264,3 +279,11 @@ components: {
 }
 
 </script>
+
+
+<style scoped>
+.noClicks{
+  pointer-events: none;
+}
+
+</style>
