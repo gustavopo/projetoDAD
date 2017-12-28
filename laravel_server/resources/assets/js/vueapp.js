@@ -37,7 +37,12 @@ const routes = [
             forAuth: true
         }
     },
-    {path: '/multimemorygame', component: multiplayerGame},
+    {
+        path: '/multimemorygame', component: multiplayerGame,
+        meta: {
+            forAuth: true
+        }
+    },
     {
         path: '/login',
         component: login,
@@ -72,7 +77,7 @@ router.beforeEach(
             } else next()
 
         } else if (to.matched.some(record => record.meta.forAuth)) {
-            if ( !Vue.auth.isAuthenticated()) {
+            if (!Vue.auth.isAuthenticated()) {
                 next({
                     path: '/login'
                 })

@@ -3,11 +3,26 @@
 @section('title', 'Jogo da Memória')
 
 @section('content')
-    <router-link to="/users">Users</router-link> -
-    <router-link to="/singlememorygame"> SinglePlayer </router-link> -
-    <router-link to="/multimemorygame"> Multiplayer </router-link>
+    <div>
+        <div class="topnav" id="myTopnav">
+            <router-link to="/users"> Users</router-link> -
+            <router-link to="/singlememorygame"> SinglePlayer</router-link> -
+            <router-link to="/multimemorygame"> Multiplayer</router-link>
+        </div>
+        <div align="right">
+            <router-link to="/login"> Login</router-link> -
+            <router-link to="/register"> Register</router-link>
+        </div>
+    </div>
 
-    <router-view></router-view>
+    <div>
+
+        <router-view></router-view>
+
+    </div>
+
+
+
 @endsection
 
 @section('pagescript')

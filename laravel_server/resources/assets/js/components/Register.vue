@@ -76,6 +76,22 @@
                     }
             },
 
+            sentVerifyEmail: function () {
+
+                axios.get('/api/verifyEmail')
+                    .then((response) => {
+                        console.log(response);
+                        this.resetUser()
+
+                    })
+                    .catch((error) => {
+                        //Show errors
+                        let data = error.response.data;
+                        console.log(data);
+                    });
+
+                alert("Verify Email to Activate  Account");
+            },
             registerUser() {
                 let newUser =
                     {
@@ -91,29 +107,27 @@
                     .then((response) => {
                         //console.log(response);
                         this.resetUser()
-                        let successMessage= response.data.message;
-                        alert('Sucess'+sucessMessage);
+                        let successMessage = response.data.message;
+                        alert('Sucess' + sucessMessage);
                     })
                     .catch((error) => {
-
-
-
-                    //Show errors
+                        //Show errors
                         let data = error.response.data;
                         console.log(data);
                         for (let key in this.errors) {
                             this.errors[key] = []
                             let errorMessage = data[key];
-                            console.log('key  ', key);
-                           console.log('errorMessage: ', response.data.message);
-                        alert('Error' + errorMessage);
+                            //   console.log('key  ', key);
+                            //   console.log('errorMessage: ', response.data.message);
+
                             if (errorMessage) {
                                 this.error[key] = errorMessage;
                             }
                         }
-
-
                     });
+
+
+                this.sentVerifyEmail();
 
                 console.log("UTILIZADOR CRIADO COM SUCESSO");
 

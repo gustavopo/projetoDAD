@@ -34,7 +34,10 @@ Route::get('users/{id}', 'UserControllerAPI@getUser');
 Route::post('users', 'UserControllerAPI@store');
 Route::put('users/{id}', 'UserControllerAPI@update');
 Route::delete('users/{id}', 'UserControllerAPI@delete');
-Route::post('/register','UserControllerAPI@store');
+Route::post('register','UserControllerAPI@store');
+Route::get('verifyEmail','UserControllerAPI@verifyEmail')->name('verifyEmail');
+Route::get('verify/{email}/{verifyToken}', 'UserControllerApi@sendEmailDone')->name('sendEmailDone');
+
 
 Route::get('games', 'GameControllerAPI@index');
 Route::get('games/lobby', 'GameControllerAPI@lobby');

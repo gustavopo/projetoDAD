@@ -4,6 +4,9 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Contracts\Support\Jsonable;
+use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Str;
+use App\Mail\verifyEmail;
 
 use App\Http\Resources\User as UserResource;
 use Illuminate\Support\Facades\DB;
@@ -30,17 +33,30 @@ class UserControllerAPI extends Controller
 
     public function store(Request $request)
     {
+
+        Session::flash('status', 'Registered! But verify your email to activate your account!');
         $request->validate([
-            'name' => 'required',
+            'name' => 'required|string|max:255',
+            'nickname' => 'required|string|max:255',
             'email' => 'required|email|unique:users,email',
-            'age' => 'integer|between:18,75',
-            'password' => 'min:3'
+            'password' => 'required|string|min:4',
+
         ]);
+
         $user = new User();
+
         $user->fill($request->all());
+        $user->verifyToken = Str::random(40);
         $user->password = Hash::make($user->password);
+
+
+     //   $thisUser=User::findOrFail($user->id);
         $user->save();
-        return response()->json(new UserResource($user), 201);
+
+        $this->sendEmail($user);
+
+      //  return response()->json(new UserResource($user), 201);
+        return $user;
     }
 
     public function update(Request $request, $id)
@@ -69,5 +85,29 @@ class UserControllerAPI extends Controller
             $totalEmail = DB::table('users')->where('email', '=', $request->email)->count();
         }
         return response()->json($totalEmail == 0);
+    }
+
+
+    public function verifyEmail()
+    {
+
+    }
+
+    public function sendEmail($thisUser)
+    {
+        Mail::to($thisUser['email'])->send(new verifyEmail($thisUser));
+    }
+
+    public function sendEmailDone($email, $verifyToken)
+    {
+        $user = User::where(['email'=>$email, 'verifyToken'=> $verifyToken])->first();
+        if($user)
+        {
+            return  user::where(['email'=>$email, 'verifyToken'=> $verifyToken])->update(['status'=>'1', 'verifyToken'=> NULL]);
+
+        }else{
+            return 'user not found';
+        }
+
     }
 }

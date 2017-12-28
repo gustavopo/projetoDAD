@@ -23,6 +23,8 @@ class InitialStructure extends Migration
             $table->boolean('blocked')->default(false);
             $table->string('reason_blocked')->nullable();
             $table->string('reason_reactivated')->nullable();
+            $table->string('verifyToken');
+            $table->boolean('status')->default(0);
             $table->timestamps();
         });
 

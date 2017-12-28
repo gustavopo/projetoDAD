@@ -14,3 +14,4 @@
 Route::get('/','VueController@index');
 
 
+Route::get('verify/{email}/{verifyToken}', 'UserControllerApi@sendEmailDone');
