@@ -1452,30 +1452,29 @@ var router = new __WEBPACK_IMPORTED_MODULE_0_vue_router__["a" /* default */]({
     routes: routes
 });
 
-router.beforeEach(function (to, from, next) {
-    //Quando uma navegaçao é ativada
-    //#NavigationGuard
-    //to => where we want to go
-    //from => current route
-    if (to.matched.some(function (record) {
-        return record.meta.forVisitors;
-    })) {
-        if (Vue.auth.isAuthenticated()) {
-            next({
-                path: '/singlememorygame'
-            });
-        } else next();
-    } else if (to.matched.some(function (record) {
-        return record.meta.forAuth;
-    })) {
-        if (!Vue.auth.isAuthenticated()) {
-            next({
-                path: '/login'
-            });
-        } else next();
-    } else next();
-    //$route.matched
-});
+/*router.beforeEach(
+    (to, from, next) => {
+        //Quando uma navegaçao é ativada
+        //#NavigationGuard
+        //to => where we want to go
+        //from => current route
+        if (to.matched.some(record => record.meta.forVisitors)) {
+            if (Vue.auth.isAuthenticated()) {
+                next({
+                    path: '/singlememorygame'
+                })
+            } else next()
+
+        } else if (to.matched.some(record => record.meta.forAuth)) {
+            if (!Vue.auth.isAuthenticated()) {
+                next({
+                    path: '/login'
+                })
+            } else next()
+        } else next()
+        //$route.matched
+    }
+)*/
 
 var app = new Vue({
     router: router,
@@ -48971,7 +48970,6 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
-//
 
 
 
@@ -49142,6 +49140,10 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
+//
 
 
 
@@ -49156,8 +49158,6 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
             allTiles: new Array(40),
             board: new Array(this.rows),
-            tileFlipped: false,
-            currentValue: 1,
             firstchoice: null, //stores index of first card selected
             secondchoice: null, //stores index of second card selected
             picks: 0, //counts how many picks have been made in each turn
@@ -49177,6 +49177,36 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
     },
 
     methods: {
+
+        clickTile: function clickTile(posicaoLinha, posicaoColuna) {
+            if (this.board[posicaoLinha][posicaoColuna].image === "empty") {
+                return;
+            }
+
+            //para virar a tile e dar update na imagem
+            this.board[posicaoLinha][posicaoColuna].tileFlipped = true;
+            this.$forceUpdate();
+
+            this.board[posicaoLinha][posicaoColuna].missed = false;
+            //Escolha carta 1 e 2
+            this.chooseCard(posicaoLinha, posicaoColuna);
+            //compara cartas escolhidas
+
+            if (this.picks === 2) {
+                this.checkCards();
+                var boardClass = document.getElementById("board").classList;
+                setTimeout(function () {
+                    boardClass.remove("noClicks");
+                }, 1200);
+            }
+
+            console.log("linha: " + posicaoLinha + " -- Coluna: " + posicaoColuna);
+
+            this.successMessage = this.currentPlayer + ' has Played';
+            this.showSuccess = true;
+
+            this.checkGameEnded();
+        },
 
         chooseCard: function chooseCard(posicaoLinha, posicaoColuna) {
 
@@ -49230,9 +49260,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                 setTimeout(function () {
                     self.secondchoice.matched = true;
                 }, 1000);
-                setTimeout(function () {
-                    self.$forceUpdate();
-                }, 2000);
+                self.$forceUpdate();
                 this.contadorParesMatched += 2;
             } else {
                 /*turn over first card to show back
@@ -49245,9 +49273,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                 setTimeout(function () {
                     _self.secondchoice.missed = true;
                 }, 1000);
-                setTimeout(function () {
-                    _self.$forceUpdate();
-                }, 2000);
+                _self.$forceUpdate();
 
                 //para poder voltar a carregar nelas
 
@@ -49257,31 +49283,6 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                     console.log("picks: " + this.picks);
                 }, 2500);
             }
-        },
-        clickTile: function clickTile(posicaoLinha, posicaoColuna) {
-            if (this.board[posicaoLinha][posicaoColuna].image === "empty") {
-                return;
-            }
-
-            this.board[posicaoLinha][posicaoColuna].missed = false;
-            //Escolha carta 1 e 2
-            this.chooseCard(posicaoLinha, posicaoColuna);
-            //compara cartas escolhidas
-
-            if (this.picks === 2) {
-                this.checkCards();
-                var boardClass = document.getElementById("board").classList;
-                setTimeout(function () {
-                    boardClass.remove("noClicks");
-                }, 1800);
-            }
-
-            console.log("linha: " + posicaoLinha + " -- Coluna: " + posicaoColuna);
-
-            this.successMessage = this.currentPlayer + ' has Played';
-            this.showSuccess = true;
-
-            this.checkGameEnded();
         },
 
         fillBoard: function fillBoard() {
@@ -49302,7 +49303,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                         this.randomImage = this.allTiles[Math.floor(Math.random() * this.allTiles.length)];
                         this.checkNonRepeated();
 
-                        this.board[i][j] = new __WEBPACK_IMPORTED_MODULE_1__Classes_Tile_js__["a" /* default */](this.randomImage, false, '' + i + j);
+                        this.board[i][j] = new __WEBPACK_IMPORTED_MODULE_1__Classes_Tile_js__["a" /* default */](this.randomImage, false, '' + i + j, false, false);
                         pairingArray[i][j] = this.board[i][j];
 
                         //meter imagens no array de imagens
@@ -49314,7 +49315,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
                 for (var _i = 0; _i < this.rows; ++_i) {
                     for (var _j = this.columns / 2; _j < this.columns; ++_j) {
-                        this.board[_i][_j] = new __WEBPACK_IMPORTED_MODULE_1__Classes_Tile_js__["a" /* default */](pairingArray[_i][_j - this.columns / 2].image, false, '' + _i + _j);
+                        this.board[_i][_j] = new __WEBPACK_IMPORTED_MODULE_1__Classes_Tile_js__["a" /* default */](pairingArray[_i][_j - this.columns / 2].image, false, '' + _i + _j, false, false);
                     }
                 }
             } else {
@@ -49373,11 +49374,21 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             console.log("contadorParesMatched: " + this.contadorParesMatched);
 
             if (this.contadorParesMatched === this.columns * this.rows) {
-                setTimeout(function () {
-                    alert("GANHASTE CARALHO!!");
-                }, 2000);
-                //this.win = true;
+                //setTimeout(function () {alert("GANHASTE CARALHO!!");}, 2100);
+                this.win = true;
             }
+        },
+
+        restartGame: function restartGame() {
+            this.firstchoice = null; //stores index of first card selected
+            this.secondchoice = null; //stores index of second card selected
+            this.picks = 0; //counts how many picks have been made in each turn
+            this.matches = 0; //counts number of matches made
+            this.imagesArray = new Array(this.rows * this.columns / 2);
+            this.randomImage = null;
+            this.contadorParesMatched = 0;
+            this.win = false;
+            this.fillBoard();
         }
 
     },
@@ -49457,17 +49468,14 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
-//
 
 
 /* harmony default export */ __webpack_exports__["default"] = ({
 
-    props: ['img', 'r1', 'c1', 'missed', 'matched'],
+    props: ['img', 'r1', 'c1', 'missed', 'matched', 'tileFlipped'],
     data: function data() {
         return {
-            tileFlipped: false,
             missedTile: false
-
         };
     },
 
@@ -49476,6 +49484,12 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             var imgSrc = String(img);
             console.log(img);
             var self = this;
+
+            console.log("win : " + this.restartGame);
+
+            if (this.restartGame) {
+                this.tileFlipped = true;
+            }
 
             if (!this.tileFlipped || this.missed) {
                 return 'img/hidden.png';
@@ -49487,8 +49501,6 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         },
 
         clickTile: function clickTile(r1, c1) {
-            console.log("misssed: " + this.missed);
-            this.tileFlipped = true;
             this.$emit('click-tile', r1, c1);
         }
     },
@@ -49512,9 +49524,7 @@ var render = function() {
           _vm.clickTile(_vm.r1, _vm.c1)
         }
       }
-    }),
-    _vm._v(" "),
-    _c("p", [_vm._v(_vm._s(_vm.img))])
+    })
   ])
 }
 var staticRenderFns = []
@@ -49534,13 +49544,14 @@ if (false) {
 "use strict";
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
-var Tile = function Tile(image, missed, key, matched) {
+var Tile = function Tile(image, missed, key, matched, tileFlipped) {
 	_classCallCheck(this, Tile);
 
 	this.image = image;
 	this.missed = missed;
 	this.key = key;
 	this.matched = matched;
+	this.tileFlipped = tileFlipped;
 };
 
 /* harmony default export */ __webpack_exports__["a"] = (Tile);
@@ -49553,10 +49564,21 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _c(
-    "div",
-    { staticClass: "board", attrs: { id: "board" } },
-    [
+  return _c("div", { staticClass: "pull-md-right" }, [
+    _c(
+      "div",
+      {
+        directives: [
+          { name: "show", rawName: "v-show", value: _vm.win, expression: "win" }
+        ],
+        staticClass: "alert alert-success"
+      },
+      [_vm._v("GANHASTE JOGADOR")]
+    ),
+    _vm._v(" "),
+    _c(
+      "div",
+      { staticClass: "board", attrs: { id: "board" } },
       _vm._l(_vm.columns, function(c, c1) {
         return _c("div", [
           _c(
@@ -49572,7 +49594,8 @@ var render = function() {
                       c1: c1,
                       img: _vm.board[r1][c1].image,
                       missed: _vm.board[r1][c1].missed,
-                      matched: _vm.board[r1][c1].matched
+                      matched: _vm.board[r1][c1].matched,
+                      tileFlipped: _vm.board[r1][c1].tileFlipped
                     },
                     on: { "click-tile": _vm.clickTile }
                   })
@@ -49582,14 +49605,37 @@ var render = function() {
             })
           )
         ])
-      }),
-      _vm._v(" "),
-      _c("div", { attrs: { id: "reset" } }, [
-        _vm.win ? _c("div", [_vm._v("Reset")]) : _vm._e()
+      })
+    ),
+    _vm._v(" "),
+    _c("div", { attrs: { id: "reset" } }, [
+      _c("h2", [
+        _c("strong", [
+          _vm._v("    "),
+          _c(
+            "a",
+            {
+              directives: [
+                {
+                  name: "show",
+                  rawName: "v-show",
+                  value: _vm.win,
+                  expression: "win"
+                }
+              ],
+              on: {
+                click: function($event) {
+                  $event.preventDefault()
+                  _vm.restartGame($event)
+                }
+              }
+            },
+            [_vm._v("Restart")]
+          )
+        ])
       ])
-    ],
-    2
-  )
+    ])
+  ])
 }
 var staticRenderFns = []
 render._withStripped = true
@@ -49609,7 +49655,7 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _c("div", [
+  return _c("div", { staticStyle: { "text-align": "center" } }, [
     _c("div", [
       _c("h3", { staticClass: "text-center" }, [_vm._v(_vm._s(_vm.title))]),
       _vm._v(" "),
@@ -49620,7 +49666,10 @@ var render = function() {
     _vm._v(" "),
     _c(
       "div",
-      { staticClass: "game-zone-content" },
+      {
+        staticClass: "game-zone-content",
+        staticStyle: { display: "inline-block" }
+      },
       [
         _vm.showSuccess
           ? _c("div", { staticClass: "alert alert-success" }, [
@@ -49664,7 +49713,7 @@ var render = function() {
             ])
           : _vm._e(),
         _vm._v(" "),
-        _c("board", { attrs: { columns: 4, rows: 4 } }),
+        _c("board", { attrs: { columns: 2, rows: 2 } }),
         _vm._v(" "),
         _c("hr")
       ],

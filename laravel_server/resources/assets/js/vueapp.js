@@ -63,7 +63,7 @@ const router = new VueRouter({
 });
 
 
-router.beforeEach(
+/*router.beforeEach(
     (to, from, next) => {
         //Quando uma navegaçao é ativada
         //#NavigationGuard
@@ -85,7 +85,7 @@ router.beforeEach(
         } else next()
         //$route.matched
     }
-)
+)*/
 
 
 const app = new Vue({

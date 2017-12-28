@@ -1,7 +1,6 @@
 <template>
     <div>
         <img v-bind:src="pieceImageURL(img)" v-on:click.prevent="clickTile(r1,c1)">
-        <p>{{img}}</p>
     </div>
 </template>
 
@@ -10,12 +9,10 @@
 
 export default {
 
-    props: ['img', 'r1', 'c1', 'missed', 'matched'],
+    props: ['img', 'r1', 'c1', 'missed', 'matched', 'tileFlipped'],
     data: function () {
         return {
-            tileFlipped: false,
             missedTile:false,
-
         }
     },
 
@@ -25,8 +22,13 @@ export default {
             console.log(img);
             let self = this;
 
+            console.log("win : " + this.restartGame);
 
-            if (!this.tileFlipped || this.missed) {
+            if(this.restartGame){
+                this.tileFlipped = true;
+            }
+
+            if (!this.tileFlipped || this.missed ) {
                 return 'img/hidden.png';
             }if(this.tileFlipped && !this.matched) {
                 return 'img/' + imgSrc + '.png';
@@ -36,8 +38,6 @@ export default {
         },
 
         clickTile: function (r1, c1) {
-                console.log("misssed: "+this.missed);
-                this.tileFlipped = true;
                 this.$emit('click-tile', r1, c1);
 
             }
