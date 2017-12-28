@@ -9,6 +9,7 @@ import VueRouter from 'vue-router';
 import VueSocketio from 'vue-socket.io';
 import VueResource from 'vue-resource';
 import Auth from './packages/auth/Auth.js';
+import axios from 'axios';
 
 Vue.use(VueRouter);
 Vue.use(VueResource);
