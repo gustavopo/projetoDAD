@@ -10,6 +10,7 @@
             <router-link to="/multimemorygame"> Multiplayer</router-link>
         </div>
         <div align="right">
+            <router-link to="/userPage">Gestão da Conta</router-link> -
             <router-link to="/login"> Login</router-link> -
             <router-link to="/register"> Register</router-link>
         </div>

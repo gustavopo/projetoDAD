@@ -19,7 +19,9 @@ Vue.use(VueSocketio, 'http://192.168.10.1:8080');
 
 
 /************************  ROUTES    **********************/
-const user = Vue.component('user', require('./components/user.vue'));
+const user = Vue.component('user', require('./components/User/user.vue'));
+const userPage = Vue.component('userPage', require('./components/User/userPage.vue'));
+
 /** AUTH ROUTES **/
 const login = Vue.component('login', require('./components/Login.vue'));
 const register = Vue.component('register', require('./components/Register.vue'));
@@ -31,31 +33,12 @@ const multiplayerGame = Vue.component('multiplayergame', require('./components/m
 const routes = [
     {path: '/', redirect: '/users'},
     {path: '/users', component: user},
-    {
-        path: '/singlememorygame', component: singleplayerGame,
-        meta: {
-            forAuth: true
-        }
-    },
-    {
-        path: '/multimemorygame', component: multiplayerGame,
-        meta: {
-            forAuth: true
-        }
-    },
-    {
-        path: '/login',
-        component: login,
-        meta: {
-            forVisitors: true
-        }
-    },
-    {
-        path: '/register', component: register,
-        meta: {
-            forVisitors: true
-        }
-    }
+    {path: '/userPage', component: userPage},
+    {path: '/multimemorygame', component: multiplayerGame},
+    {path: '/singlememorygame', component: singleplayerGame, meta: {forAuth: true}},
+    {path: '/multimemorygame', component: multiplayerGame, meta: {forAuth: true}},
+    {path: '/login', component: login, meta: {forVisitors: true}},
+    {path: '/register', component: register, meta: {forVisitors: true} }
 ];
 
 const router = new VueRouter({

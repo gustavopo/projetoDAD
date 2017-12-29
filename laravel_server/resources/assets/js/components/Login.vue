@@ -44,12 +44,10 @@
 
         methods: {
             loginClick() {
-
-
                 let data =
                     {
                         client_id: 2,
-                        client_secret: 'Qe0mbwcLZprCg28nIEOWM5w7Fn5o3nmAtYpU8A5A',
+                        client_secret: 'xKQtfkrPH5eg25WuPBbYwWGmhSdCYxGFCyy7CBFj',
                         grant_type: 'password',
                         username: this.email,
                         password: this.password
@@ -58,12 +56,14 @@
                 this.$http.post("http://projetodad.dad/oauth/token", data)
                     .then(function (response) {
                         console.log(response);
-                        this.$auth.setToken(response.body.access_token, response.body.expires_in + Date.now())
+                         this.$auth.setToken(response.body.access_token, response.body.expires_in + Date.now())
 
                         //Redirecionar user após este ficar autenticado
                         this.$router.push("/singlememorygame");
 
-                    })
+                    }).catch((error) => {
+                    console.log(error);
+                });
             }
         }
     }

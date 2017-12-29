@@ -34,7 +34,7 @@ class UserControllerAPI extends Controller
     public function store(Request $request)
     {
 
-        Session::flash('status', 'Registered! But verify your email to activate your account!');
+       // Session::flash('status', 'Registered! But verify your email to activate your account!');
         $request->validate([
             'name' => 'required|string|max:255',
             'nickname' => 'required|string|max:255',
