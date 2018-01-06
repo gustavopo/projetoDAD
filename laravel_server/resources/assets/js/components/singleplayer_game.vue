@@ -14,7 +14,7 @@
                 <strong>{{ successMessage }} &nbsp;&nbsp;&nbsp;&nbsp;<a v-show="gameEnded" v-on:click.prevent="restartGame">Restart</a></strong>
             </div>
 
-            <board :columns="2" :rows="2">
+            <board :columns="4" :rows="4">
             </board>
 
             <!--

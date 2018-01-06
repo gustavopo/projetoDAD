@@ -42,12 +42,13 @@
             }
         },
 
+
         methods: {
             loginClick() {
                 let data =
                     {
-                        client_id: 2,
-                        client_secret: 'xKQtfkrPH5eg25WuPBbYwWGmhSdCYxGFCyy7CBFj',
+                        client_id: 6,
+                        client_secret: '4z1sfrSTfP2XOV6JiXSS2z4e1EphDTWyHs4SZkPh',
                         grant_type: 'password',
                         username: this.email,
                         password: this.password
@@ -57,7 +58,7 @@
                     .then(function (response) {
                         console.log(response);
                          this.$auth.setToken(response.body.access_token, response.body.expires_in + Date.now())
-
+                        console.log(this.$auth.getAuthenticatedUser());
                         //Redirecionar user após este ficar autenticado
                         this.$router.push("/singlememorygame");
 

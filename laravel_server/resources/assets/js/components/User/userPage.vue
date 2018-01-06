@@ -6,7 +6,7 @@
         </div>
 
         <div class="panel-heading">
-            <h3 class="panel-title">dasdasd</h3>
+            <h3 class="panel-title"  > fdsgsdg </h3>
         </div>
         <div class="panel-body">
             <div class="row">
@@ -16,6 +16,7 @@
                 <div class=" col-md-9 col-lg-9 ">
                     <table class="table table-user-information">
                         <tbody>
+
                         <tr>
                             <td>Department:</td>
                             <td>Programming</td>
@@ -41,12 +42,13 @@
                         <tr>
                             <td>Email</td>
                             <td><a href="mailto:info@support.com">info@support.com</a></td>
-                        </tr>
+                        <tr>
                         <td>Phone Number</td>
                         <td>123-4567-890(Landline)<br><br>555-4567-890(Mobile)
                         </td>
 
                         </tr>
+
 
                         </tbody>
                     </table>
@@ -81,6 +83,7 @@
                 showSuccess: false,
                 successMessage: '',
                 currentUser: null,
+
             }
 
         },
@@ -88,6 +91,8 @@
 
         methods: {
 
+
+            /*
             getUser: function (token) {
                 this.$http.get('users/', {api_token: token}).then(function (r) {
                     this.currentUser = r.data.data;
@@ -96,17 +101,21 @@
                     console.log("Error get User:" + r);
                     this.currentUser = null
                 });
-            }
+            }*/
         },
 
         beforeMount: function () {
-
+/*
             var token = this.$auth.getToken();
             console.log({api_token: token});
             if (token != '') {
-                this.getUser(token);
-            }
+               // this.getUser(token);
+            }*/
         },
+        created(){
+            this.currentUser = this.$auth.isAuthenticated();
+
+        }
 
     }
 </script>
