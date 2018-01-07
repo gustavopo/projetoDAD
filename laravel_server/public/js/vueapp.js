@@ -47628,6 +47628,11 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
+//
+//
 
 
 /* harmony default export */ __webpack_exports__["default"] = ({
@@ -47680,6 +47685,10 @@ var render = function() {
         "div",
         { staticClass: "topnav", attrs: { id: "myTopnav" } },
         [
+          _c("router-link", { attrs: { to: "/statistics" } }, [
+            _vm._v(" Statistics")
+          ]),
+          _vm._v("\n            -\n            "),
           _c("router-link", { attrs: { to: "/users" } }, [_vm._v(" Users")]),
           _vm._v("\n            -\n            "),
           _c("router-link", { attrs: { to: "/singlememorygame" } }, [
@@ -47700,6 +47709,12 @@ var render = function() {
           _vm.isAuth
             ? _c("router-link", { attrs: { to: "/userPage" } }, [
                 _vm._v("Gestão da Conta")
+              ])
+            : _vm._e(),
+          _vm._v("\n            -\n            "),
+          _vm.isAuth
+            ? _c("router-link", { attrs: { to: "/logout" } }, [
+                _vm._v("Logout")
               ])
             : _vm._e(),
           _vm._v("\n            -\n            "),
@@ -47864,6 +47879,8 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__userList_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0__userList_vue__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__userEdit_vue__ = __webpack_require__(59);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__userEdit_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1__userEdit_vue__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__userBlock_vue__ = __webpack_require__(118);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__userBlock_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2__userBlock_vue__);
 //
 //
 //
@@ -47882,6 +47899,8 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+
 
 
 
@@ -47893,7 +47912,8 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             showSuccess: false,
             successMessage: '',
             currentUser: null,
-            users: []
+            users: [],
+            blockingUser: null
 
         };
     },
@@ -47932,11 +47952,32 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         childMessage: function childMessage(message) {
             this.showSuccess = true;
             this.successMessage = message;
+        },
+        blockUser: function blockUser(user) {
+            this.blockingUser = user;
+            this.showSuccess = false;
+            /*  axios.post('api/users'+user.id, { blocked: '1'})
+              .then(function(response){
+                  this.showSuccess = true;
+                  this.successMessage = 'User Blocked';
+              });*/
+        },
+        cancelBlock: function cancelBlock() {
+            this.blockingUser = null;
+            this.$refs.usersListRef.editingUser = null;
+            this.showSuccess = false;
+        },
+        blockedUser: function blockedUser() {
+            this.blockingUser = null;
+            this.$refs.usersListRef.editingUser = null;
+            this.showSuccess = true;
+            this.successMessage = 'User Blocked';
         }
     },
     components: {
         'user-list': __WEBPACK_IMPORTED_MODULE_0__userList_vue___default.a,
-        'user-edit': __WEBPACK_IMPORTED_MODULE_1__userEdit_vue___default.a
+        'user-edit': __WEBPACK_IMPORTED_MODULE_1__userEdit_vue___default.a,
+        'user-block': __WEBPACK_IMPORTED_MODULE_2__userBlock_vue___default.a
     },
     mounted: function mounted() {
         this.getUsers();
@@ -48063,6 +48104,7 @@ exports.push([module.i, "\ntr.activerow[data-v-3d5a74b4] {\n    background: #123
 //
 //
 //
+//
 
 // Component code (not registered)
 module.exports = {
@@ -48084,6 +48126,10 @@ module.exports = {
         definePlayer: function definePlayer(user, player) {
             this.$root.$data['player' + player] = user;
             this.$emit('message', user.name + ' selected as Player' + player);
+        },
+        blockUser: function blockUser(user) {
+            this.editingUser = user;
+            this.$emit('block-click', user);
         }
     }
 };
@@ -48114,34 +48160,6 @@ var render = function() {
               _c(
                 "a",
                 {
-                  staticClass: "btn btn-xs btn-success",
-                  on: {
-                    click: function($event) {
-                      $event.preventDefault()
-                      _vm.definePlayer(user, 1)
-                    }
-                  }
-                },
-                [_vm._v("P1")]
-              ),
-              _vm._v(" "),
-              _c(
-                "a",
-                {
-                  staticClass: "btn btn-xs btn-success",
-                  on: {
-                    click: function($event) {
-                      $event.preventDefault()
-                      _vm.definePlayer(user, 2)
-                    }
-                  }
-                },
-                [_vm._v("P2")]
-              ),
-              _vm._v(" "),
-              _c(
-                "a",
-                {
                   staticClass: "btn btn-xs btn-primary",
                   on: {
                     click: function($event) {
@@ -48151,6 +48169,20 @@ var render = function() {
                   }
                 },
                 [_vm._v("Edit")]
+              ),
+              _vm._v(" "),
+              _c(
+                "a",
+                {
+                  staticClass: "btn btn-xs btn-danger",
+                  on: {
+                    click: function($event) {
+                      $event.preventDefault()
+                      _vm.blockUser(user)
+                    }
+                  }
+                },
+                [_vm._v("Block")]
               ),
               _vm._v(" "),
               _c(
@@ -48482,6 +48514,7 @@ var render = function() {
         on: {
           "edit-click": _vm.editUser,
           "delete-click": _vm.deleteUser,
+          "block-click": _vm.blockUser,
           message: _vm.childMessage
         }
       }),
@@ -48510,6 +48543,16 @@ var render = function() {
         ? _c("user-edit", {
             attrs: { user: _vm.currentUser },
             on: { "user-saved": _vm.savedUser, "user-canceled": _vm.cancelEdit }
+          })
+        : _vm._e(),
+      _vm._v(" "),
+      _vm.blockingUser
+        ? _c("user-block", {
+            attrs: { user: _vm.blockingUser },
+            on: {
+              "user-blocked": _vm.blockedUser,
+              "user-canceled": _vm.cancelBlock
+            }
           })
         : _vm._e()
     ],
@@ -49013,7 +49056,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
     methods: {
         loginClick: function loginClick() {
             var data = {
-                client_id: 6,
+                client_id: 2,
                 client_secret: '4z1sfrSTfP2XOV6JiXSS2z4e1EphDTWyHs4SZkPh',
                 grant_type: 'password',
                 username: this.email,
@@ -49022,8 +49065,8 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
             this.$http.post("http://projetodad.dad/oauth/token", data).then(function (response) {
                 console.log(response);
-                this.$auth.setToken(response.body.access_token, response.body.expires_in + Date.now());
-                console.log(this.$auth.getAuthenticatedUser());
+                //this.$auth.setToken(response.body.access_token, response.body.expires_in + Date.now())
+                //console.log(this.$auth.getAuthenticatedUser());
                 //Redirecionar user após este ficar autenticado
                 this.$router.push("/singlememorygame");
             }).catch(function (error) {
@@ -51543,6 +51586,281 @@ module.exports = Component.exports
 /***/ (function(module, exports) {
 
 // removed by extract-text-webpack-plugin
+
+/***/ }),
+/* 110 */,
+/* 111 */,
+/* 112 */,
+/* 113 */,
+/* 114 */,
+/* 115 */,
+/* 116 */,
+/* 117 */,
+/* 118 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var disposed = false
+function injectStyle (ssrContext) {
+  if (disposed) return
+  __webpack_require__(119)
+}
+var normalizeComponent = __webpack_require__(0)
+/* script */
+var __vue_script__ = __webpack_require__(121)
+/* template */
+var __vue_template__ = __webpack_require__(122)
+/* template functional */
+var __vue_template_functional__ = false
+/* styles */
+var __vue_styles__ = injectStyle
+/* scopeId */
+var __vue_scopeId__ = "data-v-6ec69596"
+/* moduleIdentifier (server only) */
+var __vue_module_identifier__ = null
+var Component = normalizeComponent(
+  __vue_script__,
+  __vue_template__,
+  __vue_template_functional__,
+  __vue_styles__,
+  __vue_scopeId__,
+  __vue_module_identifier__
+)
+Component.options.__file = "resources/assets/js/components/User/userBlock.vue"
+
+/* hot reload */
+if (false) {(function () {
+  var hotAPI = require("vue-hot-reload-api")
+  hotAPI.install(require("vue"), false)
+  if (!hotAPI.compatible) return
+  module.hot.accept()
+  if (!module.hot.data) {
+    hotAPI.createRecord("data-v-6ec69596", Component.options)
+  } else {
+    hotAPI.reload("data-v-6ec69596", Component.options)
+  }
+  module.hot.dispose(function (data) {
+    disposed = true
+  })
+})()}
+
+module.exports = Component.exports
+
+
+/***/ }),
+/* 119 */
+/***/ (function(module, exports, __webpack_require__) {
+
+// style-loader: Adds some css to the DOM by adding a <style> tag
+
+// load the styles
+var content = __webpack_require__(120);
+if(typeof content === 'string') content = [[module.i, content, '']];
+if(content.locals) module.exports = content.locals;
+// add the styles to the DOM
+var update = __webpack_require__(3)("7dbdae3f", content, false);
+// Hot Module Replacement
+if(false) {
+ // When the styles change, update the <style> tags
+ if(!content.locals) {
+   module.hot.accept("!!../../../../../node_modules/css-loader/index.js!../../../../../node_modules/vue-loader/lib/style-compiler/index.js?{\"vue\":true,\"id\":\"data-v-6ec69596\",\"scoped\":true,\"hasInlineConfig\":true}!../../../../../node_modules/vue-loader/lib/selector.js?type=styles&index=0&bustCache!./userBlock.vue", function() {
+     var newContent = require("!!../../../../../node_modules/css-loader/index.js!../../../../../node_modules/vue-loader/lib/style-compiler/index.js?{\"vue\":true,\"id\":\"data-v-6ec69596\",\"scoped\":true,\"hasInlineConfig\":true}!../../../../../node_modules/vue-loader/lib/selector.js?type=styles&index=0&bustCache!./userBlock.vue");
+     if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
+     update(newContent);
+   });
+ }
+ // When the module is disposed, remove the <style> tags
+ module.hot.dispose(function() { update(); });
+}
+
+/***/ }),
+/* 120 */
+/***/ (function(module, exports, __webpack_require__) {
+
+exports = module.exports = __webpack_require__(2)(undefined);
+// imports
+
+
+// module
+exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", ""]);
+
+// exports
+
+
+/***/ }),
+/* 121 */
+/***/ (function(module, exports) {
+
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
+module.exports = {
+    props: ['user'],
+    methods: {
+        blockUser: function blockUser() {
+            var _this = this;
+
+            axios.put('api/users/' + this.user.id, this.user).then(function (response) {
+                // Copy object properties from response.data.data to this.user
+                // without creating a new reference
+                //Object.assign(this.user, response.data.data);
+                _this.user.blocked = '1';
+                console.log(response);
+                _this.$emit('user-blocked', _this.user);
+            });
+        },
+        cancelBlock: function cancelBlock() {
+            var _this2 = this;
+
+            axios.get('api/users/' + this.user.id).then(function (response) {
+                // Copy object properties from response.data.data to this.user
+                // without creating a new reference
+                Object.assign(_this2.user, response.data.data);
+                _this2.$emit('user-canceled', _this2.user);
+            });
+        }
+    }
+};
+
+/***/ }),
+/* 122 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _c("div", { staticClass: "jumbotron" }, [
+    _c("h2", [_vm._v("Block User")]),
+    _vm._v(" "),
+    _c("div", { staticClass: "form-group" }, [
+      _c("label", { attrs: { for: "inputName" } }, [_vm._v("Name")]),
+      _vm._v(" "),
+      _c("input", {
+        directives: [
+          {
+            name: "model",
+            rawName: "v-model",
+            value: _vm.user.name,
+            expression: "user.name"
+          }
+        ],
+        staticClass: "form-control",
+        attrs: {
+          type: "text",
+          name: "name",
+          id: "inputName",
+          placeholder: "Fullname"
+        },
+        domProps: { value: _vm.user.name },
+        on: {
+          input: function($event) {
+            if ($event.target.composing) {
+              return
+            }
+            _vm.$set(_vm.user, "name", $event.target.value)
+          }
+        }
+      })
+    ]),
+    _vm._v(" "),
+    _c("div", { staticClass: "form-group" }, [
+      _c("label", { attrs: { for: "inputReason_blocked" } }, [
+        _vm._v("Blocking Reason")
+      ]),
+      _vm._v(" "),
+      _c("input", {
+        directives: [
+          {
+            name: "model",
+            rawName: "v-model",
+            value: _vm.user.reason_blocked,
+            expression: "user.reason_blocked"
+          }
+        ],
+        staticClass: "form-control",
+        attrs: {
+          type: "text",
+          name: "reason_blocked",
+          id: "inputReason_blocked",
+          placeholder: "Mau comportamento"
+        },
+        domProps: { value: _vm.user.reason_blocked },
+        on: {
+          input: function($event) {
+            if ($event.target.composing) {
+              return
+            }
+            _vm.$set(_vm.user, "reason_blocked", $event.target.value)
+          }
+        }
+      })
+    ]),
+    _vm._v(" "),
+    _c("div", { staticClass: "form-group" }, [
+      _c(
+        "a",
+        {
+          staticClass: "btn btn-default",
+          on: {
+            click: function($event) {
+              $event.preventDefault()
+              _vm.blockUser()
+            }
+          }
+        },
+        [_vm._v("Block")]
+      ),
+      _vm._v(" "),
+      _c(
+        "a",
+        {
+          staticClass: "btn btn-default",
+          on: {
+            click: function($event) {
+              $event.preventDefault()
+              _vm.cancelBlock()
+            }
+          }
+        },
+        [_vm._v("Cancel")]
+      )
+    ])
+  ])
+}
+var staticRenderFns = []
+render._withStripped = true
+module.exports = { render: render, staticRenderFns: staticRenderFns }
+if (false) {
+  module.hot.accept()
+  if (module.hot.data) {
+    require("vue-hot-reload-api")      .rerender("data-v-6ec69596", module.exports)
+  }
+}
 
 /***/ })
 /******/ ]);

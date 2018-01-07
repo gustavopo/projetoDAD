@@ -3,7 +3,7 @@
         <div class="jumbotron">
             <h1>{{ title }}</h1>
         </div>
-        <user-list :users="users" @edit-click="editUser" @delete-click="deleteUser" @message="childMessage" ref="usersListRef"></user-list>
+        <user-list :users="users" @edit-click="editUser" @delete-click="deleteUser" @block-click="blockUser" @message="childMessage" ref="usersListRef"></user-list>
 
         <div class="alert alert-success" v-if="showSuccess">
 
@@ -11,6 +11,7 @@
             <strong>{{ successMessage }}</strong>
         </div>
         <user-edit :user="currentUser" @user-saved="savedUser" @user-canceled="cancelEdit" v-if="currentUser"></user-edit>
+        <user-block :user="blockingUser" @user-blocked="blockedUser" @user-canceled="cancelBlock" v-if="blockingUser"></user-block>
 
 
     </div>
@@ -19,6 +20,7 @@
 <script type="text/javascript">
     import UserList from './userList.vue';
     import UserEdit from './userEdit.vue';
+    import UserBlock from './userBlock.vue';
 
     export default {
         data: function(){
@@ -28,6 +30,7 @@
                 successMessage: '',
                 currentUser: null,
                 users: [],
+                blockingUser: null,
 
             }
         },
@@ -62,11 +65,32 @@
             childMessage: function(message){
                 this.showSuccess = true;
                 this.successMessage = message;
-            }
+            },
+            blockUser: function(user){
+                this.blockingUser = user;
+                this.showSuccess = false;
+              /*  axios.post('api/users'+user.id, { blocked: '1'})
+                .then(function(response){
+                    this.showSuccess = true;
+                    this.successMessage = 'User Blocked';
+                });*/
+            },
+            cancelBlock: function(){
+                this.blockingUser = null;
+                this.$refs.usersListRef.editingUser = null;
+                this.showSuccess = false;
+            },
+            blockedUser: function(){
+                this.blockingUser = null;
+                this.$refs.usersListRef.editingUser = null;
+                this.showSuccess = true;
+                this.successMessage = 'User Blocked';
+            },
         },
         components: {
             'user-list': UserList,
-            'user-edit': UserEdit
+            'user-edit': UserEdit,
+            'user-block': UserBlock
         },
         mounted() {
             this.getUsers();

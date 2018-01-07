@@ -13,9 +13,10 @@
             <td>{{ user.email }}</td>
 
             <td>
-                <a class="btn btn-xs btn-success" v-on:click.prevent="definePlayer(user,1)">P1</a>
-                <a class="btn btn-xs btn-success" v-on:click.prevent="definePlayer(user,2)">P2</a>
+                <!--<a class="btn btn-xs btn-success" v-on:click.prevent="definePlayer(user,1)">P1</a>
+                <a class="btn btn-xs btn-success" v-on:click.prevent="definePlayer(user,2)">P2</a>-->
                 <a class="btn btn-xs btn-primary" v-on:click.prevent="editUser(user)">Edit</a>
+                <a class="btn btn-xs btn-danger" v-on:click.prevent="blockUser(user)">Block</a>
                 <a class="btn btn-xs btn-danger" v-on:click.prevent="deleteUser(user)">Delete</a>
             </td>
         </tr>
@@ -44,6 +45,10 @@
             definePlayer: function(user,player){
                 this.$root.$data['player'+player] = user;
                 this.$emit('message', user.name+' selected as Player'+player);
+            },
+            blockUser: function(user){
+                this.editingUser = user;
+                this.$emit('block-click', user);
             }
         },
     }
