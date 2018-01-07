@@ -74,8 +74,27 @@ const router = new VueRouter({
 const app = new Vue({
     router,
     data: {
-        // player1:undefined,
-        // player2: undefined,
+        return: {
+            isAuth: null
+        }
+    },
+    created()
+    {
+        this.isAuth = this.$auth.isAuthenticated();
+        this.setAuthenticatedUser();
+    },
+
+    methods:{
+        setAuthenticatedUser()
+        {
+            this.$http.get('api/user').
+                then(response => {
+                    this.$auth.setAuthenticatedUser(response.body);
+                    console.log(this.$auth.getAuthenticatedUser());
+            }).catch((error) => {
+               console.log(error);
+            });
+        }
     }
 }).$mount('#app');
 

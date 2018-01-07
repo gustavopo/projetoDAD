@@ -2,18 +2,14 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="ea912314-0c8d-4a7f-a951-32d32768fdf1" name="Default" comment="">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/laravel_server/resources/assets/js/components/User/userPage.vue" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/laravel_server/resources/assets/js/components/user.vue" afterPath="$PROJECT_DIR$/laravel_server/resources/assets/js/components/User/user.vue" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/laravel_server/resources/assets/js/components/userEdit.vue" afterPath="$PROJECT_DIR$/laravel_server/resources/assets/js/components/User/userEdit.vue" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/laravel_server/resources/assets/js/components/userList.vue" afterPath="$PROJECT_DIR$/laravel_server/resources/assets/js/components/User/userList.vue" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/laravel_server/app/Http/Controllers/LoginControllerAPI.php" afterPath="$PROJECT_DIR$/laravel_server/app/Http/Controllers/LoginControllerAPI.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/laravel_server/app/Http/Controllers/UserControllerAPI.php" afterPath="$PROJECT_DIR$/laravel_server/app/Http/Controllers/UserControllerAPI.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/laravel_server/public/css/app.css" afterPath="$PROJECT_DIR$/laravel_server/public/css/app.css" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/laravel_server/public/js/vueapp.js" afterPath="$PROJECT_DIR$/laravel_server/public/js/vueapp.js" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/laravel_server/resources/assets/js/components/Login.vue" afterPath="$PROJECT_DIR$/laravel_server/resources/assets/js/components/Login.vue" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/laravel_server/resources/assets/js/components/User/userPage.vue" afterPath="$PROJECT_DIR$/laravel_server/resources/assets/js/components/User/userPage.vue" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/laravel_server/resources/assets/js/components/singleplayer_game.vue" afterPath="$PROJECT_DIR$/laravel_server/resources/assets/js/components/singleplayer_game.vue" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/laravel_server/resources/assets/js/packages/auth/Auth.js" afterPath="$PROJECT_DIR$/laravel_server/resources/assets/js/packages/auth/Auth.js" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/laravel_server/resources/assets/js/vueapp.js" afterPath="$PROJECT_DIR$/laravel_server/resources/assets/js/vueapp.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/laravel_server/resources/assets/sass/app.scss" afterPath="$PROJECT_DIR$/laravel_server/resources/assets/sass/app.scss" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/laravel_server/resources/views/vue/index.blade.php" afterPath="$PROJECT_DIR$/laravel_server/resources/views/vue/index.blade.php" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/laravel_server/routes/api.php" afterPath="$PROJECT_DIR$/laravel_server/routes/api.php" />
     </list>
@@ -26,54 +22,32 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="375">
-      <file leaf-file-name="Login.vue" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/laravel_server/resources/assets/js/components/Login.vue">
+      <file leaf-file-name="index.blade.php" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/laravel_server/resources/views/vue/index.blade.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="399">
-              <caret line="58" column="44" lean-forward="true" selection-start-line="58" selection-start-column="23" selection-end-line="58" selection-end-column="44" />
+            <state relative-caret-position="561">
+              <caret line="29" column="27" lean-forward="true" selection-start-line="29" selection-start-column="27" selection-end-line="29" selection-end-column="27" />
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="Auth.js" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/laravel_server/resources/assets/js/packages/auth/Auth.js">
+      <file leaf-file-name="vueapp.js" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/laravel_server/resources/assets/js/vueapp.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="798">
-              <caret line="38" column="16" lean-forward="true" selection-start-line="38" selection-start-column="16" selection-end-line="38" selection-end-column="16" />
+            <state relative-caret-position="285">
+              <caret line="89" column="28" lean-forward="false" selection-start-line="89" selection-start-column="28" selection-end-line="89" selection-end-column="36" />
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="userPage.vue" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/laravel_server/resources/assets/js/components/User/userPage.vue">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="532">
-              <caret line="104" column="42" lean-forward="false" selection-start-line="104" selection-start-column="42" selection-end-line="104" selection-end-column="42" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="api.php" pinned="false" current-in-tab="true">
+      <file leaf-file-name="api.php" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/laravel_server/routes/api.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="182">
-              <caret line="34" column="10" lean-forward="false" selection-start-line="34" selection-start-column="7" selection-end-line="34" selection-end-column="10" />
+            <state relative-caret-position="497">
+              <caret line="41" column="37" lean-forward="false" selection-start-line="41" selection-start-column="37" selection-end-line="41" selection-end-column="37" />
               <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="UserControllerAPI.php" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/laravel_server/app/Http/Controllers/UserControllerAPI.php">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="357">
-              <caret line="28" column="3" lean-forward="true" selection-start-line="28" selection-start-column="3" selection-end-line="28" selection-end-column="3" />
-              <folding>
-                <marker date="1514500595580" expanded="true" signature="3019:3025" ph="{...}" />
-              </folding>
             </state>
           </provider>
         </entry>
@@ -82,11 +56,6 @@
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
-      <find>tileFlipped</find>
-      <find>Tile</find>
-      <find>for</find>
-      <find>piece</find>
-      <find>fillBoard</find>
       <find>this</find>
       <find>console</find>
       <find>picks</find>
@@ -112,6 +81,11 @@
       <find>token</find>
       <find>rememb</find>
       <find>name</find>
+      <find>http</find>
+      <find>auth</find>
+      <find>authenticatedUser</find>
+      <find>users</find>
+      <find>this.get</find>
     </findStrings>
   </component>
   <component name="Git.Settings">
@@ -137,7 +111,6 @@
         <option value="$PROJECT_DIR$/laravel_server/package.json" />
         <option value="$PROJECT_DIR$/laravel_server/resources/assets/js/components/multiplayer_game.vue" />
         <option value="$PROJECT_DIR$/laravel_server/resources/assets/js/components/user.vue" />
-        <option value="$PROJECT_DIR$/laravel_server/resources/assets/js/components/singleplayer_game.vue" />
         <option value="$PROJECT_DIR$/laravel_server/resources/assets/js/components/tile.vue" />
         <option value="$PROJECT_DIR$/laravel_server/resources/assets/js/Classes/Tile.js" />
         <option value="$PROJECT_DIR$/laravel_server/resources/assets/js/components/board.vue" />
@@ -146,7 +119,6 @@
         <option value="$PROJECT_DIR$/laravel_server/app/Providers/AuthServiceProvider.php" />
         <option value="$PROJECT_DIR$/laravel_server/app/Http/Kernel.php" />
         <option value="$PROJECT_DIR$/laravel_server/resources/assets/js/packages/Auth.js" />
-        <option value="$PROJECT_DIR$/laravel_server/resources/assets/js/packages/auth/Auth.js" />
         <option value="$PROJECT_DIR$/laravel_server/vendor/laravel/framework/src/Illuminate/Foundation/Auth/RegistersUsers.php" />
         <option value="$PROJECT_DIR$/laravel_server/app/Http/Controllers/Auth/RegisterController.php" />
         <option value="$PROJECT_DIR$/laravel_server/resources/assets/js/components/Register.vue" />
@@ -158,15 +130,18 @@
         <option value="$PROJECT_DIR$/laravel_server/database/seeds/UsersTableSeeder.php" />
         <option value="$PROJECT_DIR$/laravel_server/database/factories/UserFactory.php" />
         <option value="$PROJECT_DIR$/laravel_server/app/Http/Controllers/UserControllerAPI.php" />
-        <option value="$PROJECT_DIR$/laravel_server/app/Http/Controllers/LoginControllerAPI.php" />
-        <option value="$PROJECT_DIR$/laravel_server/routes/api.php" />
         <option value="$PROJECT_DIR$/laravel_server/.env" />
-        <option value="$PROJECT_DIR$/laravel_server/resources/assets/js/components/Login.vue" />
         <option value="$PROJECT_DIR$/laravel_server/resources/assets/js/components/User/userManage.vue" />
-        <option value="$PROJECT_DIR$/laravel_server/resources/assets/js/vueapp.js" />
-        <option value="$PROJECT_DIR$/laravel_server/resources/views/vue/index.blade.php" />
         <option value="$PROJECT_DIR$/laravel_server/resources/assets/sass/app.scss" />
+        <option value="$PROJECT_DIR$/laravel_server/resources/assets/js/components/singleplayer_game.vue" />
+        <option value="$PROJECT_DIR$/laravel_server/resources/assets/js/components/User/userList.vue" />
+        <option value="$PROJECT_DIR$/laravel_server/routes/api.php" />
+        <option value="$PROJECT_DIR$/laravel_server/resources/assets/js/packages/auth/Auth.js" />
         <option value="$PROJECT_DIR$/laravel_server/resources/assets/js/components/User/userPage.vue" />
+        <option value="$PROJECT_DIR$/laravel_server/resources/views/vue/index.blade.php" />
+        <option value="$PROJECT_DIR$/laravel_server/resources/assets/js/components/Login.vue" />
+        <option value="$PROJECT_DIR$/laravel_server/app/Http/Controllers/LoginControllerAPI.php" />
+        <option value="$PROJECT_DIR$/laravel_server/resources/assets/js/vueapp.js" />
       </list>
     </option>
   </component>
@@ -176,14 +151,19 @@
     <detection-done>true</detection-done>
     <sorting>DEFINITION_ORDER</sorting>
   </component>
+  <component name="JsbtTreeLayoutManager">
+    <layout place="tools.popupGrunt">
+      <scroll-view-position x="0" y="0" />
+    </layout>
+  </component>
   <component name="NodeModulesDirectoryManager">
     <handled-path value="$PROJECT_DIR$/laravel_server/node_modules" />
     <handled-path value="$PROJECT_DIR$/node_server/node_modules" />
   </component>
   <component name="PhpWorkspaceProjectConfiguration" backward_compatibility_performed="true" />
   <component name="ProjectFrameBounds" extendedState="6">
-    <option name="x" value="236" />
-    <option name="y" value="321" />
+    <option name="x" value="-9" />
+    <option name="y" value="-9" />
     <option name="width" value="1938" />
     <option name="height" value="1048" />
   </component>
@@ -202,6 +182,7 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
+      <pane id="Scratches" />
       <pane id="ProjectPane">
         <subPane>
           <expand>
@@ -234,6 +215,22 @@
               <item name="app" type="2a2b976b:PhpTreeStructureProvider$1" />
               <item name="Http" type="2a2b976b:PhpTreeStructureProvider$1" />
               <item name="Controllers" type="2a2b976b:PhpTreeStructureProvider$1" />
+            </path>
+            <path>
+              <item name="projetoDAD" type="b2602c69:ProjectViewProjectNode" />
+              <item name="projetoDAD" type="2a2b976b:PhpTreeStructureProvider$1" />
+              <item name="laravel_server" type="2a2b976b:PhpTreeStructureProvider$1" />
+              <item name="app" type="2a2b976b:PhpTreeStructureProvider$1" />
+              <item name="Http" type="2a2b976b:PhpTreeStructureProvider$1" />
+              <item name="Middleware" type="2a2b976b:PhpTreeStructureProvider$1" />
+            </path>
+            <path>
+              <item name="projetoDAD" type="b2602c69:ProjectViewProjectNode" />
+              <item name="projetoDAD" type="2a2b976b:PhpTreeStructureProvider$1" />
+              <item name="laravel_server" type="2a2b976b:PhpTreeStructureProvider$1" />
+              <item name="app" type="2a2b976b:PhpTreeStructureProvider$1" />
+              <item name="Http" type="2a2b976b:PhpTreeStructureProvider$1" />
+              <item name="Requests" type="2a2b976b:PhpTreeStructureProvider$1" />
             </path>
             <path>
               <item name="projetoDAD" type="b2602c69:ProjectViewProjectNode" />
@@ -348,14 +345,13 @@
           <select />
         </subPane>
       </pane>
-      <pane id="Scratches" />
       <pane id="Scope" />
     </panes>
   </component>
   <component name="PropertiesComponent">
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="last_opened_file_path" value="$PROJECT_DIR$" />
-    <property name="SearchEverywhereHistoryKey" value="api&#9;FILE&#9;file://C:/Users/gusta/projetos/projetoDAD/laravel_server/routes/api.php&#10;oauth&#9;null&#9;null&#10;api.p&#9;FILE&#9;file://C:/Users/gusta/projetos/projetoDAD/laravel_server/routes/api.php&#10;User&#9;FILE&#9;file://C:/Users/gusta/projetos/projetoDAD/laravel_server/app/Http/Controllers/UserControllerAPI.php&#10;user.php&#9;FILE&#9;file://C:/Users/gusta/projetos/projetoDAD/laravel_server/app/Http/Resources/User.php&#10;board&#9;FILE&#9;file://C:/Users/gusta/projetos/projetoDAD/laravel_server/resources/assets/js/components/board.vue&#10;vueapp&#9;FILE&#9;file://C:/Users/gusta/projetos/projetoDAD/laravel_server/resources/assets/js/vueapp.js&#10;login&#9;FILE&#9;file://C:/Users/gusta/projetos/projetoDAD/laravel_server/resources/assets/js/components/Login.vue&#10;env&#9;FILE&#9;file://C:/Users/gusta/projetos/projetoDAD/laravel_server/.env&#10;loginc&#9;FILE&#9;file://C:/Users/gusta/projetos/projetoDAD/laravel_server/app/Http/Controllers/LoginControllerAPI.php&#10;web.php&#9;FILE&#9;file://C:/Users/gusta/projetos/projetoDAD/laravel_server/routes/web.php&#10;routes.php&#9;FILE&#9;file://C:/Users/gusta/projetos/projetoDAD/laravel_server/app/Providers/RouteServiceProvider.php&#10;api.php&#9;FILE&#9;file://C:/Users/gusta/projetos/projetoDAD/laravel_server/routes/api.php&#10;configta&#9;FILE&#9;file://C:/Users/gusta/projetos/projetoDAD/laravel_server/database/seeds/ConfigTableSeeder.php&#10;seeder&#9;FILE&#9;file://C:/Users/gusta/projetos/projetoDAD/laravel_server/database/seeds/UsersTableSeeder.php&#10;user.ph&#9;FILE&#9;file://C:/Users/gusta/projetos/projetoDAD/laravel_server/app/User.php&#10;user.&#9;FILE&#9;file://C:/Users/gusta/projetos/projetoDAD/laravel_server/app/User.php&#10;rememberToken&#9;null&#9;null&#10;initial&#9;FILE&#9;file://C:/Users/gusta/projetos/projetoDAD/laravel_server/database/migrations/2017_10_18_085057_initialStructure.php&#10;userapi&#9;FILE&#9;file://C:/Users/gusta/projetos/projetoDAD/laravel_server/app/Http/Controllers/UserControllerAPI.php&#10;user&#9;FILE&#9;file://C:/Users/gusta/projetos/projetoDAD/laravel_server/app/User.php&#10;mail.php&#9;FILE&#9;file://C:/Users/gusta/projetos/projetoDAD/laravel_server/config/mail.php&#10;web&#9;FILE&#9;file://C:/Users/gusta/projetos/projetoDAD/laravel_server/routes/web.php&#10;verif&#9;null&#9;null&#10;registerContr&#9;FILE&#9;file://C:/Users/gusta/projetos/projetoDAD/laravel_server/app/Http/Controllers/Auth/RegisterController.php&#10;register&#9;FILE&#9;file://C:/Users/gusta/projetos/projetoDAD/laravel_server/vendor/laravel/framework/src/Illuminate/Foundation/Auth/RegistersUsers.php&#10;registersu&#9;null&#9;null&#10;userC&#9;FILE&#9;file://C:/Users/gusta/projetos/projetoDAD/laravel_server/app/Http/Controllers/UserControllerAPI.php&#10;usercon&#9;FILE&#9;file://C:/Users/gusta/projetos/projetoDAD/laravel_server/app/Http/Controllers/UserControllerAPI.php&#10;master&#9;FILE&#9;file://C:/Users/gusta/projetos/projetoDAD/laravel_server/resources/views/master.blade.php&#10;registerContro&#9;FILE&#9;file://C:/Users/gusta/projetos/projetoDAD/laravel_server/app/Http/Controllers/Auth/RegisterController.php&#10;usercontrol&#9;FILE&#9;file://C:/Users/gusta/projetos/projetoDAD/laravel_server/app/Http/Controllers/UserControllerAPI.php&#10;routes&#9;null&#9;null&#10;packa&#9;FILE&#9;file://C:/Users/gusta/projetos/projetoDAD/laravel_server/package.json&#10;kernel&#9;null&#9;null&#10;routeservi&#9;null&#9;null&#10;auth.php&#9;FILE&#9;file://C:/Users/gusta/projetos/projetoDAD/laravel_server/config/auth.php&#10;authser&#9;null&#9;null&#10;app.&#9;FILE&#9;file://C:/Users/gusta/projetos/projetoDAD/laravel_server/config/app.php&#10;tile.&#9;FILE&#9;file://C:/Users/gusta/projetos/projetoDAD/laravel_server/resources/assets/js/Classes/Tile.js&#10;webpack&#9;FILE&#9;file://C:/Users/gusta/projetos/projetoDAD/laravel_server/webpack.mix.js&#10;packag&#9;FILE&#9;file://C:/Users/gusta/projetos/projetoDAD/laravel_server/package.json&#10;user.v&#9;FILE&#9;file://C:/Users/gusta/projetos/projetoDAD/laravel_server/resources/assets/js/components/user.vue&#10;ter&#9;ACTION&#9;ActivateTerminalToolWindow&#10;index.bla&#9;FILE&#9;file://C:/Users/gusta/projetos/projetoDAD/laravel_server/resources/views/vue/index.blade.php&#10;package&#9;FILE&#9;file://C:/Users/gusta/projetos/projetoDAD/laravel_server/package.json&#10;package.json&#9;FILE&#9;file://C:/Users/gusta/projetos/projetoDAD/laravel_server/package.json&#10;index&#9;FILE&#9;file://C:/Users/gusta/projetos/projetoDAD/laravel_server/resources/views/vue/index.blade.php&#10;npm-debug.log&#9;FILE&#9;file://C:/Users/gusta/projetos/projetoDAD/laravel_server/npm-debug.log" />
+    <property name="SearchEverywhereHistoryKey" value="login&#9;FILE&#9;file://C:/Users/gusta/projetos/projetoDAD/laravel_server/app/Http/Controllers/LoginControllerAPI.php&#10;app&#9;FILE&#9;file://C:/Users/gusta/projetos/projetoDAD/laravel_server/routes/api.php&#10;api.&#9;FILE&#9;file://C:/Users/gusta/projetos/projetoDAD/laravel_server/routes/api.php&#10;api.php&#9;FILE&#9;file://C:/Users/gusta/projetos/projetoDAD/laravel_server/routes/api.php&#10;api.ph&#9;FILE&#9;file://C:/Users/gusta/projetos/projetoDAD/laravel_server/app/Http/Controllers/LoginControllerAPI.php&#10;authSe&#9;FILE&#9;file://C:/Users/gusta/projetos/projetoDAD/laravel_server/app/Providers/AuthServiceProvider.php&#10;api.p&#9;FILE&#9;file://C:/Users/gusta/projetos/projetoDAD/laravel_server/routes/api.php&#10;appservice&#9;null&#9;null&#10;authservi&#9;FILE&#9;file://C:/Users/gusta/projetos/projetoDAD/laravel_server/app/Providers/AuthServiceProvider.php&#10;user.php&#9;FILE&#9;file://C:/Users/gusta/projetos/projetoDAD/laravel_server/app/User.php&#10;api&#9;FILE&#9;file://C:/Users/gusta/projetos/projetoDAD/laravel_server/routes/api.php&#10;oauth&#9;null&#9;null&#10;User&#9;FILE&#9;file://C:/Users/gusta/projetos/projetoDAD/laravel_server/app/Http/Controllers/UserControllerAPI.php&#10;board&#9;FILE&#9;file://C:/Users/gusta/projetos/projetoDAD/laravel_server/resources/assets/js/components/board.vue&#10;vueapp&#9;FILE&#9;file://C:/Users/gusta/projetos/projetoDAD/laravel_server/resources/assets/js/vueapp.js&#10;env&#9;FILE&#9;file://C:/Users/gusta/projetos/projetoDAD/laravel_server/.env&#10;loginc&#9;FILE&#9;file://C:/Users/gusta/projetos/projetoDAD/laravel_server/app/Http/Controllers/LoginControllerAPI.php&#10;web.php&#9;FILE&#9;file://C:/Users/gusta/projetos/projetoDAD/laravel_server/routes/web.php&#10;routes.php&#9;FILE&#9;file://C:/Users/gusta/projetos/projetoDAD/laravel_server/app/Providers/RouteServiceProvider.php&#10;configta&#9;FILE&#9;file://C:/Users/gusta/projetos/projetoDAD/laravel_server/database/seeds/ConfigTableSeeder.php&#10;seeder&#9;FILE&#9;file://C:/Users/gusta/projetos/projetoDAD/laravel_server/database/seeds/UsersTableSeeder.php&#10;user.ph&#9;FILE&#9;file://C:/Users/gusta/projetos/projetoDAD/laravel_server/app/User.php&#10;user.&#9;FILE&#9;file://C:/Users/gusta/projetos/projetoDAD/laravel_server/app/User.php&#10;rememberToken&#9;null&#9;null&#10;initial&#9;FILE&#9;file://C:/Users/gusta/projetos/projetoDAD/laravel_server/database/migrations/2017_10_18_085057_initialStructure.php&#10;userapi&#9;FILE&#9;file://C:/Users/gusta/projetos/projetoDAD/laravel_server/app/Http/Controllers/UserControllerAPI.php&#10;user&#9;FILE&#9;file://C:/Users/gusta/projetos/projetoDAD/laravel_server/app/User.php&#10;mail.php&#9;FILE&#9;file://C:/Users/gusta/projetos/projetoDAD/laravel_server/config/mail.php&#10;web&#9;FILE&#9;file://C:/Users/gusta/projetos/projetoDAD/laravel_server/routes/web.php&#10;verif&#9;null&#9;null&#10;registerContr&#9;FILE&#9;file://C:/Users/gusta/projetos/projetoDAD/laravel_server/app/Http/Controllers/Auth/RegisterController.php&#10;register&#9;FILE&#9;file://C:/Users/gusta/projetos/projetoDAD/laravel_server/vendor/laravel/framework/src/Illuminate/Foundation/Auth/RegistersUsers.php&#10;registersu&#9;null&#9;null&#10;userC&#9;FILE&#9;file://C:/Users/gusta/projetos/projetoDAD/laravel_server/app/Http/Controllers/UserControllerAPI.php&#10;usercon&#9;FILE&#9;file://C:/Users/gusta/projetos/projetoDAD/laravel_server/app/Http/Controllers/UserControllerAPI.php&#10;master&#9;FILE&#9;file://C:/Users/gusta/projetos/projetoDAD/laravel_server/resources/views/master.blade.php&#10;registerContro&#9;FILE&#9;file://C:/Users/gusta/projetos/projetoDAD/laravel_server/app/Http/Controllers/Auth/RegisterController.php&#10;usercontrol&#9;FILE&#9;file://C:/Users/gusta/projetos/projetoDAD/laravel_server/app/Http/Controllers/UserControllerAPI.php&#10;routes&#9;null&#9;null&#10;packa&#9;FILE&#9;file://C:/Users/gusta/projetos/projetoDAD/laravel_server/package.json&#10;kernel&#9;null&#9;null&#10;routeservi&#9;null&#9;null&#10;auth.php&#9;FILE&#9;file://C:/Users/gusta/projetos/projetoDAD/laravel_server/config/auth.php&#10;authser&#9;null&#9;null&#10;app.&#9;FILE&#9;file://C:/Users/gusta/projetos/projetoDAD/laravel_server/config/app.php&#10;tile.&#9;FILE&#9;file://C:/Users/gusta/projetos/projetoDAD/laravel_server/resources/assets/js/Classes/Tile.js&#10;webpack&#9;FILE&#9;file://C:/Users/gusta/projetos/projetoDAD/laravel_server/webpack.mix.js&#10;packag&#9;FILE&#9;file://C:/Users/gusta/projetos/projetoDAD/laravel_server/package.json&#10;user.v&#9;FILE&#9;file://C:/Users/gusta/projetos/projetoDAD/laravel_server/resources/assets/js/components/user.vue&#10;ter&#9;ACTION&#9;ActivateTerminalToolWindow" />
     <property name="nodejs_interpreter_path" value="C:/Program Files/nodejs/node" />
     <property name="settings.editor.selected.configurable" value="preferences.lookFeel" />
   </component>
@@ -412,24 +408,25 @@
       <workItem from="1514389766220" duration="14382000" />
       <workItem from="1514473985233" duration="15810000" />
       <workItem from="1514517244112" duration="6128000" />
+      <workItem from="1515264384776" duration="5571000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="129928000" />
+    <option name="totallyTimeSpent" value="144915000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="-9" y="-9" width="1938" height="1048" extended-state="6" />
     <editor active="true" />
     <layout>
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.21106337" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.21911922" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="true" content_ui="tabs" />
       <window_info id="Database" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="9" side_tool="false" content_ui="tabs" />
       <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33936653" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
-      <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.20842825" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
+      <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.1662896" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
       <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
@@ -449,8 +446,8 @@
       <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="9" side_tool="false" content_ui="tabs" />
       <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33936653" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
-      <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.20852534" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.37555555" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.16704805" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.44333333" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
       <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="combo" />
       <window_info id="Database" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32801822" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
@@ -468,47 +465,11 @@
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
-      <breakpoints>
-        <line-breakpoint enabled="true" type="javascript">
-          <url>file://$PROJECT_DIR$/laravel_server/resources/assets/js/vueapp.js</url>
-          <line>55</line>
-          <option name="timeStamp" value="2" />
-        </line-breakpoint>
-      </breakpoints>
       <option name="time" value="3" />
     </breakpoint-manager>
     <watches-manager />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/laravel_server/public/js/vueapp.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="162">
-          <caret line="46951" column="8" lean-forward="false" selection-start-line="46951" selection-start-column="8" selection-end-line="46951" selection-end-column="8" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/laravel_server/resources/assets/js/components/memory-game.vue">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/laravel_server/resources/assets/js/components/tile.vue">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="651">
-          <caret line="31" column="13" lean-forward="false" selection-start-line="31" selection-start-column="13" selection-end-line="31" selection-end-column="13" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/laravel_server/resources/assets/js/Classes/Tile.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="21">
-          <caret line="1" column="30" lean-forward="false" selection-start-line="1" selection-start-column="30" selection-end-line="1" selection-end-column="30" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/laravel_server/app/Http/Controllers/Auth/LoginController.php">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="-82">
@@ -532,13 +493,6 @@
         <state relative-caret-position="315">
           <caret line="72" column="23" lean-forward="false" selection-start-line="72" selection-start-column="23" selection-end-line="72" selection-end-column="23" />
           <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/laravel_server/app/Providers/AuthServiceProvider.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-165">
-          <caret line="4" column="4" lean-forward="true" selection-start-line="4" selection-start-column="4" selection-end-line="4" selection-end-column="4" />
         </state>
       </provider>
     </entry>
@@ -575,14 +529,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="252">
           <caret line="12" column="14" lean-forward="true" selection-start-line="12" selection-start-column="14" selection-end-line="12" selection-end-column="14" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/laravel_server/resources/assets/js/components/singleplayer_game.vue">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="357">
-          <caret line="18" column="0" lean-forward="true" selection-start-line="18" selection-start-column="0" selection-end-line="18" selection-end-column="0" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -633,9 +579,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="714">
           <caret line="34" column="42" lean-forward="false" selection-start-line="34" selection-start-column="42" selection-end-line="34" selection-end-column="42" />
-          <folding>
-            <element signature="e#28#57#0#PHP" expanded="false" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -738,7 +681,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="463">
           <caret line="65" column="23" lean-forward="false" selection-start-line="65" selection-start-column="23" selection-end-line="65" selection-end-column="35" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -749,10 +691,31 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/laravel_server/resources/views/master.blade.php">
+    <entry file="file://$PROJECT_DIR$/laravel_server/.env">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="210">
-          <caret line="10" column="30" lean-forward="false" selection-start-line="10" selection-start-column="30" selection-end-line="10" selection-end-column="30" />
+        <state relative-caret-position="366">
+          <caret line="29" column="20" lean-forward="false" selection-start-line="29" selection-start-column="20" selection-end-line="29" selection-end-column="20" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/laravel_server/resources/assets/sass/app.scss">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="771">
+          <caret line="49" column="0" lean-forward="true" selection-start-line="49" selection-start-column="0" selection-end-line="49" selection-end-column="0" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/laravel_server/app/Http/Resources/User.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="5" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/laravel_server/vendor/league/oauth2-server/src/Exception/OAuthServerException.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="147">
+          <caret line="13" column="6" lean-forward="false" selection-start-line="13" selection-start-column="6" selection-end-line="13" selection-end-column="6" />
           <folding />
         </state>
       </provider>
@@ -765,110 +728,50 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/laravel_server/.env">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="366">
-          <caret line="29" column="20" lean-forward="false" selection-start-line="29" selection-start-column="20" selection-end-line="29" selection-end-column="20" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/laravel_server/resources/assets/js/components/Register.vue">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="2226">
-          <caret line="106" column="35" lean-forward="false" selection-start-line="106" selection-start-column="27" selection-end-line="106" selection-end-column="35" />
-          <folding>
-            <marker date="1514500444859" expanded="true" signature="4526:4612" ph="{...}" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/laravel_server/app/Http/Controllers/LoginControllerAPI.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="189">
-          <caret line="9" column="64" lean-forward="false" selection-start-line="9" selection-start-column="24" selection-end-line="9" selection-end-column="64" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/laravel_server/resources/assets/js/components/board.vue">
+    <entry file="file://$PROJECT_DIR$/laravel_server/app/Http/Controllers/UserControllerAPI.php">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="21">
-          <caret line="93" column="0" lean-forward="false" selection-start-line="93" selection-start-column="0" selection-end-line="93" selection-end-column="0" />
-          <folding />
+          <caret line="28" column="3" lean-forward="false" selection-start-line="28" selection-start-column="3" selection-end-line="28" selection-end-column="3" />
+          <folding>
+            <marker date="1514500595580" expanded="true" signature="3019:3025" ph="{...}" />
+          </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/laravel_server/resources/assets/js/components/User/userList.vue">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="21">
-          <caret line="1" column="37" lean-forward="true" selection-start-line="1" selection-start-column="37" selection-end-line="1" selection-end-column="37" />
-          <folding />
+        <state relative-caret-position="567">
+          <caret line="27" column="20" lean-forward="true" selection-start-line="27" selection-start-column="20" selection-end-line="27" selection-end-column="20" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/laravel_server/resources/views/vue/index.blade.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="252">
-          <caret line="12" column="71" lean-forward="false" selection-start-line="12" selection-start-column="71" selection-end-line="12" selection-end-column="71" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/laravel_server/resources/assets/sass/app.scss">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="771">
-          <caret line="49" column="0" lean-forward="true" selection-start-line="49" selection-start-column="0" selection-end-line="49" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/laravel_server/resources/assets/js/components/User/user.vue">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="511">
-          <caret line="67" column="34" lean-forward="false" selection-start-line="67" selection-start-column="34" selection-end-line="67" selection-end-column="34" />
-          <folding>
-            <element signature="e#654#692#0" expanded="false" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/laravel_server/app/Http/Resources/User.php">
+    <entry file="file://$PROJECT_DIR$/laravel_server/resources/assets/js/components/User/userEdit.vue">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="0">
-          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="5" />
+          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/laravel_server/app/Providers/AppServiceProvider.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="126">
+          <caret line="6" column="6" lean-forward="false" selection-start-line="6" selection-start-column="6" selection-end-line="6" selection-end-column="24" />
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/laravel_server/resources/assets/js/vueapp.js">
+    <entry file="file://$PROJECT_DIR$/laravel_server/app/Providers/AuthServiceProvider.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="330">
-          <caret line="35" column="43" lean-forward="false" selection-start-line="35" selection-start-column="35" selection-end-line="35" selection-end-column="43" />
+        <state relative-caret-position="84">
+          <caret line="4" column="30" lean-forward="true" selection-start-line="4" selection-start-column="29" selection-end-line="4" selection-end-column="30" />
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/laravel_server/vendor/league/oauth2-server/src/Exception/OAuthServerException.php">
+    <entry file="file://$PROJECT_DIR$/laravel_server/resources/views/master.blade.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="147">
-          <caret line="13" column="6" lean-forward="false" selection-start-line="13" selection-start-column="6" selection-end-line="13" selection-end-column="6" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/laravel_server/resources/assets/js/components/Login.vue">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="399">
-          <caret line="58" column="44" lean-forward="true" selection-start-line="58" selection-start-column="23" selection-end-line="58" selection-end-column="44" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/laravel_server/resources/assets/js/packages/auth/Auth.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="798">
-          <caret line="38" column="16" lean-forward="true" selection-start-line="38" selection-start-column="16" selection-end-line="38" selection-end-column="16" />
-          <folding />
+        <state relative-caret-position="210">
+          <caret line="10" column="30" lean-forward="false" selection-start-line="10" selection-start-column="30" selection-end-line="10" selection-end-column="30" />
         </state>
       </provider>
     </entry>
@@ -880,28 +783,106 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/laravel_server/app/Http/Controllers/UserControllerAPI.php">
+    <entry file="file://$PROJECT_DIR$/laravel_server/public/js/vueapp.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="357">
-          <caret line="28" column="3" lean-forward="true" selection-start-line="28" selection-start-column="3" selection-end-line="28" selection-end-column="3" />
-          <folding>
-            <marker date="1514500595580" expanded="true" signature="3019:3025" ph="{...}" />
-          </folding>
+        <state relative-caret-position="273">
+          <caret line="47499" column="8" lean-forward="false" selection-start-line="47499" selection-start-column="8" selection-end-line="47499" selection-end-column="8" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/laravel_server/resources/assets/js/components/User/user.vue">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="378">
+          <caret line="67" column="34" lean-forward="false" selection-start-line="67" selection-start-column="34" selection-end-line="67" selection-end-column="34" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/laravel_server/resources/assets/js/components/singleplayer_game.vue">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-756">
+          <caret line="16" column="40" lean-forward="false" selection-start-line="16" selection-start-column="40" selection-end-line="16" selection-end-column="40" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/laravel_server/vendor/laravel/framework/src/Illuminate/Http/Request.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="282">
+          <caret line="433" column="20" lean-forward="false" selection-start-line="433" selection-start-column="20" selection-end-line="433" selection-end-column="20" />
+          <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/laravel_server/resources/assets/js/components/User/userPage.vue">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="532">
-          <caret line="104" column="42" lean-forward="false" selection-start-line="104" selection-start-column="42" selection-end-line="104" selection-end-column="42" />
+        <state relative-caret-position="89">
+          <caret line="112" column="15" lean-forward="false" selection-start-line="112" selection-start-column="15" selection-end-line="112" selection-end-column="15" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/laravel_server/resources/assets/js/packages/auth/Auth.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="261">
+          <caret line="34" column="12" lean-forward="false" selection-start-line="34" selection-start-column="12" selection-end-line="34" selection-end-column="12" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/laravel_server/resources/assets/js/components/Register.vue">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="110">
+          <caret line="126" column="23" lean-forward="false" selection-start-line="112" selection-start-column="20" selection-end-line="126" selection-end-column="23" />
+          <folding>
+            <marker date="1514500444859" expanded="true" signature="4526:4612" ph="{...}" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/laravel_server/resources/assets/js/components/board.vue">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="21">
+          <caret line="93" column="0" lean-forward="false" selection-start-line="93" selection-start-column="0" selection-end-line="93" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/laravel_server/resources/views/vue/index.blade.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="561">
+          <caret line="29" column="27" lean-forward="true" selection-start-line="29" selection-start-column="27" selection-end-line="29" selection-end-column="27" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/laravel_server/resources/assets/js/components/Login.vue">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="466">
+          <caret line="53" column="45" lean-forward="false" selection-start-line="53" selection-start-column="45" selection-end-line="53" selection-end-column="45" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/laravel_server/app/Http/Controllers/LoginControllerAPI.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="168">
+          <caret line="8" column="22" lean-forward="false" selection-start-line="8" selection-start-column="22" selection-end-line="8" selection-end-column="22" />
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/laravel_server/routes/api.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="182">
-          <caret line="34" column="10" lean-forward="false" selection-start-line="34" selection-start-column="7" selection-end-line="34" selection-end-column="10" />
+        <state relative-caret-position="497">
+          <caret line="41" column="37" lean-forward="false" selection-start-line="41" selection-start-column="37" selection-end-line="41" selection-end-column="37" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/laravel_server/resources/assets/js/vueapp.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="285">
+          <caret line="89" column="28" lean-forward="false" selection-start-line="89" selection-start-column="28" selection-end-line="89" selection-end-column="36" />
           <folding />
         </state>
       </provider>

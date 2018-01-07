@@ -38,6 +38,11 @@ Route::post('register','UserControllerAPI@store');
 Route::get('verifyEmail','UserControllerAPI@verifyEmail')->name('verifyEmail');
 Route::get('verify/{email}/{verifyToken}', 'UserControllerApi@sendEmailDone')->name('sendEmailDone');
 
+//GetAuthenthicatedUser
+Route::get('/user', function(Request $request)
+{    return $request->user();
+})->middleware('auth:api');
+
 Route::post('login', 'LoginControllerAPI@login');
 Route::middleware('auth:api')->post('logout','LoginControllerAPI@logout');
 
