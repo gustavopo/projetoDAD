@@ -18,7 +18,7 @@ class ImagesTableSeeder extends Seeder
             DB::table('images')->insert($this->insertTile($i));
         }
 
-        DB::table('images')->insert($this->insertTile('hidden', 'empty'));
+        DB::table('images')->insert($this->insertTile('hidden', 'hidden'));
 
     }
 
