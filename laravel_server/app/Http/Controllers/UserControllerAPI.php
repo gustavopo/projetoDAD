@@ -14,9 +14,14 @@ use Illuminate\Support\Facades\DB;
 use App\User;
 use App\StoreUserRequest;
 use Hash;
+use Illuminate\Support\Facades\Auth;
 
 class UserControllerAPI extends Controller
 {
+    public function getAuthUser(){
+        return $AuthUser = Auth::user();
+    }
+
     public function getUsers(Request $request)
     {
         if ($request->has('page')) {

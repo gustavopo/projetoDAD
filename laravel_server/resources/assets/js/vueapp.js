@@ -19,6 +19,7 @@ Vue.use(VueSocketio, 'http://192.168.10.1:8080');
 
 
 /************************  ROUTES    **********************/
+const index = Vue.component('index', require('./components/Index.vue'));
 const user = Vue.component('user', require('./components/User/user.vue'));
 const userPage = Vue.component('userPage', require('./components/User/userPage.vue'));
 
@@ -31,7 +32,7 @@ const multiplayerGame = Vue.component('multiplayergame', require('./components/m
 
 
 const routes = [
-    {path: '/', redirect: '/users'},
+    {path: '/', redirect: '/index', component: index},
     {path: '/users', component: user},
     {path: '/userPage', component: userPage},
     {path: '/multimemorygame', component: multiplayerGame},
@@ -73,29 +74,8 @@ const router = new VueRouter({
 
 const app = new Vue({
     router,
-    data: {
-        return: {
-            isAuth: null
-        }
-    },
-    created()
-    {
-        this.isAuth = this.$auth.isAuthenticated();
-        this.setAuthenticatedUser();
-    },
 
-    methods:{
-        setAuthenticatedUser()
-        {
-            this.$http.get('api/user').
-                then(response => {
-                    this.$auth.setAuthenticatedUser(response.body);
-                    console.log(this.$auth.getAuthenticatedUser());
-            }).catch((error) => {
-               console.log(error);
-            });
-        }
-    }
+
 }).$mount('#app');
 
 
