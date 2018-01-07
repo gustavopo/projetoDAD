@@ -1,15 +1,47 @@
 /*jshint esversion: 6 */
 
-class TicTacToeGame {
-    constructor(ID, player1Name) {
+class Game {
+    constructor(ID, player1Name, name, maxPlayers) {
         this.gameID = ID;
         this.gameEnded = false;
         this.gameStarted = false;
+        this.name=name;
+        this.maxPlayers=maxPlayers;
         this.player1= player1Name;
         this.player2= '';
         this.playerTurn = 1;
         this.winner = 0;
+        //this.board = this.createTable(16, 8);
         this.board = [0,0,0,0,0,0,0,0,0];
+        //this.jogo2 = [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0];
+       
+    }
+
+    createTable(index,imgLen) {
+        var i, j;
+        var array = [];
+        var board = [];
+
+        for(j = 1; j < imgLen+1; j++){
+            //array.push(Game.pieceImageURL(j));
+        }
+
+        var randomImg = array[Math.floor(Math.random() * array.length)];
+
+        for(i = 0 ; i < index; i++){
+            board[i] = randomImg[i];
+        }
+
+        return board;
+    }
+
+    populate(value){
+        var x, y;
+        for(x = 0 ;x < 4; x++){
+            for(y = 0; y<10; y++){
+                this.jogo[x][y] == value;
+            }
+        }
     }
 
     join(player2Name){
@@ -18,14 +50,17 @@ class TicTacToeGame {
     }
 
     hasRow(value){
-        return  ((this.board[0]==value) && (this.board[1]==value) && (this.board[2]==value)) || 
-                ((this.board[3]==value) && (this.board[4]==value) && (this.board[5]==value)) || 
-                ((this.board[6]==value) && (this.board[7]==value) && (this.board[8]==value)) || 
-                ((this.board[0]==value) && (this.board[3]==value) && (this.board[6]==value)) || 
-                ((this.board[1]==value) && (this.board[4]==value) && (this.board[7]==value)) || 
-                ((this.board[2]==value) && (this.board[5]==value) && (this.board[8]==value)) || 
-                ((this.board[0]==value) && (this.board[4]==value) && (this.board[8]==value)) || 
-                ((this.board[2]==value) && (this.board[4]==value) && (this.board[6]==value));
+
+        if(this.maxPlayers == 2){
+            return
+                ((this.jogo2[0]==value) && (this.jogo2[1]==value) && (this.jogo2[2]==value) && (this.jogo2[3]==value)) ||
+                ((this.jogo2[4]==value) && (this.jogo2[5]==value) && (this.jogo2[6]==value) && (this.jogo2[7]==value)) ||
+                ((this.jogo2[8]==value) && (this.jogo2[10]==value) && (this.jogo2[11]==value) && (this.jogo2[12]==value)) ||
+                ((this.jogo2[13]==value) && (this.jogo2[14]==value) && (this.jogo2[15]==value) || (this.jogo2[16]==value));
+        }
+
+
+
     }  
 
     checkGameEnded(){
@@ -74,6 +109,20 @@ class TicTacToeGame {
         return true;
     }
 
-}
 
-module.exports = TicTacToeGame;
+}
+    class cell{
+        constructor(index, img){
+            this.index=index;
+            this.img=img;
+        }
+    }
+
+    class piece{
+        constructor(urlImage, status){
+            this.urlImage = urlImage;
+            this.status = status;
+        }
+    }
+
+module.exports = Game;
