@@ -51,32 +51,9 @@ export default {
         my_lobby_games(games){
             this.lobbyGames = games;
         },
-        game_changed(game){
-            for (var lobbyGame of this.lobbyGames) {
-                if (game.gameID == lobbyGame.gameID) {
-                    Object.assign(lobbyGame, game);
-                    break;
-                }
-            }
-            for (var activeGame of this. activeGames) {
-                if (game.gameID == activeGame.gameID) {
-                    Object.assign(activeGame, game);
-                    break;
-                }
-            }
-        },
 
     },
     methods: {
-      createGame(){
-        if (this.currentPlayer == "") {
-            alert('Current Player is Empty - Cannot Create a Game');
-            return;
-        }
-        else {
-            this.$socket.emit('create_game', { playerName: this.currentPlayer });   
-        }
-    },
     loadLobby(){
         this.$socket.emit('get_my_lobby_games');
     },
@@ -101,6 +78,7 @@ components: {
 
 mounted() {
     console.log('Component multiplayer mounted.')
+    this.loadLobby();
 }
 }
 </script>
