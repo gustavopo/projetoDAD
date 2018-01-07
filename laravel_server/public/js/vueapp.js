@@ -50345,8 +50345,6 @@ module.exports = Component.exports
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__lobby_vue__ = __webpack_require__(90);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__lobby_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0__lobby_vue__);
-function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
-
 //
 //
 //
@@ -50399,66 +50397,15 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
         },
         my_lobby_games: function my_lobby_games(games) {
             this.lobbyGames = games;
-        },
-        game_changed: function game_changed(game) {
-            var _iteratorNormalCompletion = true;
-            var _didIteratorError = false;
-            var _iteratorError = undefined;
-
-            try {
-                for (var _iterator = this.lobbyGames[Symbol.iterator](), _step; !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = true) {
-                    var lobbyGame = _step.value;
-
-                    if (game.gameID == lobbyGame.gameID) {
-                        Object.assign(lobbyGame, game);
-                        break;
-                    }
-                }
-            } catch (err) {
-                _didIteratorError = true;
-                _iteratorError = err;
-            } finally {
-                try {
-                    if (!_iteratorNormalCompletion && _iterator.return) {
-                        _iterator.return();
-                    }
-                } finally {
-                    if (_didIteratorError) {
-                        throw _iteratorError;
-                    }
-                }
-            }
-
-            var _iteratorNormalCompletion2 = true;
-            var _didIteratorError2 = false;
-            var _iteratorError2 = undefined;
-
-            try {
-                for (var _iterator2 = this.activeGames[Symbol.iterator](), _step2; !(_iteratorNormalCompletion2 = (_step2 = _iterator2.next()).done); _iteratorNormalCompletion2 = true) {
-                    var activeGame = _step2.value;
-
-                    if (game.gameID == activeGame.gameID) {
-                        Object.assign(activeGame, game);
-                        break;
-                    }
-                }
-            } catch (err) {
-                _didIteratorError2 = true;
-                _iteratorError2 = err;
-            } finally {
-                try {
-                    if (!_iteratorNormalCompletion2 && _iterator2.return) {
-                        _iterator2.return();
-                    }
-                } finally {
-                    if (_didIteratorError2) {
-                        throw _iteratorError2;
-                    }
-                }
-            }
         }
     },
-    methods: _defineProperty({
+    methods: {
+        loadLobby: function loadLobby() {
+            this.$socket.emit('get_my_lobby_games');
+        },
+        loadActiveGames: function loadActiveGames() {
+            this.$socket.emit('get_my_activegames');
+        },
         createGame: function createGame() {
             if (this.currentPlayer == "") {
                 alert('Current Player is Empty - Cannot Create a Game');
@@ -50466,21 +50413,8 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
             } else {
                 this.$socket.emit('create_game', { playerName: this.currentPlayer });
             }
-        },
-        loadLobby: function loadLobby() {
-            this.$socket.emit('get_my_lobby_games');
-        },
-        loadActiveGames: function loadActiveGames() {
-            this.$socket.emit('get_my_activegames');
         }
-    }, 'createGame', function createGame() {
-        if (this.currentPlayer == "") {
-            alert('Current Player is Empty - Cannot Create a Game');
-            return;
-        } else {
-            this.$socket.emit('create_game', { playerName: this.currentPlayer });
-        }
-    }),
+    },
 
     components: {
         'lobby': __WEBPACK_IMPORTED_MODULE_0__lobby_vue___default.a
@@ -50488,6 +50422,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 
     mounted: function mounted() {
         console.log('Component multiplayer mounted.');
+        this.loadLobby();
     }
 });
 
