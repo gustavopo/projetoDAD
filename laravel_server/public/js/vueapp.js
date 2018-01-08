@@ -49564,14 +49564,6 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
-//
-//
-//
-//
-//
-//
-//
-//
 
 
 
@@ -50601,8 +50593,8 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             this.players += 1;
             this.$socket.emit('join_game', { gameID: game.gameID, playerName: this.currentPlayer });
         },
-        play: function play(game, index) {
-            this.$socket.emit('play', { gameID: game.gameID, index: index });
+        play: function play(game, r1, c1) {
+            this.$socket.emit('play', { gameID: game.gameID, r1: r1, c1: c1 });
         },
         close: function close(game) {
             this.$socket.emit('remove_game', { gameID: game.gameID });
@@ -50941,6 +50933,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
     props: ['game'],
@@ -51006,21 +50999,29 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         }
     },
     methods: {
-        pieceImageURL: function pieceImageURL(pieceNumber) {
-            var imgSrc = String(pieceNumber);
-            return 'img/' + imgSrc + '.png';
+        pieceImageURL: function pieceImageURL(piece) {
+            var imgSrc = String(piece.image);
+            console.log(imgSrc);
+            if (!piece.tileFlipped) {
+                return 'img/hidden.png';
+            } else {
+                return 'img/' + imgSrc + '.png';
+            }
         },
         closeGame: function closeGame() {
             this.$parent.close(this.game);
         },
-        clickPiece: function clickPiece(index) {
+        clickPiece: function clickPiece(r1, c1) {
             if (!this.game.gameEnded) {
                 if (this.game.playerTurn != this.ownPlayerNumber) {
                     alert("It's not your turn to play");
                 } else {
-                    if (this.game.board[index] == 0) {
-                        this.$parent.play(this.game, index);
-                    }
+                    //console.log(r1 +""+""+ c1)
+                    this.$parent.play(this.game, r1, c1);
+                    var self = this;
+                    setTimeout(function () {
+                        self.$forceUpdate();
+                    }, 3000);
                 }
             }
         }
@@ -51035,7 +51036,7 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _c("div", { staticClass: "gameseparator" }, [
+  return _c("div", [
     _c("div", [
       _c("h2", { staticClass: "text-center" }, [
         _vm._v("JOGO " + _vm._s(_vm.game.gameID))
@@ -51072,43 +51073,38 @@ var render = function() {
       ]),
       _vm._v(" "),
       _c(
-        "table",
-        { staticClass: "board grid" },
-        _vm._l(_vm.game.board, function(piece, index) {
-          return _c("td", [
-            _c("img", {
-              attrs: { src: _vm.pieceImageURL(piece) },
-              on: {
-                click: function($event) {
-                  _vm.clickPiece(index)
-                }
-              }
-            })
+        "div",
+        { staticClass: "board", attrs: { id: "board" } },
+        _vm._l(4, function(c, c1) {
+          return _c("div", [
+            _c(
+              "div",
+              { staticClass: "board-row" },
+              _vm._l(4, function(r, r1) {
+                return _c("div", [
+                  _c("img", {
+                    attrs: { src: _vm.pieceImageURL(_vm.game.board[r1][c1]) },
+                    on: {
+                      click: function($event) {
+                        _vm.clickPiece(r1, c1)
+                      }
+                    }
+                  })
+                ])
+              })
+            )
           ])
         })
       ),
       _vm._v(" "),
-      _c(
-        "table",
-        _vm._l(_vm.game.jogo, function(row) {
-          return _c(
-            "tr",
-            [
-              _vm._l(row, function(cell) {
-                return _c("td")
-              }),
-              _vm._v(" "),
-              _vm._l(row, function(cell) {
-                return _c("td")
-              })
-            ],
-            2
-          )
-        })
-      ),
-      _vm._v(" "),
-      _c("hr")
-    ])
+      _c("table", { attrs: { id: "espaco" } })
+    ]),
+    _vm._v(" "),
+    _c("hr"),
+    _vm._v(" "),
+    _c("br"),
+    _vm._v(" "),
+    _c("br")
   ])
 }
 var staticRenderFns = []

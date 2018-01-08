@@ -123,8 +123,8 @@
                 this.$socket.emit('join_game', {gameID: game.gameID, playerName: this.currentPlayer});
             },
 
-            play(game, index) {
-                this.$socket.emit('play', {gameID: game.gameID, index: index});
+            play(game, r1, c1) {
+                this.$socket.emit('play', {gameID: game.gameID, r1: r1, c1: c1});
             },
 
             close(game) {

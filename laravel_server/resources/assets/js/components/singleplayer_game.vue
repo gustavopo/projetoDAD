@@ -17,14 +17,6 @@
             <board :columns="4" :rows="4">
             </board>
 
-            <!--
-            <div class="board">
-                <div v-for="(piece, key) of board" >
-                    <img v-bind:src="pieceImageURL(piece)" v-on:click="clickPiece(index)">
-                </div>
-            </div>
-            -->
-
             <hr>
         </div>
 
