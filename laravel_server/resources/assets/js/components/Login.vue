@@ -47,24 +47,42 @@
             loginClick() {
                 let data =
                     {
-                        client_id: 2,
-                        client_secret: '4z1sfrSTfP2XOV6JiXSS2z4e1EphDTWyHs4SZkPh',
+                        client_id: 8,
+                        client_secret: 'zQRQYKrSQVKJuv8XtZxMJRmcCUpHyeizS9dHGeDu',
                         grant_type: 'password',
                         username: this.email,
                         password: this.password
-                    }
+                    };
 
-                this.$http.post("http://projetodad.dad/oauth/token", data)
+                let userLogin =
+                    {
+                        email: this.email,
+                        password: this.password
+                    };
+
+/*
+                axios.post('api/login')
+                    .then(response=>{
+                        this.$auth.setToken(response.body.access_token, response.body.expires_in + Date.now());
+                        console.log(this.$auth.getAuthenticatedUser());
+                        //Object.assign(this.user, response.data.data);
+                        //this.$emit('user-login', this.user);
+                        this.$router.push("/");
+                    });
+                */
+                this.$http.post("/api/login", userLogin)
                     .then(function (response) {
                         console.log(response);
-                        //this.$auth.setToken(response.body.access_token, response.body.expires_in + Date.now())
-                        //console.log(this.$auth.getAuthenticatedUser());
+                         this.$auth.setToken(response.body.access_token, response.body.expires_in + Date.now());
+                        console.log("Auth user" + JSON.stringify(this.$auth.getAuthenticatedUser()));
                         //Redirecionar user após este ficar autenticado
-                        this.$router.push("/singlememorygame");
+                        this.$router.push("/");
 
                     }).catch((error) => {
                     console.log(error);
                 });
+
+
             }
         }
     }

@@ -5,17 +5,21 @@
  */
 require('./bootstrap');
 window.Vue = require('vue');
+
 import VueRouter from 'vue-router';
 import VueSocketio from 'vue-socket.io';
 import VueResource from 'vue-resource';
 import Auth from './packages/auth/Auth.js';
 import axios from 'axios';
+window.axios = require('axios');
+
 
 Vue.use(VueRouter);
 Vue.use(VueResource);
 Vue.use(Auth);
 //Vue.use(VueSocketio, 'http://192.168.10.10:8080');
 Vue.use(VueSocketio, 'http://192.168.10.1:8080');
+
 
 
 /************************  ROUTES    **********************/
@@ -43,6 +47,7 @@ const routes = [
 ];
 
 const router = new VueRouter({
+
     routes: routes
 });
 

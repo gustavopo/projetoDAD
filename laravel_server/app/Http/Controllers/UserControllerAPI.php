@@ -19,7 +19,7 @@ use Illuminate\Support\Facades\Auth;
 class UserControllerAPI extends Controller
 {
     public function getAuthUser(){
-        return $AuthUser = Auth::user();
+        return $authUser = Auth::user();
     }
 
     public function getUsers(Request $request)

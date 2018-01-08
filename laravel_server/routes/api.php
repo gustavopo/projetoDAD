@@ -12,18 +12,21 @@ use Illuminate\Http\Request;
 | is assigned the "api" middleware group. Enjoy building your API!
 |
 */
-
+/*
 Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
 });
-
+*/
 Route::post('login', 'LoginControllerAPI@login');
 Route::middleware('auth:api')->post('logout','LoginControllerAPI@logout');
-
 
 //rota teste do login
 Route::middleware('auth:api')->get('teste', function () {
  return response()->json(['msg'=>'Só um teste'], 200);
+});
+
+Route::middleware('auth:api')->get('user', function () {
+    return response()->json();
 });
 
 
@@ -39,16 +42,15 @@ Route::get('verifyEmail','UserControllerAPI@verifyEmail')->name('verifyEmail');
 Route::get('verify/{email}/{verifyToken}', 'UserControllerApi@sendEmailDone')->name('sendEmailDone');
 
 //GetAuthenthicatedUser
-Route::get('user', function(Request $request)
-{    return $request->user();
+Route::middleware('auth:api')->get('user', function(Request $request)
+{
+    return $request->user();
 })->middleware('auth:api');
 
 Route::get('/authUser', 'UserControllerApi@getAuthUser');
 
-Route::post('login', 'LoginControllerAPI@login');
-Route::middleware('auth:api')->post('logout','LoginControllerAPI@logout');
 
-
+//Games
 Route::get('games', 'GameControllerAPI@index');
 Route::get('games/lobby', 'GameControllerAPI@lobby');
 Route::get('games/status/{status}', 'GameControllerAPI@gamesStatus');
@@ -56,3 +58,8 @@ Route::get('games/{id}', 'GameControllerAPI@getGame');
 Route::post('games', 'GameControllerAPI@store');
 Route::patch('games/{id}/join-start', 'GameControllerAPI@joinAndStart');
 Route::patch('games/{id}/endgame/{winner}', 'GameControllerAPI@endgame');
+
+
+//Images
+//Route::get('/images', 'ImageControllerApi@all');
+//Route::delete('images/{id}', 'ImageControllerAPI@delete');

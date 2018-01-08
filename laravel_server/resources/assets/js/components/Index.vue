@@ -14,14 +14,13 @@
             <div align="right">
                 <router-link v-if="isAuth" to="/userPage">Gestão da Conta</router-link>
                 -
-                <router-link v-if="isAuth" to="/logout">Logout</router-link>
+                <button @click="logoutClick" v-if="isAuth" to="/logout">Logout</button>
                 -
                 <router-link v-if="!isAuth" to="/login"> Login</router-link>
                 -
                 <router-link v-if="!isAuth" to="/register"> Register</router-link>
             </div>
         </div>
-
         <div>
 
             <router-view></router-view>
@@ -29,13 +28,11 @@
         </div>
 
     </div>
+
 </template>
 
-
 <script>
-
     export default {
-
 
 
         data: function () {
@@ -48,21 +45,21 @@
             this.isAuth = this.$auth.isAuthenticated();
 
 
-            this.setAuthenticatedUser();
+            if (this.isAuth) {
+                this.setAuthenticatedUser();
+            }
 
         },
 
-
         methods: {
+
             setAuthenticatedUser() {
 
-
-
-                this.$http.get('api/user', {
+            console.log("token : " + this.$auth.getToken());
+                this.$http.get('api/user',{
                     headers: {
-                        "Authorization": "Bearer " + localStorage.getItem("access_token"),
+                        "Authorization": "Bearer " + this.$auth.getToken(),
                         "Accept": "application/json",
-                        "cache-control": "no-cache"
                     }
                 }).then(response => {
                     console.log("Response:" + response);
@@ -73,6 +70,14 @@
                     console.log(error);
                 });
 
+            },
+
+
+            logoutClick() {
+                        this.$auth.destroyToken();
+                      console.log("Logout OK!");
+                        //Redirecionar user após este ficar autenticado
+                        this.$router.push("/index");
             }
         }
     }
