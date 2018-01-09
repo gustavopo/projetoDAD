@@ -1,12 +1,13 @@
 <template>
     <div class="panel panel-info">
 
+
         <div>
-            <h3 class="text-center">{{ title }}</h3>
+            <h3 class="text-center">{{this.title}}  </h3>
         </div>
 
         <div class="panel-heading">
-            <h3 class="panel-title"  > fdsgsdg </h3>
+            <h3 class="panel-title"></h3>
         </div>
         <div class="panel-body">
             <div class="row">
@@ -14,47 +15,33 @@
                     <img alt="User Pic" src="http://babyinfoforyou.com/wp-content/uploads/2014/10/avatar-300x300.png"
                          class="img-circle img-responsive"></div>
                 <div class=" col-md-9 col-lg-9 ">
-                    <table class="table table-user-information">
+                   <!-- <table class="table table-user-information">
                         <tbody>
+                        <tr>
+                            <td>Name:</td>
+                            <td>{{this.authUser.name}} </td>
+                        </tr>
+                        <tr>
+                            <td>Nickname:</td>
+                            <td>{{this.authUser.nickname}}</td>
+                        </tr>
+                        <tr>
 
-                        <tr>
-                            <td>Department:</td>
-                            <td>Programming</td>
-                        </tr>
-                        <tr>
-                            <td>Hire date:</td>
-                            <td>06/23/2013</td>
-                        </tr>
-                        <tr>
-                            <td>Date of Birth</td>
-                            <td>01/24/1988</td>
-                        </tr>
-
-                        <tr>
-                        <tr>
-                            <td>Gender</td>
-                            <td>Female</td>
-                        </tr>
-                        <tr>
-                            <td>Home Address</td>
-                            <td>Kathmandu,Nepal</td>
-                        </tr>
-                        <tr>
                             <td>Email</td>
-                            <td><a href="mailto:info@support.com">info@support.com</a></td>
+                            <td><a>{{this.authUser.email}}</a></td>
                         <tr>
-                        <td>Phone Number</td>
-                        <td>123-4567-890(Landline)<br><br>555-4567-890(Mobile)
-                        </td>
-
                         </tr>
-
+                        <hr>
+                        <br>
 
                         </tbody>
-                    </table>
+                    </table>-->
+                    <user-data :authUser="authUser">
 
-                    <a href="#" class="btn btn-primary">My Sales Performance</a>
-                    <a href="#" class="btn btn-primary">Team Sales Performance</a>
+                    </user-data>
+
+
+                    
                 </div>
             </div>
         </div>
@@ -62,7 +49,8 @@
             <a data-original-title="Broadcast Message" data-toggle="tooltip" type="button"
                class="btn btn-sm btn-primary"><i class="glyphicon glyphicon-envelope"></i></a>
             <span class="pull-right">
-                            <a href="edit.html" data-original-title="Edit this user" data-toggle="tooltip" type="button"
+                            <a v-on:click.prevent="editUser(user)" data-original-title="Edit this user"
+                               data-toggle="tooltip" type="button"
                                class="btn btn-sm btn-warning"><i class="glyphicon glyphicon-edit"></i></a>
                             <a data-original-title="Remove this user" data-toggle="tooltip" type="button"
                                class="btn btn-sm btn-danger"><i class="glyphicon glyphicon-remove"></i></a>
@@ -75,47 +63,55 @@
 
 <script type="text/javascript">
     // Component code (not registered)
-    module.exports = {
-        props: ['user'],
+
+    import UserData from './userData.vue';
+    import UserEdit from './userEdit.vue';
+
+    export default {
+       // props: ['user'],
         data: function () {
             return {
                 title: 'Gestão do Utilizador',
                 showSuccess: false,
                 successMessage: '',
-                currentUser: null,
-
+                editingUser: false,
+                authUser: '',
             }
 
         },
 
 
         methods: {
+            getAuthUser() {
+
+                let user = this.$auth.getAuthenticatedUser();
+                console.log(user);
+                this.authUser = user;
+                console.log(this.authUser.name);
+            },
+
+            editUser: function (user) {
+                this.editingUser = user;
+                this.$emit('edit-click', user);
+            },
 
 
-            /*
-            getUser: function (token) {
-                this.$http.get('users/', {api_token: token}).then(function (r) {
-                    this.currentUser = r.data.data;
-                    console.log("Current User: " + this.currentUser);
-                }, function (r) {
-                    console.log("Error get User:" + r);
-                    this.currentUser = null
-                });
-            }*/
         },
 
-        beforeMount: function () {
-/*
-            var token = this.$auth.getToken();
-            console.log({api_token: token});
-            if (token != '') {
-               // this.getUser(token);
-            }*/
-        },
-        created(){
-            this.currentUser = this.$auth.isAuthenticated();
 
-        }
+        computed: {
+            authenthicatedUser() {
+                // return this.$auth.getAuthenticatedUser();
+            }
+        },
+        components: {
+            'user-data': UserData,
+            'user-edit': UserEdit,
+        },
+
+        beforeMount() {
+            this.getAuthUser();
+        },
 
     }
 </script>

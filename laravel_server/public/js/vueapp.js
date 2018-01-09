@@ -816,6 +816,12 @@ module.exports = g;
 /* 5 */
 /***/ (function(module, exports, __webpack_require__) {
 
+module.exports = __webpack_require__(20);
+
+/***/ }),
+/* 6 */
+/***/ (function(module, exports, __webpack_require__) {
+
 "use strict";
 /* WEBPACK VAR INJECTION */(function(process) {
 
@@ -911,12 +917,6 @@ utils.forEach(['post', 'put', 'patch'], function forEachMethodWithData(method) {
 module.exports = defaults;
 
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(8)))
-
-/***/ }),
-/* 6 */
-/***/ (function(module, exports, __webpack_require__) {
-
-module.exports = __webpack_require__(20);
 
 /***/ }),
 /* 7 */
@@ -1395,7 +1395,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_vue_socket_io___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1_vue_socket_io__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_vue_resource__ = __webpack_require__(43);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__packages_auth_Auth_js__ = __webpack_require__(45);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4_axios__ = __webpack_require__(6);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4_axios__ = __webpack_require__(5);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_4_axios___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_4_axios__);
 /**
  * First we will load all of this project's JavaScript dependencies which
@@ -1410,7 +1410,7 @@ window.Vue = __webpack_require__(38);
 
 
 
-window.axios = __webpack_require__(6);
+window.axios = __webpack_require__(5);
 
 Vue.use(__WEBPACK_IMPORTED_MODULE_0_vue_router__["a" /* default */]);
 Vue.use(__WEBPACK_IMPORTED_MODULE_2_vue_resource__["a" /* default */]);
@@ -1493,7 +1493,7 @@ try {
  * CSRF token as a header based on the value of the "XSRF" token cookie.
  */
 
-window.axios = __webpack_require__(6);
+window.axios = __webpack_require__(5);
 
 window.axios.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
 
@@ -31299,7 +31299,7 @@ if (typeof jQuery === 'undefined') {
 var utils = __webpack_require__(1);
 var bind = __webpack_require__(7);
 var Axios = __webpack_require__(22);
-var defaults = __webpack_require__(5);
+var defaults = __webpack_require__(6);
 
 /**
  * Create an instance of Axios
@@ -31382,7 +31382,7 @@ function isSlowBuffer (obj) {
 "use strict";
 
 
-var defaults = __webpack_require__(5);
+var defaults = __webpack_require__(6);
 var utils = __webpack_require__(1);
 var InterceptorManager = __webpack_require__(31);
 var dispatchRequest = __webpack_require__(32);
@@ -31914,7 +31914,7 @@ module.exports = InterceptorManager;
 var utils = __webpack_require__(1);
 var transformData = __webpack_require__(33);
 var isCancel = __webpack_require__(11);
-var defaults = __webpack_require__(5);
+var defaults = __webpack_require__(6);
 
 /**
  * Throws a `Cancel` if cancellation has been requested.
@@ -47614,14 +47614,13 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         setAuthenticatedUser: function setAuthenticatedUser() {
             var _this = this;
 
-            console.log("token : " + this.$auth.getToken());
+            // console.log("token : " + this.$auth.getToken());
             this.$http.get('api/user', {
                 headers: {
                     "Authorization": "Bearer " + this.$auth.getToken(),
                     "Accept": "application/json"
                 }
             }).then(function (response) {
-                console.log("Response:" + response);
                 _this.$auth.setAuthenticatedUser(response.body);
                 console.log(_this.$auth.getAuthenticatedUser());
             }).catch(function (error) {
@@ -47868,6 +47867,8 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
 
 
 
@@ -47879,7 +47880,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             title: 'List Users',
             showSuccess: false,
             successMessage: '',
-            currentUser: null,
+            authUser: this.$auth.getAuthenticatedUser(),
             users: [],
             blockingUser: null
 
@@ -47887,7 +47888,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
     },
     methods: {
         editUser: function editUser(user) {
-            this.currentUser = user;
+            this.authUser = user;
             this.showSuccess = false;
         },
         deleteUser: function deleteUser(user) {
@@ -47900,13 +47901,13 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             });
         },
         savedUser: function savedUser() {
-            this.currentUser = null;
+            this.authUser = null;
             this.$refs.usersListRef.editingUser = null;
             this.showSuccess = true;
             this.successMessage = 'User Saved';
         },
         cancelEdit: function cancelEdit() {
-            this.currentUser = null;
+            this.authUser = null;
             this.$refs.usersListRef.editingUser = null;
             this.showSuccess = false;
         },
@@ -47949,7 +47950,14 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
     },
     mounted: function mounted() {
         this.getUsers();
+    },
+
+    computed: {
+        authenthicatedUser: function authenthicatedUser() {
+            return this.$auth.getAuthenticatedUser();
+        }
     }
+
 });
 
 /***/ }),
@@ -48774,9 +48782,9 @@ var render = function() {
           ])
         : _vm._e(),
       _vm._v(" "),
-      _vm.currentUser
+      _vm.authUser
         ? _c("user-edit", {
-            attrs: { user: _vm.currentUser },
+            attrs: { user: _vm.authUser },
             on: { "user-saved": _vm.savedUser, "user-canceled": _vm.cancelEdit }
           })
         : _vm._e(),
@@ -48897,20 +48905,14 @@ exports.push([module.i, "\ntr.activerow[data-v-774fd1d2] {\n    background: #123
 
 /***/ }),
 /* 73 */
-/***/ (function(module, exports) {
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
 
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
+"use strict";
+Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__userData_vue__ = __webpack_require__(124);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__userData_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0__userData_vue__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__userEdit_vue__ = __webpack_require__(59);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__userEdit_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1__userEdit_vue__);
 //
 //
 //
@@ -48976,44 +48978,53 @@ exports.push([module.i, "\ntr.activerow[data-v-774fd1d2] {\n    background: #123
 //
 
 // Component code (not registered)
-module.exports = {
-    props: ['user'],
+
+
+
+
+/* harmony default export */ __webpack_exports__["default"] = ({
+    // props: ['user'],
     data: function data() {
         return {
             title: 'Gestão do Utilizador',
             showSuccess: false,
             successMessage: '',
-            currentUser: null
-
+            editingUser: false,
+            authUser: ''
         };
     },
 
     methods: {
+        getAuthUser: function getAuthUser() {
 
-        /*
-        getUser: function (token) {
-            this.$http.get('users/', {api_token: token}).then(function (r) {
-                this.currentUser = r.data.data;
-                console.log("Current User: " + this.currentUser);
-            }, function (r) {
-                console.log("Error get User:" + r);
-                this.currentUser = null
-            });
-        }*/
+            var user = this.$auth.getAuthenticatedUser();
+            console.log(user);
+            this.authUser = user;
+            console.log(this.authUser.name);
+        },
+
+
+        editUser: function editUser(user) {
+            this.editingUser = user;
+            this.$emit('edit-click', user);
+        }
+
+    },
+
+    computed: {
+        authenthicatedUser: function authenthicatedUser() {
+            // return this.$auth.getAuthenticatedUser();
+        }
+    },
+    components: {
+        'user-data': __WEBPACK_IMPORTED_MODULE_0__userData_vue___default.a,
+        'user-edit': __WEBPACK_IMPORTED_MODULE_1__userEdit_vue___default.a
     },
 
     beforeMount: function beforeMount() {
-        /*
-                    var token = this.$auth.getToken();
-                    console.log({api_token: token});
-                    if (token != '') {
-                       // this.getUser(token);
-                    }*/
-    },
-    created: function created() {
-        this.currentUser = this.$auth.isAuthenticated();
+        this.getAuthUser();
     }
-};
+});
 
 /***/ }),
 /* 74 */
@@ -49025,14 +49036,52 @@ var render = function() {
   var _c = _vm._self._c || _h
   return _c("div", { staticClass: "panel panel-info" }, [
     _c("div", [
-      _c("h3", { staticClass: "text-center" }, [_vm._v(_vm._s(_vm.title))])
+      _c("h3", { staticClass: "text-center" }, [
+        _vm._v(_vm._s(this.title) + "  ")
+      ])
     ]),
     _vm._v(" "),
     _vm._m(0),
     _vm._v(" "),
-    _vm._m(1),
+    _c("div", { staticClass: "panel-body" }, [
+      _c("div", { staticClass: "row" }, [
+        _vm._m(1),
+        _vm._v(" "),
+        _c(
+          "div",
+          { staticClass: " col-md-9 col-lg-9 " },
+          [_c("user-data", { attrs: { authUser: _vm.authUser } })],
+          1
+        )
+      ])
+    ]),
     _vm._v(" "),
-    _vm._m(2)
+    _c("div", { staticClass: "panel-footer" }, [
+      _vm._m(2),
+      _vm._v(" "),
+      _c("span", { staticClass: "pull-right" }, [
+        _c(
+          "a",
+          {
+            staticClass: "btn btn-sm btn-warning",
+            attrs: {
+              "data-original-title": "Edit this user",
+              "data-toggle": "tooltip",
+              type: "button"
+            },
+            on: {
+              click: function($event) {
+                $event.preventDefault()
+                _vm.editUser(_vm.user)
+              }
+            }
+          },
+          [_c("i", { staticClass: "glyphicon glyphicon-edit" })]
+        ),
+        _vm._v(" "),
+        _vm._m(3)
+      ])
+    ])
   ])
 }
 var staticRenderFns = [
@@ -49041,144 +49090,61 @@ var staticRenderFns = [
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
     return _c("div", { staticClass: "panel-heading" }, [
-      _c("h3", { staticClass: "panel-title" }, [_vm._v(" fdsgsdg ")])
+      _c("h3", { staticClass: "panel-title" })
     ])
   },
   function() {
     var _vm = this
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "panel-body" }, [
-      _c("div", { staticClass: "row" }, [
-        _c(
-          "div",
-          { staticClass: "col-md-3 col-lg-3 ", attrs: { align: "center" } },
-          [
-            _c("img", {
-              staticClass: "img-circle img-responsive",
-              attrs: {
-                alt: "User Pic",
-                src:
-                  "http://babyinfoforyou.com/wp-content/uploads/2014/10/avatar-300x300.png"
-              }
-            })
-          ]
-        ),
-        _vm._v(" "),
-        _c("div", { staticClass: " col-md-9 col-lg-9 " }, [
-          _c("table", { staticClass: "table table-user-information" }, [
-            _c("tbody", [
-              _c("tr", [
-                _c("td", [_vm._v("Department:")]),
-                _vm._v(" "),
-                _c("td", [_vm._v("Programming")])
-              ]),
-              _vm._v(" "),
-              _c("tr", [
-                _c("td", [_vm._v("Hire date:")]),
-                _vm._v(" "),
-                _c("td", [_vm._v("06/23/2013")])
-              ]),
-              _vm._v(" "),
-              _c("tr", [
-                _c("td", [_vm._v("Date of Birth")]),
-                _vm._v(" "),
-                _c("td", [_vm._v("01/24/1988")])
-              ]),
-              _vm._v(" "),
-              _c("tr"),
-              _c("tr", [
-                _c("td", [_vm._v("Gender")]),
-                _vm._v(" "),
-                _c("td", [_vm._v("Female")])
-              ]),
-              _vm._v(" "),
-              _c("tr", [
-                _c("td", [_vm._v("Home Address")]),
-                _vm._v(" "),
-                _c("td", [_vm._v("Kathmandu,Nepal")])
-              ]),
-              _vm._v(" "),
-              _c("tr", [
-                _c("td", [_vm._v("Email")]),
-                _vm._v(" "),
-                _c("td", [
-                  _c("a", { attrs: { href: "mailto:info@support.com" } }, [
-                    _vm._v("info@support.com")
-                  ])
-                ])
-              ]),
-              _c("tr", [
-                _c("td", [_vm._v("Phone Number")]),
-                _vm._v(" "),
-                _c("td", [
-                  _vm._v("123-4567-890(Landline)"),
-                  _c("br"),
-                  _c("br"),
-                  _vm._v("555-4567-890(Mobile)\n                    ")
-                ])
-              ])
-            ])
-          ]),
-          _vm._v(" "),
-          _c("a", { staticClass: "btn btn-primary", attrs: { href: "#" } }, [
-            _vm._v("My Sales Performance")
-          ]),
-          _vm._v(" "),
-          _c("a", { staticClass: "btn btn-primary", attrs: { href: "#" } }, [
-            _vm._v("Team Sales Performance")
-          ])
-        ])
-      ])
-    ])
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "panel-footer" }, [
-      _c(
-        "a",
-        {
-          staticClass: "btn btn-sm btn-primary",
+    return _c(
+      "div",
+      { staticClass: "col-md-3 col-lg-3 ", attrs: { align: "center" } },
+      [
+        _c("img", {
+          staticClass: "img-circle img-responsive",
           attrs: {
-            "data-original-title": "Broadcast Message",
-            "data-toggle": "tooltip",
-            type: "button"
+            alt: "User Pic",
+            src:
+              "http://babyinfoforyou.com/wp-content/uploads/2014/10/avatar-300x300.png"
           }
-        },
-        [_c("i", { staticClass: "glyphicon glyphicon-envelope" })]
-      ),
-      _vm._v(" "),
-      _c("span", { staticClass: "pull-right" }, [
-        _c(
-          "a",
-          {
-            staticClass: "btn btn-sm btn-warning",
-            attrs: {
-              href: "edit.html",
-              "data-original-title": "Edit this user",
-              "data-toggle": "tooltip",
-              type: "button"
-            }
-          },
-          [_c("i", { staticClass: "glyphicon glyphicon-edit" })]
-        ),
-        _vm._v(" "),
-        _c(
-          "a",
-          {
-            staticClass: "btn btn-sm btn-danger",
-            attrs: {
-              "data-original-title": "Remove this user",
-              "data-toggle": "tooltip",
-              type: "button"
-            }
-          },
-          [_c("i", { staticClass: "glyphicon glyphicon-remove" })]
-        )
-      ])
-    ])
+        })
+      ]
+    )
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c(
+      "a",
+      {
+        staticClass: "btn btn-sm btn-primary",
+        attrs: {
+          "data-original-title": "Broadcast Message",
+          "data-toggle": "tooltip",
+          type: "button"
+        }
+      },
+      [_c("i", { staticClass: "glyphicon glyphicon-envelope" })]
+    )
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c(
+      "a",
+      {
+        staticClass: "btn btn-sm btn-danger",
+        attrs: {
+          "data-original-title": "Remove this user",
+          "data-toggle": "tooltip",
+          type: "button"
+        }
+      },
+      [_c("i", { staticClass: "glyphicon glyphicon-remove" })]
+    )
   }
 ]
 render._withStripped = true
@@ -51832,6 +51798,156 @@ module.exports = Component.exports
 /***/ (function(module, exports) {
 
 // removed by extract-text-webpack-plugin
+
+/***/ }),
+/* 115 */,
+/* 116 */,
+/* 117 */,
+/* 118 */,
+/* 119 */,
+/* 120 */,
+/* 121 */,
+/* 122 */,
+/* 123 */,
+/* 124 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var disposed = false
+var normalizeComponent = __webpack_require__(0)
+/* script */
+var __vue_script__ = __webpack_require__(125)
+/* template */
+var __vue_template__ = __webpack_require__(126)
+/* template functional */
+var __vue_template_functional__ = false
+/* styles */
+var __vue_styles__ = null
+/* scopeId */
+var __vue_scopeId__ = null
+/* moduleIdentifier (server only) */
+var __vue_module_identifier__ = null
+var Component = normalizeComponent(
+  __vue_script__,
+  __vue_template__,
+  __vue_template_functional__,
+  __vue_styles__,
+  __vue_scopeId__,
+  __vue_module_identifier__
+)
+Component.options.__file = "resources/assets/js/components/User/userData.vue"
+
+/* hot reload */
+if (false) {(function () {
+  var hotAPI = require("vue-hot-reload-api")
+  hotAPI.install(require("vue"), false)
+  if (!hotAPI.compatible) return
+  module.hot.accept()
+  if (!module.hot.data) {
+    hotAPI.createRecord("data-v-087ec29c", Component.options)
+  } else {
+    hotAPI.reload("data-v-087ec29c", Component.options)
+  }
+  module.hot.dispose(function (data) {
+    disposed = true
+  })
+})()}
+
+module.exports = Component.exports
+
+
+/***/ }),
+/* 125 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
+// Component code (not registered)
+/* harmony default export */ __webpack_exports__["default"] = ({
+    props: ['authUser'],
+    data: function data() {
+        return {};
+    },
+
+    methods: {}
+
+});
+
+/***/ }),
+/* 126 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _c("div", [
+    _c("table", { staticClass: "table table-user-information" }, [
+      _c("tbody", [
+        _c("tr", [
+          _c("td", [_vm._v("Name:")]),
+          _vm._v(" "),
+          _c("td", [_vm._v(_vm._s(this.authUser.name) + " ")])
+        ]),
+        _vm._v(" "),
+        _c("tr", [
+          _c("td", [_vm._v("Nickname:")]),
+          _vm._v(" "),
+          _c("td", [_vm._v(_vm._s(this.authUser.nickname))])
+        ]),
+        _vm._v(" "),
+        _c("tr", [
+          _c("td", [_vm._v("Email")]),
+          _vm._v(" "),
+          _c("td", [_c("a", [_vm._v(_vm._s(this.authUser.email))])])
+        ]),
+        _c("tr"),
+        _vm._v(" "),
+        _c("hr"),
+        _vm._v(" "),
+        _c("br")
+      ])
+    ])
+  ])
+}
+var staticRenderFns = []
+render._withStripped = true
+module.exports = { render: render, staticRenderFns: staticRenderFns }
+if (false) {
+  module.hot.accept()
+  if (module.hot.data) {
+    require("vue-hot-reload-api")      .rerender("data-v-087ec29c", module.exports)
+  }
+}
 
 /***/ })
 /******/ ]);

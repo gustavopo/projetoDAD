@@ -55,17 +55,15 @@
 
             setAuthenticatedUser() {
 
-            console.log("token : " + this.$auth.getToken());
+           // console.log("token : " + this.$auth.getToken());
                 this.$http.get('api/user',{
                     headers: {
                         "Authorization": "Bearer " + this.$auth.getToken(),
                         "Accept": "application/json",
                     }
                 }).then(response => {
-                    console.log("Response:" + response);
                     this.$auth.setAuthenticatedUser(response.body);
                     console.log(this.$auth.getAuthenticatedUser());
-
                 }).catch((error) => {
                     console.log(error);
                 });
