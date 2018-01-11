@@ -71,12 +71,15 @@ class UserControllerAPI extends Controller
     {
         $request->validate([
             'name' => 'required',
+            'nickname' => 'required',
             'email' => 'required|email|unique:users,email,'.$id,
         ]);
         $user = User::findOrFail($id);
         $user->update($request->all());
         return new UserResource($user);
     }
+
+
 
     public function delete($id)
     {

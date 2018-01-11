@@ -40,6 +40,11 @@
 
                     </user-data>
 
+                <user-edit  v-if="editingUser" :authUser="authUser" :editingUser="editingUser" @edit-click="editUser(this.authUser)"
+                            @user-saved="savedUser" @user-canceled="cancelEdit">
+
+                </user-edit>
+
 
                     
                 </div>
@@ -49,7 +54,7 @@
             <a data-original-title="Broadcast Message" data-toggle="tooltip" type="button"
                class="btn btn-sm btn-primary"><i class="glyphicon glyphicon-envelope"></i></a>
             <span class="pull-right">
-                            <a v-on:click.prevent="editUser(user)" data-original-title="Edit this user"
+                            <a v-on:click.prevent="editUser(this.authUser)" data-original-title="Edit this user"
                                data-toggle="tooltip" type="button"
                                class="btn btn-sm btn-warning"><i class="glyphicon glyphicon-edit"></i></a>
                             <a data-original-title="Remove this user" data-toggle="tooltip" type="button"
@@ -91,8 +96,24 @@
             },
 
             editUser: function (user) {
-                this.editingUser = user;
+                //console.log("No edit user.name: " + this.authUser);
+                this.editingUser = true;
                 this.$emit('edit-click', user);
+            },
+
+            cancelEdit: function(){
+                this.editingUser = null;
+                this.showSuccess = false;
+            },
+
+
+            savedUser: function(){
+                this.showSuccess = true;
+                this.successMessage = 'User Saved';
+            },
+            cancelEdit: function(){
+                this.editingUser =false;
+                this.showSuccess = false;
             },
 
 
@@ -111,6 +132,7 @@
 
         beforeMount() {
             this.getAuthUser();
+            console.log(this.$auth.getAuthenticatedUser());
         },
 
     }
