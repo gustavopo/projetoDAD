@@ -1544,7 +1544,12 @@ var singleplayerGame = Vue.component('singlegame', __webpack_require__(88));
 var multiplayerGame = Vue.component('multiplayergame', __webpack_require__(100));
 var statistics = Vue.component('statistics', __webpack_require__(120));
 
-var routes = [{ path: '/', redirect: '/index', component: index }, { path: '/users', component: user }, { path: '/userPage', component: userPage }, { path: '/multimemorygame', component: multiplayerGame }, { path: '/singlememorygame', component: singleplayerGame, meta: { forAuth: true } }, { path: '/multimemorygame', component: multiplayerGame, meta: { forAuth: true } }, { path: '/statistics', component: statistics, meta: { forAuth: true } }, { path: '/login', component: login, meta: { forVisitors: true } }, { path: '/register', component: register, meta: { forVisitors: true } }];
+/** ADMIN ROUTES **/
+var imagesManagement = Vue.component('imagesManagement', __webpack_require__(139));
+var imagesList = Vue.component('imagesList', __webpack_require__(138));
+var uploadImage = Vue.component('uploadImage', __webpack_require__(146));
+
+var routes = [{ path: '/', redirect: '/index', component: index }, { path: '/users', component: user }, { path: '/userPage', component: userPage }, { path: '/multimemorygame', component: multiplayerGame }, { path: '/singlememorygame', component: singleplayerGame, meta: { forAuth: true } }, { path: '/multimemorygame', component: multiplayerGame, meta: { forAuth: true } }, { path: '/statistics', component: statistics, meta: { forAuth: true } }, { path: '/login', component: login, meta: { forVisitors: true } }, { path: '/register', component: register, meta: { forVisitors: true } }, { path: '/imagesManagement', component: imagesManagement, meta: { forAuth: true } }, { path: '/uploadImage', component: uploadImage, meta: { forAuth: true } }];
 
 var router = new __WEBPACK_IMPORTED_MODULE_0_vue_router__["a" /* default */]({
 
@@ -47697,6 +47702,8 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
 
@@ -47767,6 +47774,10 @@ var render = function() {
           _vm._v("\n            -\n            "),
           _c("router-link", { attrs: { to: "/multimemorygame" } }, [
             _vm._v(" Multiplayer")
+          ]),
+          _vm._v("\n            -\n            "),
+          _c("router-link", { attrs: { to: "/imagesManagement" } }, [
+            _vm._v(" Images Management")
           ])
         ],
         1
@@ -47943,412 +47954,16 @@ module.exports = function listToStyles (parentId, list) {
 
 /***/ }),
 /* 55 */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__userList_vue__ = __webpack_require__(56);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__userList_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0__userList_vue__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__userEdit_vue__ = __webpack_require__(14);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__userEdit_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1__userEdit_vue__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__userBlock_vue__ = __webpack_require__(68);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__userBlock_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2__userBlock_vue__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__unblockUser_vue__ = __webpack_require__(133);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__unblockUser_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_3__unblockUser_vue__);
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-
-
-
-
-
-
-/* harmony default export */ __webpack_exports__["default"] = ({
-    data: function data() {
-        return {
-            title: 'List Users',
-            showSuccess: false,
-            successMessage: '',
-            authUser: this.$auth.getAuthenticatedUser(),
-            users: [],
-            blockingUser: null,
-            unblockingUser: null
-
-        };
-    },
-    methods: {
-        editUser: function editUser(user) {
-            this.authUser = user;
-            this.showSuccess = false;
-        },
-        deleteUser: function deleteUser(user) {
-            var _this = this;
-
-            axios.delete('api/users/' + user.id).then(function (response) {
-                _this.showSuccess = true;
-                _this.successMessage = 'User Deleted';
-                _this.getUsers();
-            });
-        },
-        savedUser: function savedUser() {
-            this.authUser = null;
-            this.$refs.usersListRef.editingUser = null;
-            this.showSuccess = true;
-            this.successMessage = 'User Saved';
-        },
-        cancelEdit: function cancelEdit() {
-            this.authUser = null;
-            this.$refs.usersListRef.editingUser = null;
-            this.showSuccess = false;
-        },
-        getUsers: function getUsers() {
-            var _this2 = this;
-
-            axios.get('api/users').then(function (response) {
-                _this2.users = response.data.data;
-            });
-        },
-        childMessage: function childMessage(message) {
-            this.showSuccess = true;
-            this.successMessage = message;
-        },
-        blockUser: function blockUser(user) {
-            this.blockingUser = user;
-            this.showSuccess = false;
-            /*  axios.post('api/users'+user.id, { blocked: '1'})
-              .then(function(response){
-                  this.showSuccess = true;
-                  this.successMessage = 'User Blocked';
-              });*/
-        },
-        cancelBlock: function cancelBlock() {
-            this.blockingUser = null;
-            this.$refs.usersListRef.editingUser = null;
-            this.showSuccess = false;
-        },
-        blockedUser: function blockedUser() {
-            this.blockingUser = null;
-            this.$refs.usersListRef.editingUser = null;
-            this.showSuccess = true;
-            this.successMessage = 'User Blocked';
-            this.getUsers();
-        },
-        unblockUser: function unblockUser(user) {
-            this.unblockingUser = user;
-            this.showSuccess = false;
-        },
-        cancelUnblock: function cancelUnblock() {
-            this.unblockingUser = null;
-            this.$refs.usersListRef.editingUser = null;
-            this.showSuccess = false;
-        }
-    },
-    components: {
-        'user-list': __WEBPACK_IMPORTED_MODULE_0__userList_vue___default.a,
-        'user-edit': __WEBPACK_IMPORTED_MODULE_1__userEdit_vue___default.a,
-        'user-block': __WEBPACK_IMPORTED_MODULE_2__userBlock_vue___default.a,
-        'user-unblock': __WEBPACK_IMPORTED_MODULE_3__unblockUser_vue___default.a
-    },
-    mounted: function mounted() {
-        this.getUsers();
-    },
-
-    computed: {
-        authenthicatedUser: function authenthicatedUser() {
-            return this.$auth.getAuthenticatedUser();
-        }
-    }
-
-});
-
-/***/ }),
-/* 56 */
-/***/ (function(module, exports, __webpack_require__) {
-
-var disposed = false
-function injectStyle (ssrContext) {
-  if (disposed) return
-  __webpack_require__(57)
-}
-var normalizeComponent = __webpack_require__(0)
-/* script */
-var __vue_script__ = __webpack_require__(59)
-/* template */
-var __vue_template__ = __webpack_require__(60)
-/* template functional */
-var __vue_template_functional__ = false
-/* styles */
-var __vue_styles__ = injectStyle
-/* scopeId */
-var __vue_scopeId__ = "data-v-3d5a74b4"
-/* moduleIdentifier (server only) */
-var __vue_module_identifier__ = null
-var Component = normalizeComponent(
-  __vue_script__,
-  __vue_template__,
-  __vue_template_functional__,
-  __vue_styles__,
-  __vue_scopeId__,
-  __vue_module_identifier__
-)
-Component.options.__file = "resources/assets/js/components/User/userList.vue"
-
-/* hot reload */
-if (false) {(function () {
-  var hotAPI = require("vue-hot-reload-api")
-  hotAPI.install(require("vue"), false)
-  if (!hotAPI.compatible) return
-  module.hot.accept()
-  if (!module.hot.data) {
-    hotAPI.createRecord("data-v-3d5a74b4", Component.options)
-  } else {
-    hotAPI.reload("data-v-3d5a74b4", Component.options)
-  }
-  module.hot.dispose(function (data) {
-    disposed = true
-  })
-})()}
-
-module.exports = Component.exports
-
-
-/***/ }),
-/* 57 */
-/***/ (function(module, exports, __webpack_require__) {
-
-// style-loader: Adds some css to the DOM by adding a <style> tag
-
-// load the styles
-var content = __webpack_require__(58);
-if(typeof content === 'string') content = [[module.i, content, '']];
-if(content.locals) module.exports = content.locals;
-// add the styles to the DOM
-var update = __webpack_require__(3)("0075408e", content, false);
-// Hot Module Replacement
-if(false) {
- // When the styles change, update the <style> tags
- if(!content.locals) {
-   module.hot.accept("!!../../../../../node_modules/css-loader/index.js!../../../../../node_modules/vue-loader/lib/style-compiler/index.js?{\"vue\":true,\"id\":\"data-v-3d5a74b4\",\"scoped\":true,\"hasInlineConfig\":true}!../../../../../node_modules/vue-loader/lib/selector.js?type=styles&index=0&bustCache!./userList.vue", function() {
-     var newContent = require("!!../../../../../node_modules/css-loader/index.js!../../../../../node_modules/vue-loader/lib/style-compiler/index.js?{\"vue\":true,\"id\":\"data-v-3d5a74b4\",\"scoped\":true,\"hasInlineConfig\":true}!../../../../../node_modules/vue-loader/lib/selector.js?type=styles&index=0&bustCache!./userList.vue");
-     if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
-     update(newContent);
-   });
- }
- // When the module is disposed, remove the <style> tags
- module.hot.dispose(function() { update(); });
-}
-
-/***/ }),
-/* 58 */
-/***/ (function(module, exports, __webpack_require__) {
-
-exports = module.exports = __webpack_require__(2)(undefined);
-// imports
-
-
-// module
-exports.push([module.i, "\ntr.activerow[data-v-3d5a74b4] {\n    background: #123456  !important;\n    color: #fff          !important;\n}\n\n", ""]);
-
-// exports
-
-
-/***/ }),
-/* 59 */
 /***/ (function(module, exports) {
 
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-
-// Component code (not registered)
-module.exports = {
-    props: ['users'],
-    data: function data() {
-        return {
-            editingUser: null,
-            blockingUser: true
-        };
-    },
-    methods: {
-        editUser: function editUser(user) {
-            this.editingUser = user;
-            this.$emit('edit-click', user);
-        },
-        /*isBlocked: function(user)
-        {
-        if (this.user.blocked == 1) {
-            user.blocked = 'yes';
-        }else{
-            user.blocked = 'no';
-        }
-             },*/
-        deleteUser: function deleteUser(user) {
-            this.editingUser = null;
-            this.$emit('delete-click', user);
-        },
-        blockUser: function blockUser(user) {
-            this.editingUser = user;
-            this.$emit('block-click', user);
-        },
-        unblockUser: function unblockUser(user) {
-            this.editingUser = user;
-            this.$emit('unblock-click', user);
-        }
-    }
-};
+throw new Error("Module build failed: SyntaxError: Unexpected token (50:0)\n\n\u001b[0m \u001b[90m 48 | \u001b[39m                users\u001b[33m:\u001b[39m []\u001b[33m,\u001b[39m\n \u001b[90m 49 | \u001b[39m                blockingUser\u001b[33m:\u001b[39m \u001b[36mnull\u001b[39m\u001b[33m,\u001b[39m\n\u001b[31m\u001b[1m>\u001b[22m\u001b[39m\u001b[90m 50 | \u001b[39m\u001b[33m<<\u001b[39m\u001b[33m<<\u001b[39m\u001b[33m<<\u001b[39m\u001b[33m<\u001b[39m \u001b[33mHEAD\u001b[39m\n \u001b[90m    | \u001b[39m\u001b[31m\u001b[1m^\u001b[22m\u001b[39m\n \u001b[90m 51 | \u001b[39m                unblockingUser\u001b[33m:\u001b[39m \u001b[36mnull\u001b[39m\n \u001b[90m 52 | \u001b[39m\n \u001b[90m 53 | \u001b[39m\u001b[33m===\u001b[39m\u001b[33m===\u001b[39m\u001b[33m=\u001b[39m\u001b[0m\n");
 
 /***/ }),
-/* 60 */
-/***/ (function(module, exports, __webpack_require__) {
-
-var render = function() {
-  var _vm = this
-  var _h = _vm.$createElement
-  var _c = _vm._self._c || _h
-  return _c("table", { staticClass: "table table-striped" }, [
-    _vm._m(0),
-    _vm._v(" "),
-    _c(
-      "tbody",
-      _vm._l(_vm.users, function(user) {
-        return _c(
-          "tr",
-          { key: user.id, class: { activerow: _vm.editingUser === user } },
-          [
-            _c("td", [_vm._v(_vm._s(user.name))]),
-            _vm._v(" "),
-            _c("td", [_vm._v(_vm._s(user.email))]),
-            _vm._v(" "),
-            _c("td", [_vm._v(_vm._s(user.blocked) + " ")]),
-            _vm._v(" "),
-            _c("td", [
-              _c(
-                "a",
-                {
-                  staticClass: "btn btn-xs btn-danger",
-                  on: {
-                    click: function($event) {
-                      $event.preventDefault()
-                      _vm.blockUser(user)
-                    }
-                  }
-                },
-                [_vm._v("Block")]
-              ),
-              _vm._v(" "),
-              _c(
-                "a",
-                {
-                  staticClass: "btn btn-xs btn-primary",
-                  on: {
-                    click: function($event) {
-                      $event.preventDefault()
-                      _vm.unblockUser(user)
-                    }
-                  }
-                },
-                [_vm._v("Unblock")]
-              ),
-              _vm._v(" "),
-              _c(
-                "a",
-                {
-                  staticClass: "btn btn-xs btn-danger",
-                  on: {
-                    click: function($event) {
-                      $event.preventDefault()
-                      _vm.deleteUser(user)
-                    }
-                  }
-                },
-                [_vm._v("Delete")]
-              )
-            ])
-          ]
-        )
-      })
-    )
-  ])
-}
-var staticRenderFns = [
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("thead", [
-      _c("tr", [
-        _c("th", [_vm._v("Name")]),
-        _vm._v(" "),
-        _c("th", [_vm._v("Email")]),
-        _vm._v(" "),
-        _c("th", [_vm._v("Blocked")]),
-        _vm._v(" "),
-        _c("th", [_vm._v("Actions")])
-      ])
-    ])
-  }
-]
-render._withStripped = true
-module.exports = { render: render, staticRenderFns: staticRenderFns }
-if (false) {
-  module.hot.accept()
-  if (module.hot.data) {
-    require("vue-hot-reload-api")      .rerender("data-v-3d5a74b4", module.exports)
-  }
-}
-
-/***/ }),
+/* 56 */,
+/* 57 */,
+/* 58 */,
+/* 59 */,
+/* 60 */,
 /* 61 */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -48383,7 +47998,7 @@ exports = module.exports = __webpack_require__(2)(undefined);
 
 
 // module
-exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", ""]);
+exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", ""]);
 
 // exports
 
@@ -48491,7 +48106,6 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                 Object.assign(_this.authUser, response.data.data);
                 _this.$emit('user-saved', _this.authUser);
             });
-            //TODO MENSAGENS
             swal("User edited with Sucess!", "success");
         },
 
@@ -48975,274 +48589,11 @@ if (false) {
 }
 
 /***/ }),
-/* 68 */
-/***/ (function(module, exports, __webpack_require__) {
-
-var disposed = false
-function injectStyle (ssrContext) {
-  if (disposed) return
-  __webpack_require__(69)
-}
-var normalizeComponent = __webpack_require__(0)
-/* script */
-var __vue_script__ = __webpack_require__(71)
-/* template */
-var __vue_template__ = __webpack_require__(72)
-/* template functional */
-var __vue_template_functional__ = false
-/* styles */
-var __vue_styles__ = injectStyle
-/* scopeId */
-var __vue_scopeId__ = "data-v-6ec69596"
-/* moduleIdentifier (server only) */
-var __vue_module_identifier__ = null
-var Component = normalizeComponent(
-  __vue_script__,
-  __vue_template__,
-  __vue_template_functional__,
-  __vue_styles__,
-  __vue_scopeId__,
-  __vue_module_identifier__
-)
-Component.options.__file = "resources/assets/js/components/User/userBlock.vue"
-
-/* hot reload */
-if (false) {(function () {
-  var hotAPI = require("vue-hot-reload-api")
-  hotAPI.install(require("vue"), false)
-  if (!hotAPI.compatible) return
-  module.hot.accept()
-  if (!module.hot.data) {
-    hotAPI.createRecord("data-v-6ec69596", Component.options)
-  } else {
-    hotAPI.reload("data-v-6ec69596", Component.options)
-  }
-  module.hot.dispose(function (data) {
-    disposed = true
-  })
-})()}
-
-module.exports = Component.exports
-
-
-/***/ }),
-/* 69 */
-/***/ (function(module, exports, __webpack_require__) {
-
-// style-loader: Adds some css to the DOM by adding a <style> tag
-
-// load the styles
-var content = __webpack_require__(70);
-if(typeof content === 'string') content = [[module.i, content, '']];
-if(content.locals) module.exports = content.locals;
-// add the styles to the DOM
-var update = __webpack_require__(3)("7dbdae3f", content, false);
-// Hot Module Replacement
-if(false) {
- // When the styles change, update the <style> tags
- if(!content.locals) {
-   module.hot.accept("!!../../../../../node_modules/css-loader/index.js!../../../../../node_modules/vue-loader/lib/style-compiler/index.js?{\"vue\":true,\"id\":\"data-v-6ec69596\",\"scoped\":true,\"hasInlineConfig\":true}!../../../../../node_modules/vue-loader/lib/selector.js?type=styles&index=0&bustCache!./userBlock.vue", function() {
-     var newContent = require("!!../../../../../node_modules/css-loader/index.js!../../../../../node_modules/vue-loader/lib/style-compiler/index.js?{\"vue\":true,\"id\":\"data-v-6ec69596\",\"scoped\":true,\"hasInlineConfig\":true}!../../../../../node_modules/vue-loader/lib/selector.js?type=styles&index=0&bustCache!./userBlock.vue");
-     if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
-     update(newContent);
-   });
- }
- // When the module is disposed, remove the <style> tags
- module.hot.dispose(function() { update(); });
-}
-
-/***/ }),
-/* 70 */
-/***/ (function(module, exports, __webpack_require__) {
-
-exports = module.exports = __webpack_require__(2)(undefined);
-// imports
-
-
-// module
-exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", ""]);
-
-// exports
-
-
-/***/ }),
-/* 71 */
-/***/ (function(module, exports) {
-
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-
-module.exports = {
-    props: ['user'],
-    methods: {
-        /*blockUser: function(){
-            var user = this.user;
-            axios.put('api/users/'+user.id)
-                .then(response=>{
-                    if(user.blocked = '1'){
-                        console.log("bloqueado");
-                    }
-                 // Copy object properties from response.data.data to this.user
-                // without creating a new reference
-                //Object.assign(this.user, response.data.data);
-                this.user.blocked = '1';
-                console.log(response);
-            this.$emit('user-blocked', this.user)
-        });*/
-
-        blockUser: function blockUser(user) {
-            var _this = this;
-
-            axios.get('api/users/' + this.user.id).then(function (response) {
-                _this.showSuccess = true;
-                if (_this.user.blocked == '1') {
-                    swal("User is already blocked");
-                } else {
-                    //this.user.blocked = '0';
-                    //this.user.reason_blocked = inputReason_blocked;
-                    console.log(inputReason_blocked);
-                    axios.put('api/users/block/' + _this.user.id, {
-                        blocked: 1 }).then(function (response) {
-                        console.log(response);
-                        swal("User blocked successfully!");
-                        _this.$emmit('user-blocked', _this.user);
-                    });
-
-                    //this.successMessage = 'User blocked';
-
-                    // this.$emmit('user-blocked', this.user);
-                }
-            });
-        },
-
-        cancelBlock: function cancelBlock() {
-            var _this2 = this;
-
-            axios.get('api/users/' + this.user.id).then(function (response) {
-                // Copy object properties from response.data.data to this.user
-                // without creating a new reference
-                Object.assign(_this2.user, response.data.data);
-                _this2.$emit('user-canceled', _this2.user);
-            });
-        }
-    }
-
-};
-
-/***/ }),
-/* 72 */
-/***/ (function(module, exports, __webpack_require__) {
-
-var render = function() {
-  var _vm = this
-  var _h = _vm.$createElement
-  var _c = _vm._self._c || _h
-  return _c("div", { staticClass: "jumbotron" }, [
-    _c("h2", [_vm._v("Block User")]),
-    _vm._v(" "),
-    _c("div", { staticClass: "form-group" }, [
-      _c("label", [_vm._v("Name")]),
-      _vm._v(" "),
-      _c("p", [_vm._v(_vm._s(_vm.user.name))])
-    ]),
-    _vm._v(" "),
-    _c("div", { staticClass: "form-group" }, [
-      _c("label", { attrs: { for: "inputReason_blocked" } }, [
-        _vm._v("Blocking Reason")
-      ]),
-      _vm._v(" "),
-      _c("input", {
-        directives: [
-          {
-            name: "model",
-            rawName: "v-model",
-            value: _vm.user.reason_blocked,
-            expression: "user.reason_blocked"
-          }
-        ],
-        staticClass: "form-control",
-        attrs: {
-          type: "text",
-          name: "reason_blocked",
-          id: "inputReason_blocked",
-          placeholder: "Mau comportamento"
-        },
-        domProps: { value: _vm.user.reason_blocked },
-        on: {
-          input: function($event) {
-            if ($event.target.composing) {
-              return
-            }
-            _vm.$set(_vm.user, "reason_blocked", $event.target.value)
-          }
-        }
-      })
-    ]),
-    _vm._v(" "),
-    _c("div", { staticClass: "form-group" }, [
-      _c(
-        "a",
-        {
-          staticClass: "btn btn-default",
-          on: {
-            click: function($event) {
-              $event.preventDefault()
-              _vm.blockUser()
-            }
-          }
-        },
-        [_vm._v("Block")]
-      ),
-      _vm._v(" "),
-      _c(
-        "a",
-        {
-          staticClass: "btn btn-default",
-          on: {
-            click: function($event) {
-              $event.preventDefault()
-              _vm.cancelBlock()
-            }
-          }
-        },
-        [_vm._v("Cancel")]
-      )
-    ])
-  ])
-}
-var staticRenderFns = []
-render._withStripped = true
-module.exports = { render: render, staticRenderFns: staticRenderFns }
-if (false) {
-  module.hot.accept()
-  if (module.hot.data) {
-    require("vue-hot-reload-api")      .rerender("data-v-6ec69596", module.exports)
-  }
-}
-
-/***/ }),
+/* 68 */,
+/* 69 */,
+/* 70 */,
+/* 71 */,
+/* 72 */,
 /* 73 */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -49256,17 +48607,24 @@ var render = function() {
       _c("div", { staticClass: "jumbotron" }, [
         _c("h1", [_vm._v(_vm._s(_vm.title))])
       ]),
-      _vm._v(" "),
-      _c("user-list", {
-        ref: "usersListRef",
-        attrs: { users: _vm.users },
-        on: {
-          "delete-click": _vm.deleteUser,
-          "block-click": _vm.blockUser,
-          "unblock-click": _vm.unblockUser,
-          message: _vm.childMessage
-        }
-      }),
+      _vm._v("\n<<<<<<< HEAD\n        "),
+      _vm._v("\n=======\n\n        "),
+      _c(
+        "user-list",
+        {
+          attrs: { users: _vm.users },
+          on: {
+            "edit-click": _vm.editUser,
+            "delete-click": _vm.deleteUser,
+            "block-click": _vm.blockUser
+          }
+        },
+        [
+          _vm._v(
+            '>>>>>> master\n                   @message="childMessage" ref="usersListRef">'
+          )
+        ]
+      ),
       _vm._v(" "),
       _vm.showSuccess
         ? _c("div", { staticClass: "alert alert-success" }, [
@@ -52983,25 +52341,30 @@ module.exports = Component.exports
 /* 130 */,
 /* 131 */,
 /* 132 */,
-/* 133 */
+/* 133 */,
+/* 134 */,
+/* 135 */,
+/* 136 */,
+/* 137 */,
+/* 138 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var disposed = false
 function injectStyle (ssrContext) {
   if (disposed) return
-  __webpack_require__(134)
+  __webpack_require__(141)
 }
 var normalizeComponent = __webpack_require__(0)
 /* script */
-var __vue_script__ = __webpack_require__(136)
+var __vue_script__ = __webpack_require__(143)
 /* template */
-var __vue_template__ = __webpack_require__(137)
+var __vue_template__ = __webpack_require__(144)
 /* template functional */
 var __vue_template_functional__ = false
 /* styles */
 var __vue_styles__ = injectStyle
 /* scopeId */
-var __vue_scopeId__ = "data-v-4c2ca7f2"
+var __vue_scopeId__ = "data-v-bcbebdda"
 /* moduleIdentifier (server only) */
 var __vue_module_identifier__ = null
 var Component = normalizeComponent(
@@ -53012,7 +52375,7 @@ var Component = normalizeComponent(
   __vue_scopeId__,
   __vue_module_identifier__
 )
-Component.options.__file = "resources/assets/js/components/User/unblockUser.vue"
+Component.options.__file = "resources/assets/js/components/User/admin/imagesList.vue"
 
 /* hot reload */
 if (false) {(function () {
@@ -53021,9 +52384,9 @@ if (false) {(function () {
   if (!hotAPI.compatible) return
   module.hot.accept()
   if (!module.hot.data) {
-    hotAPI.createRecord("data-v-4c2ca7f2", Component.options)
+    hotAPI.createRecord("data-v-bcbebdda", Component.options)
   } else {
-    hotAPI.reload("data-v-4c2ca7f2", Component.options)
+    hotAPI.reload("data-v-bcbebdda", Component.options)
   }
   module.hot.dispose(function (data) {
     disposed = true
@@ -53034,23 +52397,144 @@ module.exports = Component.exports
 
 
 /***/ }),
-/* 134 */
+/* 139 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var disposed = false
+var normalizeComponent = __webpack_require__(0)
+/* script */
+var __vue_script__ = __webpack_require__(140)
+/* template */
+var __vue_template__ = __webpack_require__(145)
+/* template functional */
+var __vue_template_functional__ = false
+/* styles */
+var __vue_styles__ = null
+/* scopeId */
+var __vue_scopeId__ = null
+/* moduleIdentifier (server only) */
+var __vue_module_identifier__ = null
+var Component = normalizeComponent(
+  __vue_script__,
+  __vue_template__,
+  __vue_template_functional__,
+  __vue_styles__,
+  __vue_scopeId__,
+  __vue_module_identifier__
+)
+Component.options.__file = "resources/assets/js/components/User/admin/imagesManagement.vue"
+
+/* hot reload */
+if (false) {(function () {
+  var hotAPI = require("vue-hot-reload-api")
+  hotAPI.install(require("vue"), false)
+  if (!hotAPI.compatible) return
+  module.hot.accept()
+  if (!module.hot.data) {
+    hotAPI.createRecord("data-v-297b9710", Component.options)
+  } else {
+    hotAPI.reload("data-v-297b9710", Component.options)
+  }
+  module.hot.dispose(function (data) {
+    disposed = true
+  })
+})()}
+
+module.exports = Component.exports
+
+
+/***/ }),
+/* 140 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__imagesList_vue__ = __webpack_require__(138);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__imagesList_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0__imagesList_vue__);
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
+
+
+/* harmony default export */ __webpack_exports__["default"] = ({
+    data: function data() {
+        return {
+            title: 'Images Management',
+            images: [],
+            showSuccess: false,
+            successMessage: ''
+
+        };
+    },
+
+    methods: {
+        getImages: function getImages() {
+            var _this = this;
+
+            axios.get('api/images').then(function (response) {
+                _this.images = response.data.data;
+            });
+        },
+        deleteImage: function deleteImage(image) {
+            var _this2 = this;
+
+            console.log("image" + image);
+            console.log(image);
+            axios.delete('api/images/' + image.id).then(function (response) {
+                _this2.showSuccess = true;
+                _this2.successMessage = 'Image Deleted';
+                swal("Image Deleted!", "success");
+                _this2.getImages();
+                console.log("response: " + response);
+            }).catch(function (error) {
+                return console.log(error);
+            });
+        },
+
+        redirectUpload: function redirectUpload() {
+            console.log("redirect upload");
+            this.$router.push('/uploadImage');
+        }
+
+    },
+    mounted: function mounted() {
+        this.getImages();
+    },
+
+    components: {
+        'images-list': __WEBPACK_IMPORTED_MODULE_0__imagesList_vue___default.a
+    }
+});
+
+/***/ }),
+/* 141 */
 /***/ (function(module, exports, __webpack_require__) {
 
 // style-loader: Adds some css to the DOM by adding a <style> tag
 
 // load the styles
-var content = __webpack_require__(135);
+var content = __webpack_require__(142);
 if(typeof content === 'string') content = [[module.i, content, '']];
 if(content.locals) module.exports = content.locals;
 // add the styles to the DOM
-var update = __webpack_require__(3)("8497a82e", content, false);
+var update = __webpack_require__(3)("813cd814", content, false);
 // Hot Module Replacement
 if(false) {
  // When the styles change, update the <style> tags
  if(!content.locals) {
-   module.hot.accept("!!../../../../../node_modules/css-loader/index.js!../../../../../node_modules/vue-loader/lib/style-compiler/index.js?{\"vue\":true,\"id\":\"data-v-4c2ca7f2\",\"scoped\":true,\"hasInlineConfig\":true}!../../../../../node_modules/vue-loader/lib/selector.js?type=styles&index=0&bustCache!./unblockUser.vue", function() {
-     var newContent = require("!!../../../../../node_modules/css-loader/index.js!../../../../../node_modules/vue-loader/lib/style-compiler/index.js?{\"vue\":true,\"id\":\"data-v-4c2ca7f2\",\"scoped\":true,\"hasInlineConfig\":true}!../../../../../node_modules/vue-loader/lib/selector.js?type=styles&index=0&bustCache!./unblockUser.vue");
+   module.hot.accept("!!../../../../../../node_modules/css-loader/index.js!../../../../../../node_modules/vue-loader/lib/style-compiler/index.js?{\"vue\":true,\"id\":\"data-v-bcbebdda\",\"scoped\":true,\"hasInlineConfig\":true}!../../../../../../node_modules/vue-loader/lib/selector.js?type=styles&index=0&bustCache!./imagesList.vue", function() {
+     var newContent = require("!!../../../../../../node_modules/css-loader/index.js!../../../../../../node_modules/vue-loader/lib/style-compiler/index.js?{\"vue\":true,\"id\":\"data-v-bcbebdda\",\"scoped\":true,\"hasInlineConfig\":true}!../../../../../../node_modules/vue-loader/lib/selector.js?type=styles&index=0&bustCache!./imagesList.vue");
      if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
      update(newContent);
    });
@@ -53060,7 +52544,7 @@ if(false) {
 }
 
 /***/ }),
-/* 135 */
+/* 142 */
 /***/ (function(module, exports, __webpack_require__) {
 
 exports = module.exports = __webpack_require__(2)(undefined);
@@ -53068,13 +52552,13 @@ exports = module.exports = __webpack_require__(2)(undefined);
 
 
 // module
-exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", ""]);
+exports.push([module.i, "\ntr.activerow[data-v-bcbebdda] {\n    background: #123456  !important;\n    color: #fff          !important;\n}\n\n", ""]);
 
 // exports
 
 
 /***/ }),
-/* 136 */
+/* 143 */
 /***/ (function(module, exports) {
 
 //
@@ -53101,123 +52585,144 @@ exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\
 //
 //
 //
+//
+//
+//
 
+// Component code (not registered)
 module.exports = {
-    props: ['user'],
+    props: ['images'],
+
+    data: function data() {
+        return {};
+    },
     methods: {
-        unblockUser: function unblockUser(user) {
-            var _this = this;
-
-            axios.get('api/users/' + this.user.id).then(function (response) {
-                _this.showSuccess = true;
-                if (_this.user.blocked == '0') {
-                    _this.successMessage = 'User is already unblocked';
-                } else {
-                    //this.user.blocked = '1';
-                    //this.user.reason_reactivated = inputReason_reactivated;
-                    axios.put('api/users/unblock/' + _this.user.id, {
-                        blocked: 0
-                    }).then(function (response) {
-                        console.log(response);
-                    });
-                    swal("User unblocked successfully!");
-                    //this.successMessage = 'User blocked';
-                }
-            });
+        pieceImageURL: function pieceImageURL(img) {
+            var imgSrc = String(img);
+            return 'img/' + imgSrc;
         },
-        cancelUnblock: function cancelUnblock() {
-            var _this2 = this;
-
-            axios.get('api/users/' + this.user.id).then(function (response) {
-                // Copy object properties from response.data.data to this.user
-                // without creating a new reference
-                Object.assign(_this2.user, response.data.data);
-                _this2.$emit('user-canceled', _this2.user);
-            });
+        deleteImage: function deleteImage(image) {
+            console.log("ID " + image.id);
+            this.$emit('delete-click', image);
         }
+
     }
 };
 
 /***/ }),
-/* 137 */
+/* 144 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _c("div", { staticClass: "jumbotron" }, [
-    _c("h2", [_vm._v("Unblock User")]),
+  return _c("table", { staticClass: "table table-striped" }, [
+    _vm._m(0),
     _vm._v(" "),
-    _c("div", { staticClass: "form-group" }, [
-      _c("label", [_vm._v("Name")]),
-      _vm._v(" "),
-      _c("p", [_vm._v(_vm._s(_vm.user.name))])
-    ]),
-    _vm._v(" "),
-    _c("div", { staticClass: "form-group" }, [
-      _c("label", { attrs: { for: "inputReason_reactivated" } }, [
-        _vm._v("Unblocking Reason")
+    _c(
+      "tbody",
+      _vm._l(_vm.images, function(image) {
+        return _c("tr", { key: image.id }, [
+          _c("td", [_vm._v(_vm._s(image.id))]),
+          _vm._v(" "),
+          _c("td", [_vm._v(_vm._s(image.face))]),
+          _vm._v(" "),
+          _c("td", [_vm._v(_vm._s(image.active))]),
+          _vm._v(" "),
+          _c("td", [
+            _c("img", { attrs: { src: _vm.pieceImageURL(image.path) } })
+          ]),
+          _vm._v(" "),
+          _c("td", [
+            _c(
+              "a",
+              {
+                staticClass: "btn btn-xs btn-danger",
+                on: {
+                  click: function($event) {
+                    $event.preventDefault()
+                    _vm.deleteImage(image)
+                  }
+                }
+              },
+              [_vm._v("Delete")]
+            )
+          ])
+        ])
+      })
+    )
+  ])
+}
+var staticRenderFns = [
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("thead", [
+      _c("tr", [
+        _c("th", [_vm._v("Id")]),
+        _vm._v(" "),
+        _c("th", [_vm._v("Face")]),
+        _vm._v(" "),
+        _c("th", [_vm._v("Active")]),
+        _vm._v(" "),
+        _c("th", [_vm._v("Image")]),
+        _vm._v(" "),
+        _c("th", [_vm._v("Actions")])
+      ])
+    ])
+  }
+]
+render._withStripped = true
+module.exports = { render: render, staticRenderFns: staticRenderFns }
+if (false) {
+  module.hot.accept()
+  if (module.hot.data) {
+    require("vue-hot-reload-api")      .rerender("data-v-bcbebdda", module.exports)
+  }
+}
+
+/***/ }),
+/* 145 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _c(
+    "div",
+    [
+      _c("div", { staticClass: "jumbotron" }, [
+        _c("h1", [_vm._v(_vm._s(_vm.title))])
       ]),
       _vm._v(" "),
-      _c("input", {
-        directives: [
+      _c("div", { attrs: { align: "right" } }, [
+        _c(
+          "a",
           {
-            name: "model",
-            rawName: "v-model",
-            value: _vm.user.reason_reactivated,
-            expression: "user.reason_reactivated"
-          }
-        ],
-        staticClass: "form-control",
-        attrs: {
-          type: "text",
-          name: "reason_reactivated",
-          id: "inputReason_reactivated",
-          placeholder: "Bom comportamento"
-        },
-        domProps: { value: _vm.user.reason_reactivated },
-        on: {
-          input: function($event) {
-            if ($event.target.composing) {
-              return
+            staticClass: "btn btn-xl btn-primary",
+            staticStyle: { "margin-right": "40px" },
+            on: {
+              click: function($event) {
+                $event.preventDefault()
+                _vm.redirectUpload($event)
+              }
             }
-            _vm.$set(_vm.user, "reason_reactivated", $event.target.value)
-          }
-        }
-      })
-    ]),
-    _vm._v(" "),
-    _c("div", { staticClass: "form-group" }, [
-      _c(
-        "a",
-        {
-          staticClass: "btn btn-default",
-          on: {
-            click: function($event) {
-              $event.preventDefault()
-              _vm.unblockUser()
-            }
-          }
-        },
-        [_vm._v("Unblock")]
-      ),
+          },
+          [_vm._v("Upload Image")]
+        )
+      ]),
       _vm._v(" "),
-      _c(
-        "a",
-        {
-          staticClass: "btn btn-default",
-          on: {
-            click: function($event) {
-              $event.preventDefault()
-              _vm.cancelUnblock()
-            }
-          }
-        },
-        [_vm._v("Cancel")]
-      )
-    ])
-  ])
+      _c("images-list", {
+        ref: "imagesListRef",
+        attrs: { images: _vm.images },
+        on: { "delete-click": _vm.deleteImage }
+      })
+    ],
+    1
+  )
 }
 var staticRenderFns = []
 render._withStripped = true
@@ -53225,7 +52730,180 @@ module.exports = { render: render, staticRenderFns: staticRenderFns }
 if (false) {
   module.hot.accept()
   if (module.hot.data) {
-    require("vue-hot-reload-api")      .rerender("data-v-4c2ca7f2", module.exports)
+    require("vue-hot-reload-api")      .rerender("data-v-297b9710", module.exports)
+  }
+}
+
+/***/ }),
+/* 146 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var disposed = false
+var normalizeComponent = __webpack_require__(0)
+/* script */
+var __vue_script__ = __webpack_require__(147)
+/* template */
+var __vue_template__ = __webpack_require__(148)
+/* template functional */
+var __vue_template_functional__ = false
+/* styles */
+var __vue_styles__ = null
+/* scopeId */
+var __vue_scopeId__ = null
+/* moduleIdentifier (server only) */
+var __vue_module_identifier__ = null
+var Component = normalizeComponent(
+  __vue_script__,
+  __vue_template__,
+  __vue_template_functional__,
+  __vue_styles__,
+  __vue_scopeId__,
+  __vue_module_identifier__
+)
+Component.options.__file = "resources/assets/js/components/User/admin/uploadImage.vue"
+
+/* hot reload */
+if (false) {(function () {
+  var hotAPI = require("vue-hot-reload-api")
+  hotAPI.install(require("vue"), false)
+  if (!hotAPI.compatible) return
+  module.hot.accept()
+  if (!module.hot.data) {
+    hotAPI.createRecord("data-v-5ee273cd", Component.options)
+  } else {
+    hotAPI.reload("data-v-5ee273cd", Component.options)
+  }
+  module.hot.dispose(function (data) {
+    disposed = true
+  })
+})()}
+
+module.exports = Component.exports
+
+
+/***/ }),
+/* 147 */
+/***/ (function(module, exports) {
+
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
+// Component code (not registered)
+module.exports = {
+
+    data: function data() {
+        return {
+            title: 'Images Management',
+            image: ''
+
+        };
+    },
+    methods: {
+        imageChanged: function imageChanged() {
+            //var fileReader = new File
+        }
+    }
+};
+
+/***/ }),
+/* 148 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _c("div", [
+    _c("div", { staticClass: "jumbotron" }, [
+      _c("h1", [_vm._v(_vm._s(_vm.title))])
+    ]),
+    _vm._v(" "),
+    _c("div", { staticClass: "row" }, [
+      _c("div", { staticClass: "col-md-6 col-md-offset-3" }, [
+        _c("div", { staticClass: "panel panel-default" }, [
+          _c("div", { staticClass: "panel-body", attrs: { align: "center" } }, [
+            _vm._m(0),
+            _vm._v(" "),
+            _c("div", { staticClass: "form-group", attrs: { align: "left" } }, [
+              _c("label", [_vm._v("File Name")]),
+              _vm._v(" "),
+              _c("input", {
+                staticClass: "form-control",
+                attrs: { type: "file", placeholder: "Image Name" },
+                on: { change: _vm.imageChanged }
+              })
+            ]),
+            _vm._v(" "),
+            _c(
+              "button",
+              {
+                staticClass: "btn btn-xl btn-primary",
+                attrs: { align: "center" }
+              },
+              [_vm._v("\n                    Upload Image\n                ")]
+            )
+          ])
+        ])
+      ])
+    ])
+  ])
+}
+var staticRenderFns = [
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "form-group", attrs: { align: "left" } }, [
+      _c("label", [_vm._v("Image Name")]),
+      _vm._v(" "),
+      _c("input", {
+        staticClass: "form-control",
+        attrs: { type: "text", placeholder: "Image Name" }
+      })
+    ])
+  }
+]
+render._withStripped = true
+module.exports = { render: render, staticRenderFns: staticRenderFns }
+if (false) {
+  module.hot.accept()
+  if (module.hot.data) {
+    require("vue-hot-reload-api")      .rerender("data-v-5ee273cd", module.exports)
   }
 }
 

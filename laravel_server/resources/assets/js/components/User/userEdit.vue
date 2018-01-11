@@ -93,7 +93,6 @@
                         Object.assign(this.authUser, response.data.data);
                         this.$emit('user-saved', this.authUser)
                     });
-                //TODO MENSAGENS
                 swal("User edited with Sucess!", "success")
             },
             
