@@ -48292,7 +48292,7 @@ exports = module.exports = __webpack_require__(2)(undefined);
 
 
 // module
-exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", ""]);
+exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", ""]);
 
 // exports
 
@@ -48303,6 +48303,36 @@ exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__passwordEdit_vue__ = __webpack_require__(126);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__passwordEdit_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0__passwordEdit_vue__);
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 //
 //
 //
@@ -48343,8 +48373,19 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 
+
+
 /* harmony default export */ __webpack_exports__["default"] = ({
     props: ['authUser', 'editingUser'],
+
+    data: function data() {
+        return {
+            editingPassword: false,
+            oldPassword: '',
+            newPassword: ''
+
+        };
+    },
 
     methods: {
         saveUser: function saveUser() {
@@ -48359,8 +48400,10 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                 Object.assign(_this.authUser, response.data.data);
                 _this.$emit('user-saved', _this.authUser);
             });
-            swal("User edited with Sucess!", "success");
+            //TODO MENSAGENS
+            //swal("User edited with Sucess!", "success")
         },
+
         cancelEdit: function cancelEdit() {
             var _this2 = this;
 
@@ -48372,11 +48415,51 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             });
             this.editingUser = !this.editingUser;
         },
+
+        editPassowrd: function editPassowrd(user) {
+
+            this.editingPassword = !this.editingPassword;
+            //this.$emit('edit-password', user);
+        },
+
+        savePassword: function savePassword(user) {
+            var _this3 = this;
+
+            console.log("Password: " + this.authUser.password);
+
+            if (this.authUser.password === this.oldPassword) {
+                //save new password
+                axios.put('api/users/' + this.authUser.id, this.authUser).then(function (response) {
+                    // Copy object properties from response.data.data to this.user
+                    // without creating a new reference
+                    console.log(response.data);
+                    console.log(response.data.data);
+
+                    Object.assign(_this3.authUser, response.data.data);
+                    _this3.$emit('user-saved', _this3.authUser);
+                });
+            }
+
+            //verificar se password do campo é igual a password do user
+            //se sim
+            //guardar nova password
+            //se nao
+            //console log password antiga diferente
+            //return
+
+            this.editingPassword = !this.editingPassword;
+            //this.$emit('edit-password', user);
+        },
+
         computed: {
             // a computed getter
             /* cancelFunction: function () {
                this.editingUser=false;
              }*/
+        },
+        components: {
+            'password-edit': __WEBPACK_IMPORTED_MODULE_0__passwordEdit_vue___default.a
+
         }
     }
 });
@@ -48486,6 +48569,76 @@ var render = function() {
         })
       ]),
       _vm._v(" "),
+      this.editingPassword
+        ? _c("div", [
+            _c("div", { staticClass: "form-group" }, [
+              _c("label", { attrs: { for: "oldPassword" } }, [
+                _vm._v("Old Password")
+              ]),
+              _vm._v(" "),
+              _c("input", {
+                directives: [
+                  {
+                    name: "model",
+                    rawName: "v-model",
+                    value: this.oldPassword,
+                    expression: "this.oldPassword"
+                  }
+                ],
+                staticClass: "form-control",
+                attrs: {
+                  type: "text",
+                  name: "name",
+                  id: "oldPassword",
+                  placeholder: "Old Password"
+                },
+                domProps: { value: this.oldPassword },
+                on: {
+                  input: function($event) {
+                    if ($event.target.composing) {
+                      return
+                    }
+                    _vm.$set(this, "oldPassword", $event.target.value)
+                  }
+                }
+              })
+            ]),
+            _vm._v(" "),
+            _c("div", { staticClass: "form-group" }, [
+              _c("label", { attrs: { for: "newPassword" } }, [
+                _vm._v("New Password")
+              ]),
+              _vm._v(" "),
+              _c("input", {
+                directives: [
+                  {
+                    name: "model",
+                    rawName: "v-model",
+                    value: this.newPassword,
+                    expression: "this.newPassword"
+                  }
+                ],
+                staticClass: "form-control",
+                attrs: {
+                  type: "text",
+                  name: "name",
+                  id: "newPassword",
+                  placeholder: "New Password"
+                },
+                domProps: { value: this.newPassword },
+                on: {
+                  input: function($event) {
+                    if ($event.target.composing) {
+                      return
+                    }
+                    _vm.$set(this, "newPassword", $event.target.value)
+                  }
+                }
+              })
+            ])
+          ])
+        : _vm._e(),
+      _vm._v(" "),
       _c("div", { staticClass: "form-group" }, [
         _c(
           "a",
@@ -48501,6 +48654,38 @@ var render = function() {
           [_vm._v("Save")]
         ),
         _vm._v(" "),
+        !this.editingPassword
+          ? _c(
+              "a",
+              {
+                staticClass: "btn btn-default",
+                on: {
+                  click: function($event) {
+                    $event.preventDefault()
+                    _vm.editPassowrd(this.authUser)
+                  }
+                }
+              },
+              [_vm._v("Edit Password")]
+            )
+          : _vm._e(),
+        _vm._v(" "),
+        this.editingPassword
+          ? _c(
+              "a",
+              {
+                staticClass: "btn btn-default",
+                on: {
+                  click: function($event) {
+                    $event.preventDefault()
+                    _vm.savePassword(this.authUser)
+                  }
+                }
+              },
+              [_vm._v("Save Password")]
+            )
+          : _vm._e(),
+        _vm._v(" "),
         _c(
           "a",
           {
@@ -48508,7 +48693,7 @@ var render = function() {
             on: {
               click: function($event) {
                 $event.preventDefault()
-                _vm.cancelEdit()
+                _vm.cancelEdit(this.authUser)
               }
             }
           },
@@ -52037,6 +52222,184 @@ module.exports = Component.exports
 /***/ (function(module, exports) {
 
 // removed by extract-text-webpack-plugin
+
+/***/ }),
+/* 118 */,
+/* 119 */,
+/* 120 */,
+/* 121 */,
+/* 122 */,
+/* 123 */,
+/* 124 */,
+/* 125 */,
+/* 126 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var disposed = false
+var normalizeComponent = __webpack_require__(0)
+/* script */
+var __vue_script__ = __webpack_require__(127)
+/* template */
+var __vue_template__ = __webpack_require__(128)
+/* template functional */
+var __vue_template_functional__ = false
+/* styles */
+var __vue_styles__ = null
+/* scopeId */
+var __vue_scopeId__ = null
+/* moduleIdentifier (server only) */
+var __vue_module_identifier__ = null
+var Component = normalizeComponent(
+  __vue_script__,
+  __vue_template__,
+  __vue_template_functional__,
+  __vue_styles__,
+  __vue_scopeId__,
+  __vue_module_identifier__
+)
+Component.options.__file = "resources/assets/js/components/User/passwordEdit.vue"
+
+/* hot reload */
+if (false) {(function () {
+  var hotAPI = require("vue-hot-reload-api")
+  hotAPI.install(require("vue"), false)
+  if (!hotAPI.compatible) return
+  module.hot.accept()
+  if (!module.hot.data) {
+    hotAPI.createRecord("data-v-72062162", Component.options)
+  } else {
+    hotAPI.reload("data-v-72062162", Component.options)
+  }
+  module.hot.dispose(function (data) {
+    disposed = true
+  })
+})()}
+
+module.exports = Component.exports
+
+
+/***/ }),
+/* 127 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
+
+/* harmony default export */ __webpack_exports__["default"] = ({
+    props: ['authUser'],
+
+    data: function data() {
+        return {
+            editingPassword: false
+        };
+    },
+    methods: {}
+});
+
+/***/ }),
+/* 128 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _c("div", [
+    _c("div", { staticClass: "form-group" }, [
+      _c("label", { attrs: { for: "oldPassword" } }, [_vm._v("Old Password")]),
+      _vm._v(" "),
+      _c("input", {
+        directives: [
+          {
+            name: "model",
+            rawName: "v-model",
+            value: _vm.authUser.password,
+            expression: "authUser.password"
+          }
+        ],
+        staticClass: "form-control",
+        attrs: {
+          type: "text",
+          name: "name",
+          id: "oldPassword",
+          placeholder: "Old Password"
+        },
+        domProps: { value: _vm.authUser.password },
+        on: {
+          input: function($event) {
+            if ($event.target.composing) {
+              return
+            }
+            _vm.$set(_vm.authUser, "password", $event.target.value)
+          }
+        }
+      })
+    ]),
+    _vm._v(" "),
+    _c("div", { staticClass: "form-group" }, [
+      _c("label", { attrs: { for: "newPassword" } }, [_vm._v("New Password")]),
+      _vm._v(" "),
+      _c("input", {
+        directives: [
+          {
+            name: "model",
+            rawName: "v-model",
+            value: _vm.authUser.password,
+            expression: "authUser.password"
+          }
+        ],
+        staticClass: "form-control",
+        attrs: {
+          type: "text",
+          name: "name",
+          id: "newPassword",
+          placeholder: "New Password"
+        },
+        domProps: { value: _vm.authUser.password },
+        on: {
+          input: function($event) {
+            if ($event.target.composing) {
+              return
+            }
+            _vm.$set(_vm.authUser, "password", $event.target.value)
+          }
+        }
+      })
+    ])
+  ])
+}
+var staticRenderFns = []
+render._withStripped = true
+module.exports = { render: render, staticRenderFns: staticRenderFns }
+if (false) {
+  module.hot.accept()
+  if (module.hot.data) {
+    require("vue-hot-reload-api")      .rerender("data-v-72062162", module.exports)
+  }
+}
 
 /***/ })
 /******/ ]);
