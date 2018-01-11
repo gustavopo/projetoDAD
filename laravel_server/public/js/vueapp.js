@@ -1480,8 +1480,9 @@ var register = Vue.component('register', __webpack_require__(81));
 /** GAME ROUTES **/
 var singleplayerGame = Vue.component('singlegame', __webpack_require__(84));
 var multiplayerGame = Vue.component('multiplayergame', __webpack_require__(96));
+var statistics = Vue.component('statistics', __webpack_require__(129));
 
-var routes = [{ path: '/', redirect: '/index', component: index }, { path: '/users', component: user }, { path: '/userPage', component: userPage }, { path: '/multimemorygame', component: multiplayerGame }, { path: '/singlememorygame', component: singleplayerGame, meta: { forAuth: true } }, { path: '/multimemorygame', component: multiplayerGame, meta: { forAuth: true } }, { path: '/login', component: login, meta: { forVisitors: true } }, { path: '/register', component: register, meta: { forVisitors: true } }];
+var routes = [{ path: '/', redirect: '/index', component: index }, { path: '/users', component: user }, { path: '/userPage', component: userPage }, { path: '/multimemorygame', component: multiplayerGame }, { path: '/singlememorygame', component: singleplayerGame, meta: { forAuth: true } }, { path: '/multimemorygame', component: multiplayerGame, meta: { forAuth: true } }, { path: '/statistics', component: statistics, meta: { forAuth: true } }, { path: '/login', component: login, meta: { forVisitors: true } }, { path: '/register', component: register, meta: { forVisitors: true } }];
 
 var router = new __WEBPACK_IMPORTED_MODULE_0_vue_router__["a" /* default */]({
 
@@ -52398,6 +52399,372 @@ if (false) {
   module.hot.accept()
   if (module.hot.data) {
     require("vue-hot-reload-api")      .rerender("data-v-72062162", module.exports)
+  }
+}
+
+/***/ }),
+/* 129 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var disposed = false
+var normalizeComponent = __webpack_require__(0)
+/* script */
+var __vue_script__ = __webpack_require__(130)
+/* template */
+var __vue_template__ = __webpack_require__(131)
+/* template functional */
+var __vue_template_functional__ = false
+/* styles */
+var __vue_styles__ = null
+/* scopeId */
+var __vue_scopeId__ = null
+/* moduleIdentifier (server only) */
+var __vue_module_identifier__ = null
+var Component = normalizeComponent(
+  __vue_script__,
+  __vue_template__,
+  __vue_template_functional__,
+  __vue_styles__,
+  __vue_scopeId__,
+  __vue_module_identifier__
+)
+Component.options.__file = "resources/assets/js/components/statistics.vue"
+
+/* hot reload */
+if (false) {(function () {
+  var hotAPI = require("vue-hot-reload-api")
+  hotAPI.install(require("vue"), false)
+  if (!hotAPI.compatible) return
+  module.hot.accept()
+  if (!module.hot.data) {
+    hotAPI.createRecord("data-v-4397e8fa", Component.options)
+  } else {
+    hotAPI.reload("data-v-4397e8fa", Component.options)
+  }
+  module.hot.dispose(function (data) {
+    disposed = true
+  })
+})()}
+
+module.exports = Component.exports
+
+
+/***/ }),
+/* 130 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
+
+/* harmony default export */ __webpack_exports__["default"] = ({
+    data: function data() {
+        return {
+            title: 'Statistics',
+            showSuccess: false,
+            successMessage: '',
+            currentUser: null,
+            users: []
+        };
+    },
+    methods: {},
+
+    components: {},
+    mounted: function mounted() {
+        this.getUsers();
+        console.log("ola");
+    }
+});
+
+/***/ }),
+/* 131 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _c("div", { staticStyle: { "text-align": "center" } }, [
+    _c("div", [
+      _c("h3", { staticClass: "text-center" }, [_vm._v(_vm._s(_vm.title))]),
+      _vm._v(" "),
+      _c("br"),
+      _vm._v(" "),
+      _c("br")
+    ]),
+    _vm._v(" "),
+    _vm._m(0),
+    _vm._v(" "),
+    _vm._m(1),
+    _vm._v(" "),
+    _vm._m(2)
+  ])
+}
+var staticRenderFns = [
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "row" }, [
+      _c("div", { staticClass: "col-xl-3 col-sm-6 mb-3" }, [
+        _c(
+          "div",
+          { staticClass: "card text-white bg-primary o-hidden h-100" },
+          [
+            _c("div", { staticClass: "card-body" }, [
+              _c("div", { staticClass: "card-body-icon" }, [
+                _c("i", { staticClass: "fa fa-fw fa-user" })
+              ]),
+              _vm._v(" "),
+              _c("div", { staticClass: "mr-5" }, [_vm._v("Single Player")])
+            ]),
+            _vm._v(" "),
+            _c(
+              "a",
+              {
+                staticClass: "card-footer text-white clearfix small z-1",
+                attrs: { href: "#" }
+              },
+              [
+                _c("span", { staticClass: "float-left" }, [_vm._v("x Jogos")]),
+                _vm._v(" "),
+                _c("span", { staticClass: "float-right" })
+              ]
+            )
+          ]
+        )
+      ]),
+      _vm._v(" "),
+      _c("div", { staticClass: "col-xl-3 col-sm-6 mb-3" }, [
+        _c(
+          "div",
+          { staticClass: "card text-white bg-warning o-hidden h-100" },
+          [
+            _c("div", { staticClass: "card-body" }, [
+              _c("div", { staticClass: "card-body-icon" }, [
+                _c("i", { staticClass: "fa fa-fw fa-users" })
+              ]),
+              _vm._v(" "),
+              _c("div", { staticClass: "mr-5" }, [_vm._v("Multi Player")])
+            ]),
+            _vm._v(" "),
+            _c(
+              "a",
+              {
+                staticClass: "card-footer text-white clearfix small z-1",
+                attrs: { href: "#" }
+              },
+              [
+                _c("span", { staticClass: "float-left" }, [_vm._v("x Jogos")]),
+                _vm._v(" "),
+                _c("span", { staticClass: "float-right" })
+              ]
+            )
+          ]
+        )
+      ]),
+      _vm._v(" "),
+      _c("div", { staticClass: "col-xl-3 col-sm-6 mb-3" }, [
+        _c(
+          "div",
+          { staticClass: "card text-white bg-success o-hidden h-100" },
+          [
+            _c("div", { staticClass: "card-body" }, [
+              _c("div", { staticClass: "card-body-icon" }, [
+                _c("i", { staticClass: "fa fa-fw fa-gamepad" })
+              ]),
+              _vm._v(" "),
+              _c("div", { staticClass: "mr-5" }, [_vm._v("Jogos Jogados")])
+            ]),
+            _vm._v(" "),
+            _c(
+              "a",
+              {
+                staticClass: "card-footer text-white clearfix small z-1",
+                attrs: { href: "#" }
+              },
+              [
+                _c("span", { staticClass: "float-left" }, [_vm._v("x Jogos")]),
+                _vm._v(" "),
+                _c("span", { staticClass: "float-right" })
+              ]
+            )
+          ]
+        )
+      ])
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "row" }, [
+      _c("div", { staticClass: "card mb-3" }, [
+        _c("div", [
+          _c("h3", { staticClass: "text-center" }, [_vm._v("Players List")]),
+          _vm._v(" "),
+          _c("br"),
+          _vm._v(" "),
+          _c("br")
+        ]),
+        _vm._v(" "),
+        _c("div", { staticClass: "card-body" }, [
+          _c("div", { staticClass: "table-responsive" }, [
+            _c(
+              "table",
+              {
+                staticClass: "table table-bordered",
+                attrs: { id: "dataTable", width: "100%", cellspacing: "0" }
+              },
+              [
+                _c("thead", [
+                  _c("tr", [
+                    _c("th", [_vm._v("Nome")]),
+                    _vm._v(" "),
+                    _c("th", [_vm._v("Single Player")]),
+                    _vm._v(" "),
+                    _c("th", [_vm._v("Multi Player")]),
+                    _vm._v(" "),
+                    _c("th", [_vm._v("Total de Jogos")]),
+                    _vm._v(" "),
+                    _c("th", [_vm._v("Total de Vitórias")])
+                  ])
+                ]),
+                _vm._v(" "),
+                _c("tbody")
+              ]
+            )
+          ])
+        ])
+      ])
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "row" }, [
+      _c("div", { staticClass: "card mb-3" }, [
+        _c("div", { staticClass: "card-header" }, [
+          _c("i", { staticClass: "fa fa-bar-chart-o fa-fw" }),
+          _vm._v(" Histórico Total de Jogos (Gráfico)\n            ")
+        ]),
+        _vm._v(" "),
+        _c("div", { staticClass: "card-body" })
+      ])
+    ])
+  }
+]
+render._withStripped = true
+module.exports = { render: render, staticRenderFns: staticRenderFns }
+if (false) {
+  module.hot.accept()
+  if (module.hot.data) {
+    require("vue-hot-reload-api")      .rerender("data-v-4397e8fa", module.exports)
   }
 }
 

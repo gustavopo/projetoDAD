@@ -33,6 +33,7 @@ const register = Vue.component('register', require('./components/Register.vue'))
 /** GAME ROUTES **/
 const singleplayerGame = Vue.component('singlegame', require('./components/singleplayer_game.vue'));
 const multiplayerGame = Vue.component('multiplayergame', require('./components/multiplayer_game.vue'));
+const statistics = Vue.component('statistics', require('./components/statistics.vue'));
 
 
 const routes = [
@@ -42,6 +43,7 @@ const routes = [
     {path: '/multimemorygame', component: multiplayerGame},
     {path: '/singlememorygame', component: singleplayerGame, meta: {forAuth: true}},
     {path: '/multimemorygame', component: multiplayerGame, meta: {forAuth: true}},
+    {path: '/statistics', component: statistics, meta: {forAuth: true}},
     {path: '/login', component: login, meta: {forVisitors: true}},
     {path: '/register', component: register, meta: {forVisitors: true} },
 ];
