@@ -9,6 +9,8 @@
                 <router-link to="/singlememorygame"> SinglePlayer</router-link>
                 -
                 <router-link to="/multimemorygame"> Multiplayer</router-link>
+                -
+                <router-link to="/imagesManagement"> Images Management</router-link>
 
             </div>
             <div align="right">

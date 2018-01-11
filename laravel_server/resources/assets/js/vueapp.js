@@ -36,6 +36,10 @@ const singleplayerGame = Vue.component('singlegame', require('./components/singl
 const multiplayerGame = Vue.component('multiplayergame', require('./components/multiplayer_game.vue'));
 const statistics = Vue.component('statistics', require('./components/statistics.vue'));
 
+/** ADMIN ROUTES **/
+const imagesManagement = Vue.component('imagesManagement', require('./components/User/admin/imagesManagement.vue'));
+const imagesList = Vue.component('imagesList', require('./components/User/admin/imagesList.vue'));
+
 
 const routes = [
     {path: '/', redirect: '/index', component: index},
@@ -47,6 +51,7 @@ const routes = [
     {path: '/statistics', component: statistics, meta: {forAuth: true}},
     {path: '/login', component: login, meta: {forVisitors: true}},
     {path: '/register', component: register, meta: {forVisitors: true} },
+    {path: '/imagesManagement', component: imagesManagement, meta: {forAuth: true}},
 ];
 
 const router = new VueRouter({

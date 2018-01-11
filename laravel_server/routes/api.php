@@ -32,7 +32,6 @@ Route::middleware('auth:api')->get('user', function () {
 
 //----
 Route::get('users', 'UserControllerAPI@getUsers');
-//Route::get('users/emailavailable', 'UserControllerAPI@emailAvailable');
 Route::get('users/{id}', 'UserControllerAPI@getUser');
 Route::post('users', 'UserControllerAPI@store');
 Route::put('users/{id}', 'UserControllerAPI@update');
@@ -49,6 +48,8 @@ Route::middleware('auth:api')->get('user', function(Request $request)
 
 Route::get('/authUser', 'UserControllerApi@getAuthUser');
 
+//Images
+Route::get('images', 'ImageControllerAPI@getImages');
 
 //Games
 Route::get('games', 'GameControllerAPI@index');
