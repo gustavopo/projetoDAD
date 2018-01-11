@@ -13,26 +13,27 @@
                     <div class="board-row">
                         <div v-for="(r,r1) in 4">
                             <img v-bind:src="pieceImageURL(game.board[r1][c1])" v-on:click="clickPiece(r1,c1)">
+                        </div>
                     </div>
                 </div>
-            </div>
-        </div>  
+            </div>  
             <table id="espaco">
             </table>
 
-    </div>
+        </div>
 
-    <hr>
-     <br>
-    <br>
-</div>
+        <hr>
+        <br>
+        <br>
+    </div>
 </template>
 
 <script type="text/javascript">
 export default {
     props: ['game'],
     data: function () {
-        return {}
+        return {
+        }
     },
     computed: {
         ownPlayerNumber() {
@@ -43,20 +44,33 @@ export default {
             }
             return 0;
         },
+        getWinner() {
+            switch(this.ownPlayerNumber){
+                case 1: return this.game.playerOne;
+                break;
+                case 2: return this.game.playerTwo;
+                break;
+                case 3: return this.game.playerThree;
+                break;
+                case 4: return this.game.playerFour;
+                break;
+            }
+        },
+
         ownPlayerName() {
             var ownNumber = this.ownPlayerNumber;
             if (ownNumber == 1)
-                return this.game.player1;
+                return this.game.playerOne.name;
             if (ownNumber == 2)
-                return this.game.player2;
+                return this.game.playerTwo.name;
             return "Unknown";
         },
         adversaryPlayerName() {
             var ownNumber = this.ownPlayerNumber;
             if (ownNumber == 1)
-                return this.game.player2;
+                return this.game.playerTwo.name;
             if (ownNumber == 2)
-                return this.game.player1;
+                return this.game.playerOne.name;
             return "Unknown";
         },
         message() {
@@ -64,7 +78,7 @@ export default {
                 return "Game has not started yet";
             } else if (this.game.gameEnded) {
                 if (this.game.winner == this.ownPlayerNumber) {
-                    return "Game has ended. You Win.";
+                    return "Game has ended. You Win with: " + this.getWinner.pairsCombined +" pairs";
                 } else if (this.game.winner == 0) {
                     return "Game has ended. There was a tie.";
                 }
@@ -99,12 +113,11 @@ export default {
     methods: {
         pieceImageURL(piece) {
             var imgSrc = String(piece.image);
-            console.log(imgSrc);
-        if(!piece.tileFlipped){
-            return 'img/hidden.png';
-        }else{
-            return 'img/' + imgSrc + '.png';
-        }
+            if(!piece.tileFlipped){
+                return 'img/hidden.png';
+            }else{
+                return 'img/' + imgSrc + '.png';
+            }
 
         },
         closeGame() {
@@ -121,25 +134,25 @@ export default {
                         let self = this;
                         setTimeout(function () { self.$forceUpdate();}, 3000);
                         
+                    }
                 }
             }
         }
     }
-}
-</script>
+    </script>
 
-<style scoped>
-table {
-    width: 100%;
-}
+    <style scoped>
+    table {
+        width: 100%;
+    }
 
-td {
-    width: 33.333%;
-}
+    td {
+        width: 33.333%;
+    }
 
-td:after {
-    content: '';
-    display: block;
-    margin-top: 100%;
-}
-</style>
+    td:after {
+        content: '';
+        display: block;
+        margin-top: 100%;
+    }
+    </style>

@@ -1,6 +1,7 @@
 /*jshint esversion: 6 */
 
 var Tile = require('./Tile.js');
+var Player = require('./Player.js');
 
 
 class Game {
@@ -10,8 +11,6 @@ class Game {
         this.gameStarted = false;
         this.name=name;
         this.maxPlayers=maxPlayers;
-        this.player1= player1Name;
-        this.player2= '';
         this.playerTurn = 1;
         this.winner = 0;
         this.rows=4;
@@ -24,82 +23,46 @@ class Game {
         this.matched=false;
         this.allTiles=new Array(40);
         this.imagesArray= new Array((this.rows*this.columns)/2);
-        //this.board = this.createTable(16, 8);
-        //this.board = [0,0,7,0,0,0,0,0,0];
+        this.contadorParesMatched=0;
+        this.playerOne = new Player(0,1,player1Name);
+        this.playerTwo = new Player(0,1,'');
+
+
 
         this.board = new Array(this.rows);
         for (let k = 0; k < this.rows; ++k) {
             this.board[k] = new Array(this.columns);
         }
-       /* this.board[0][0] = new Tile(0,false);
-        this.board[0][1] = new Tile(1,false);
-        this.board[0][2] = new Tile(1,false);
-        this.board[0][3] = new Tile(1,false);
-        this.board[1][0] = new Tile(1,false);
-        this.board[1][1] = new Tile(1,false);
-        this.board[1][2] = new Tile(1,false);
-        this.board[1][3] = new Tile(1,false);
-        this.board[2][0] = new Tile(1,false);
-        this.board[2][1] = new Tile(1,false);
-        this.board[2][2] = new Tile(1,false);
-        this.board[2][3] = new Tile(1,false);
-        this.board[3][0] = new Tile(1,false);
-        this.board[3][1] = new Tile(1,false);
-        this.board[3][2] = new Tile(1,false);
-        this.board[3][3] = new Tile(1,false);*/
         this.getAllTiles();
         this.fillBoard();
-        //this.jogo2 = [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0];
 
-    }
-
-    createTable(index,imgLen) {
-        var i, j;
-        var array = [];
-        var board = [];
-
-        for(j = 1; j < imgLen+1; j++){
-            //array.push(Game.pieceImageURL(j));
-        }
-
-        var randomImg = array[Math.floor(Math.random() * array.length)];
-
-        for(i = 0 ; i < index; i++){
-            board[i] = randomImg[i];
-        }
-
-        return board;
-    }
-
-    populate(value){
-        var x, y;
-        for(x = 0 ;x < 4; x++){
-            for(y = 0; y<10; y++){
-                this.jogo[x][y] == value;
-            }
-        }
     }
 
     join(player2Name){
-        this.player2= player2Name;
+        this.playerTwo.name= player2Name;
         this.gameStarted = true;
     }
 
-    hasRow(value){
+    checkGameEnded(){
 
-        if(this.maxPlayers == 2){
-            return
-            ((this.jogo2[0]==value) && (this.jogo2[1]==value) && (this.jogo2[2]==value) && (this.jogo2[3]==value)) ||
-            ((this.jogo2[4]==value) && (this.jogo2[5]==value) && (this.jogo2[6]==value) && (this.jogo2[7]==value)) ||
-            ((this.jogo2[8]==value) && (this.jogo2[10]==value) && (this.jogo2[11]==value) && (this.jogo2[12]==value)) ||
-            ((this.jogo2[13]==value) && (this.jogo2[14]==value) && (this.jogo2[15]==value) || (this.jogo2[16]==value));
+        if(this.contadorParesMatched===(this.columns*this.rows)){
+            this.checkWinner();
+            this.gameEnded=true;
+            return true;
         }
 
 
+    }
 
-    }  
+    checkWinner(){
+        if(this.playerOne.pairsCombined > this.playerTwo.pairsCombined){
+            this.winner = 1;
+        }else if(this.playerTwo.pairsCombined > this.playerOne.pairsCombined ) {
+            this.winner = 2;
+        }
+    }
 
-    checkGameEnded(){
+    /*checkGameEnded(){
        /* if (this.hasRow(1)) {
             this.winner = 1;
             this.gameEnded = true;
@@ -112,10 +75,10 @@ class Game {
             this.winner = 0;
             this.gameEnded = true;
             return true;
-        }*/
+        }
         return false;
     }
-
+    */
     isBoardComplete(){
         for (let value of this.board) {
             if (value === 0) {
@@ -125,7 +88,7 @@ class Game {
         return true;
     }
 
-    play(playerNumber, r1, c1){
+    play(playerNumber, r1, c1, gameID, game){
         if (!this.gameStarted) {
             return false;
         }
@@ -143,7 +106,7 @@ class Game {
         this.chooseCard(r1,c1);
         console.log("Picks: "+this.picks);
         if(this.picks===2){
-            this.checkCards();
+            this.checkCards(); 
         }
 
         if (!this.checkGameEnded()) {
@@ -151,40 +114,43 @@ class Game {
                 this.playerTurn = this.playerTurn == 1 ? 2 : 1;
                 this.picksTurn = 0;
             }
+        }else{
+            console.log('ganhaste oh meu!!')
         }
-                
+
 
         return true;
+
     }
 
     chooseCard(posicaoLinha,posicaoColuna){
 
 
-                if (this.picks >= 2) {
-                    console.log("ja foram selecionadas 2 cartas");
-                    return;
-                }
+        if (this.picks >= 2) {
+            console.log("ja foram selecionadas 2 cartas");
+            return;
+        }
 
 
 
-                if (this.picks === 0) {
+        if (this.picks === 0) {
 
                     //TODO: show image corresponding to first card clicked
                     this.firstChoice = this.board[posicaoLinha][posicaoColuna];
                     this.picks = 1;
-                    console.log("First choice IMAGEM: " + this.board[posicaoLinha][posicaoColuna].image);
+                   // console.log("First choice IMAGEM: " + this.board[posicaoLinha][posicaoColuna].image);
 
                 }
                 else {
 
                     //show image corresponding to second card clicked
                     this.secondChoice = this.board[posicaoLinha][posicaoColuna];
-                    console.log("Second Choice: " + this.secondChoice.image);
+                    //console.log("Second Choice: " + this.secondChoice.image);
                     //check is 
-                   /* if(this.secondchoice.key===this.firstchoice.key){
-                        console.log("são a mesma peça!");
-                        return;
-                    }*/
+                    if(this.secondChoice.key===this.firstChoice.key){
+                       // console.log("são a mesma peça!");
+                        return ;
+                    }
 
 
                     this.picks = 2;
@@ -194,37 +160,56 @@ class Game {
                     // let boardClass = document.getElementById("board").classList;
                    // boardClass.add("noClicks");
 
-                    console.log("Second choice: " + this.board[posicaoLinha][posicaoColuna].image);
-                    //console.log("picks: " + this.picks);
-                }
-    }
+               }
+           }
 
-    checkCards(){
+           checkCards(){
 
-                if (this.secondChoice.image === this.firstChoice.image) {
+            if (this.secondChoice.image === this.firstChoice.image) {
                     //console.log("As imagens são iguais!");
-    
+
 
                    // this.matches++;
                    
-                    this.firstChoice.image='empty';
-                    this.secondChoice.image='empty';
-                    this.matched = true;
+                   this.firstChoice.image='empty';
+                   this.secondChoice.image='empty';
+                   this.matched = true;
 
-                    this.picks = 0;
-
-                    //self.$forceUpdate();
-                    //this.contadorParesMatched+=2;
-
+                   this.picks = 0;
+                   this.contadorParesMatched+=2;
+                   switch(this.playerTurn){
+                    case 1: this.playerOne.pairsCombined++;
+                    console.log('player 1 pares: '+this.playerOne.pairsCombined );
+                    break;
+                    case 2: this.playerTwo.pairsCombined++;
+                    console.log('player 2 pares: '+this.playerTwo.pairsCombined );
+                    break;
                 }
 
-                else {
+            }
+
+            else {
                     /*turn over first card to show back
                     turn over second card to show back*/
                     let self = this;
-                    
-                    this.firstChoice.tileFlipped=false;
-                    this.secondChoice.tileFlipped=false;
+
+                    setTimeout(function () {self.firstChoice.tileFlipped=false;}, 500);
+                    setTimeout(function () {self.secondChoice.tileFlipped=false;}, 500);
+
+                   // self.firstChoice.tileFlipped=false;
+                  //  self.secondChoice.tileFlipped=false;
+
+                  this.firstChoice.timeOut=true;
+                  this.secondChoice.timeOut=true;
+
+                    //setTimeout(function () {self.firstChoice.timeOut=false;}, 1000);
+                    //setTimeout(function () {self.secondChoice.timeOut=false;}, 500);
+
+                    //const child_process = require("child_process");
+                    // Sleep for 5 seconds
+                    //child_process.execSync("sleep 1");
+
+
                     this.matched = false;
 
                     //para poder voltar a carregar nelas
@@ -232,10 +217,20 @@ class Game {
                     
 
                 }
-    }
+            }
+
+            sleep(time, callback) {
+                var stop = new Date().getTime();
+                while(new Date().getTime() < stop + time) {
+                    ;
+                }
+                callback();
+            }
 
 
- fillBoard () {
+
+
+            fillBoard () {
                 let pairingArray = new Array(this.rows);
                 let contadorImagens=0;
 
@@ -253,19 +248,18 @@ class Game {
                             this.randomImage = this.allTiles[Math.floor(Math.random() * this.allTiles.length)];
                             this.checkNonRepeated();
 
-                            this.board[i][j] = new Tile(this.randomImage, false);
+                            this.board[i][j] = new Tile(this.randomImage, false,`${i}${j}`, false);
                             pairingArray[i][j] = this.board[i][j];
 
                             //meter imagens no array de imagens
                             this.imagesArray[contadorImagens] = this.board[i][j].image;
-                            console.log("imagem " + contadorImagens + ": " + this.imagesArray[contadorImagens]);
                             contadorImagens++;
                         }
                     }
 
                     for (let i = 0; i < this.rows; ++i) {
                         for (let j = this.columns / 2; j < this.columns; ++j) {
-                            this.board[i][j] = new Tile(pairingArray[i][j - (this.columns / 2)].image, false) ;
+                            this.board[i][j] = new Tile(pairingArray[i][j - (this.columns / 2)].image, false, `${i}${j}`,false) ;
                         }
                     }
                 } else {
@@ -334,19 +328,19 @@ class Game {
 
 
 
-}
-class cell{
-    constructor(index, img){
-        this.index=index;
-        this.img=img;
     }
-}
-
-class piece{
-    constructor(urlImage, status){
-        this.urlImage = urlImage;
-        this.status = status;
+    class cell{
+        constructor(index, img){
+            this.index=index;
+            this.img=img;
+        }
     }
-}
 
-module.exports = Game;
+    class piece{
+        constructor(urlImage, status){
+            this.urlImage = urlImage;
+            this.status = status;
+        }
+    }
+
+    module.exports = Game;
