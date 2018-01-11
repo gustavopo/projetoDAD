@@ -74,6 +74,7 @@
                 }
             },
             game_changed(game) {
+                console.log("please não sejas cona!!!!!!!!!!!!");
                 for (var lobbyGame of this.lobbyGames) {
                     if (game.gameID == lobbyGame.gameID) {
                         Object.assign(lobbyGame, game);

@@ -71,7 +71,7 @@ io.on('connection', function (socket) {
 			socket.emit('invalid_play', {'type': 'Invalid_Player', 'game': game});
 			return;
 		}
-		if (game.play(numPlayer, data.r1, data.c1, game.gameID, game)) {
+		if (game.play(numPlayer, data.r1, data.c1, game.gameID, game, io)) {
 			io.to(game.gameID).emit('game_changed', game);
 		} else {
 			socket.emit('invalid_play', {'type': 'Invalid_Play', 'game': game});

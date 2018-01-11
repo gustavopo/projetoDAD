@@ -1,10 +1,10 @@
 <template>
-    <div>
+    <div style="text-align: center">
         <div>
             <h2 class="text-center">JOGO {{ game.gameID }}</h2>
             <br>
         </div>
-        <div class="game-zone-content">
+        <div class="game-zone-content" style="display: inline-block">
             <div class="alert" :class="alerttype">
                 <strong>{{ message }} &nbsp;&nbsp;&nbsp;&nbsp;<a v-show="game.gameEnded" v-on:click.prevent="closeGame">Close Game</a></strong>
             </div>
@@ -120,6 +120,7 @@ export default {
             }
 
         },
+
         closeGame() {
             this.$parent.close(this.game);
         },
@@ -131,9 +132,6 @@ export default {
                 } else {
                         //console.log(r1 +""+""+ c1)
                         this.$parent.play(this.game, r1, c1);
-                        let self = this;
-                        setTimeout(function () { self.$forceUpdate();}, 3000);
-                        
                     }
                 }
             }
@@ -146,13 +144,9 @@ export default {
         width: 100%;
     }
 
-    td {
-        width: 33.333%;
-    }
+    .noClicks{
+      pointer-events: none;
+  }
 
-    td:after {
-        content: '';
-        display: block;
-        margin-top: 100%;
-    }
-    </style>
+
+  </style>

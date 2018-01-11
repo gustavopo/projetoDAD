@@ -1,5 +1,6 @@
 /*jshint esversion: 6 */
 
+
 var Tile = require('./Tile.js');
 var Player = require('./Player.js');
 
@@ -88,7 +89,7 @@ class Game {
         return true;
     }
 
-    play(playerNumber, r1, c1, gameID, game){
+    play(playerNumber, r1, c1, gameID, game, io){
         if (!this.gameStarted) {
             return false;
         }
@@ -107,6 +108,7 @@ class Game {
         console.log("Picks: "+this.picks);
         if(this.picks===2){
             this.checkCards(); 
+            setTimeout(function() {io.to(gameID).emit('game_changed',game);}, 1000);
         }
 
         if (!this.checkGameEnded()) {
@@ -168,11 +170,15 @@ class Game {
             if (this.secondChoice.image === this.firstChoice.image) {
                     //console.log("As imagens são iguais!");
 
+                    let self = this;
 
                    // this.matches++;
+                    setTimeout(function () {self.firstChoice.image='empty'}, 500);
+                    setTimeout(function () {self.secondChoice.image='empty';}, 500);
+
                    
-                   this.firstChoice.image='empty';
-                   this.secondChoice.image='empty';
+                  // this.firstChoice.image='empty';
+                  // this.secondChoice.image='empty';
                    this.matched = true;
 
                    this.picks = 0;
@@ -196,18 +202,8 @@ class Game {
                     setTimeout(function () {self.firstChoice.tileFlipped=false;}, 500);
                     setTimeout(function () {self.secondChoice.tileFlipped=false;}, 500);
 
-                   // self.firstChoice.tileFlipped=false;
-                  //  self.secondChoice.tileFlipped=false;
-
-                  this.firstChoice.timeOut=true;
-                  this.secondChoice.timeOut=true;
-
-                    //setTimeout(function () {self.firstChoice.timeOut=false;}, 1000);
-                    //setTimeout(function () {self.secondChoice.timeOut=false;}, 500);
-
-                    //const child_process = require("child_process");
-                    // Sleep for 5 seconds
-                    //child_process.execSync("sleep 1");
+                    this.firstChoice.timeOut=true;
+                    this.secondChoice.timeOut=true;
 
 
                     this.matched = false;
@@ -218,16 +214,6 @@ class Game {
 
                 }
             }
-
-            sleep(time, callback) {
-                var stop = new Date().getTime();
-                while(new Date().getTime() < stop + time) {
-                    ;
-                }
-                callback();
-            }
-
-
 
 
             fillBoard () {
