@@ -2,11 +2,8 @@
     <div class="jumbotron">
         <h2>Block User</h2>
         <div class="form-group">
-           <label for="inputName">Name</label>
-            <input
-                    type="text" class="form-control" v-model="user.name"
-                    name="name" id="inputName"
-                    placeholder="Fullname"/>
+           <label >Name</label>
+            <p>{{user.name}}</p>
         </div>
          <div class="form-group">
             <label for="inputReason_blocked">Blocking Reason</label>
@@ -29,17 +26,50 @@
     module.exports={
         props: ['user'],
         methods: {
-            blockUser: function(){
-                axios.put('api/users/'+this.user.id, this.user)
+            /*blockUser: function(){
+                var user = this.user;
+                axios.put('api/users/'+user.id)
                     .then(response=>{
+                        if(user.blocked = '1'){
+                            console.log("bloqueado");
+                        }
+
                     // Copy object properties from response.data.data to this.user
                     // without creating a new reference
                     //Object.assign(this.user, response.data.data);
                     this.user.blocked = '1';
                     console.log(response);
                 this.$emit('user-blocked', this.user)
-            });
+            });*/
+
+            blockUser: function(user){
+                axios.get('api/users/'+this.user.id)
+                    .then(response => {
+                        this.showSuccess = true;
+                        if (this.user.blocked == '1') {
+                            swal("User is already blocked");
+                        }
+                        else{
+                            //this.user.blocked = '0';
+                            //this.user.reason_blocked = inputReason_blocked;
+                            console.log(inputReason_blocked);
+                            axios.put('api/users/block/'+this.user.id, {
+                            blocked: 1}).then(response => {          
+                              console.log(response);
+                               swal("User blocked successfully!");
+                               this.$emmit('user-blocked', this.user);
+                              });
+
+                           
+                            //this.successMessage = 'User blocked';
+
+                            // this.$emmit('user-blocked', this.user);
+
+                        } 
+                        
+                    });
             },
+
             cancelBlock: function(){
                 axios.get('api/users/'+this.user.id)
                     .then(response=>{
@@ -50,7 +80,9 @@
             });
             }
         }
-    }
+
+        }
+    
 </script>
 
 <style scoped>

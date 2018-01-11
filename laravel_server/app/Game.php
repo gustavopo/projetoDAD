@@ -13,20 +13,12 @@ class Game extends Model
      */
     protected $fillable = [
         'status',
-        'player1',
-        'player2',
-        'winnerme'    ];
+        'winnerName'    ];
+
     public function getWinnerName()
     {
-        if ($this->winner == 1) {
-            return $this->player1;
-        } else if ($this->winner == 2) {
-            return $this->player2;
-        } else if (is_null($this->winner)) {
-            return '';
-        } else if ($this->winner == 0) {
-            return 'tie';
-        }
-        return "Unknown Winner";
+       // return $this->winner;
+        //return "Unknown Winner";
+        return $this->hasOne('App\User' , 'winner');
     }
 }
