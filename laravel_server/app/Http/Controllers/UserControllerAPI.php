@@ -78,6 +78,35 @@ class UserControllerAPI extends Controller
         $user->update($request->all());
         return new UserResource($user);
     }
+     public function block(Request $request, $id)
+    {
+        $request->validate([
+            /*'name' => 'required',
+            'nickname' => 'required',
+            'email' => 'required|email|unique:users,email,'.$id,
+            */
+            'blocked' => 'required',
+            'blocked_reason' => 'nullable'
+        ]);
+        $user = User::findOrFail($id);
+        $user->update($request->all());
+        return new UserResource($user);
+    }
+
+    public function unblock(Request $request, $id)
+    {
+        $request->validate([
+            /*'name' => 'required',
+            'nickname' => 'required',
+            'email' => 'required|email|unique:users,email,'.$id,
+            */
+            'blocked' => 'required',
+            'reactivated_reason' => 'nullable'
+        ]);
+        $user = User::findOrFail($id);
+        $user->update($request->all());
+        return new UserResource($user);
+    }
 
 
 

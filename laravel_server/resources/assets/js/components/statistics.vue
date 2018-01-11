@@ -2,8 +2,7 @@
     <div style="text-align: center">
         <div>
             <h3 class="text-center">{{ title }}</h3>
-            <br>
-            <!-- <h2>Current Player : {{ currentPlayer }}</h2> -->
+            
             <br>
         </div>
 
@@ -15,6 +14,7 @@
                             <i class="fa fa-fw fa-user"></i>
                         </div>
                         <div class="mr-5">Single Player</div>
+
                     </div>
                     <a class="card-footer text-white clearfix small z-1" href="#">
                         <span class="float-left">x Jogos</span>
@@ -61,6 +61,7 @@
                     <h3 class="text-center">Players List</h3>
                     <br>
                     <!-- <h2>Current Player : {{ currentPlayer }}</h2> -->
+
                     <br>
                 </div>
                 <div class="card-body">
@@ -76,13 +77,22 @@
                             </tr>
                             </thead>
                             <tbody>
-
+                                  
+                   <tr v-for="game in games"  :key="game.id">
+                               
+                                <td>{{ game.winner }}</td> 
+                                <td> getGameWinner({{game.winner}}) </td> 
+                                <td>  </td>
+                                <td>  </td>
+                                <td>  </td>
+                                   </tr>
                             </tbody>
                         </table>
                     </div>
                 </div>
             </div>
         </div>
+        <!--
         <div class="row">
             <div class="card mb-3">
                 <div class="card-header">
@@ -93,36 +103,60 @@
 
                 </div>
             </div>
-        </div>
+        </div>-->
 
     </div>
 
 
 </template>
-< /template>
 
 
 <script type="text/javascript">
 
     export default {
+         //props: ['users'],
         data: function(){
             return {
                 title: 'Statistics',
                 showSuccess: false,
                 successMessage: '',
                 currentUser: null,
+                //winnerName: null,
                 users: [],
+                games: []
             }
         },
         methods: {
-
+            getUsers: function () {
+                axios.get('api/users')
+                    .then(response => {
+                        this.users = response.data.data;
+                    });
         },
-
-        components: {
-
+        getGames: function () {
+                axios.get('api/games')
+                    .then(response => {
+                        this.games = response.data.data;
+                    });
         },
+        getGameWinner: function () {
+                axios.get('api/users/' + game.winner)
+                    .then(response => {
+                        this.games.winnerName = response.data.data;
+                        console.log(response.data.data);
+                    });
+        },
+    },
         mounted() {
-        }
+            this.getUsers();
+            this.getGames();
+        },
 
-    }
+        computed: {
+            authenthicatedUser() {
+                return this.$auth.getAuthenticatedUser();
+            }
+        },
+    } 
+
 </script>

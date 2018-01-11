@@ -3,7 +3,7 @@
         <div class="jumbotron">
             <h1>{{ title }}</h1>
         </div>
-        <user-list :users="users" @edit-click="editUser" @delete-click="deleteUser" @block-click="blockUser"
+        <user-list :users="users" @delete-click="deleteUser" @block-click="blockUser" @unblock-click="unblockUser"
                    @message="childMessage" ref="usersListRef"></user-list>
 
         <div class="alert alert-success" v-if="showSuccess">
@@ -11,9 +11,16 @@
             <button type="button" class="close-btn" v-on:click="showSuccess=false">&times;</button>
             <strong>{{ successMessage }}</strong>
         </div>
-        <user-edit :user="authUser" @user-saved="savedUser" @user-canceled="cancelEdit" v-if="authUser"></user-edit>
+
+       <!-- <user-edit :user="authUser" @user-saved="savedUser" @user-canceled="cancelEdit" v-if="authUser"></user-edit> -->
+
         <user-block :user="blockingUser" @user-blocked="blockedUser" @user-canceled="cancelBlock"
                     v-if="blockingUser"></user-block>
+
+        <user-unblock :user="unblockingUser" @user-unblock="unblockUser" @user-canceled="cancelUnblock"
+                    v-if="unblockingUser"></user-unblock>
+
+
 
 
     </div>
@@ -23,6 +30,7 @@
     import UserList from './userList.vue';
     import UserEdit from './userEdit.vue';
     import UserBlock from './userBlock.vue';
+    import UserUnblock from './unblockUser.vue';
 
 
     export default {
@@ -34,6 +42,7 @@
                 authUser: this.$auth.getAuthenticatedUser(),
                 users: [],
                 blockingUser: null,
+                unblockingUser: null
 
             }
         },
@@ -90,12 +99,23 @@
                 this.$refs.usersListRef.editingUser = null;
                 this.showSuccess = true;
                 this.successMessage = 'User Blocked';
+                this.getUsers();
+            },
+            unblockUser: function (user) {
+                this.unblockingUser = user;
+                this.showSuccess = false;
+            },
+            cancelUnblock: function () {
+                this.unblockingUser = null;
+                this.$refs.usersListRef.editingUser = null;
+                this.showSuccess = false;
             },
         },
         components: {
             'user-list': UserList,
             'user-edit': UserEdit,
-            'user-block': UserBlock
+            'user-block': UserBlock,
+            'user-unblock': UserUnblock
         },
         mounted() {
             this.getUsers();

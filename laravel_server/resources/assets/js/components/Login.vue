@@ -64,8 +64,8 @@
             loginClick() {
                 let data =
                     {
-                        client_id: 8,
-                        client_secret: 'zQRQYKrSQVKJuv8XtZxMJRmcCUpHyeizS9dHGeDu',
+                        client_id: 4,
+                        client_secret: '8nXHoEcOFu3iUwtpsdd5JykZBp3x6iKW99eIig6S',
                         grant_type: 'password',
                         username: this.email,
                         password: this.password
