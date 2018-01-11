@@ -15,7 +15,11 @@
             <td>{{ image.face }}</td>
             <td>{{ image.active }}</td>
             <td><img v-bind:src="pieceImageURL(image.path)"/></td>
+            <td>   <a class="btn btn-xs btn-danger" v-on:click.prevent="deleteImage(image)">Delete</a> </td>
         </tr>
+
+
+
         </tbody>
     </table>
 </template>
@@ -35,6 +39,10 @@
             pieceImageURL: function (img) {
                 let imgSrc = String(img);
                 return 'img/' + imgSrc;
+            },
+            deleteImage: function(image){
+                console.log("ID " + image.id)
+                this.$emit('delete-click', image);
             },
 
         },

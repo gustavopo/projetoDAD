@@ -5,7 +5,7 @@
         </div>
 
 
-        <images-list :images="images" ref="imagesListRef"></images-list>
+        <images-list :images="images" ref="imagesListRef" @delete-click="deleteImage"></images-list>
 
 <!--
 
@@ -41,6 +41,8 @@
             return {
                 title: 'Images Management',
                 images: [],
+                showSuccess: false,
+                successMessage: '',
 
             }
         },
@@ -52,6 +54,18 @@
                         this.images = response.data.data;
                     });
             },
+            deleteImage: function (image) {
+                console.log("image"+image);
+                console.log(image);
+                axios.delete('api/images/' + image.id)
+                    .then(response => {
+                        this.showSuccess = true;
+                        this.successMessage = 'Image Deleted';
+                        //this.getImages();
+                        console.log("response: " + response);
+                    }).catch((error)=>
+                console.log(error)
+                )},
 
         },
         mounted() {

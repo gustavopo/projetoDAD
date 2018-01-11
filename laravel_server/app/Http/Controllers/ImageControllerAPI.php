@@ -24,4 +24,11 @@ class ImageControllerAPI extends Controller
         return new ImageResource(Image::find($id));
     }
 
+    public function delete($id)
+    {
+        $image = Image::findOrFail($id);
+        $image->delete();
+        return response()->json(null, 204);
+    }
+
 }

@@ -35,7 +35,6 @@
                 authUser: this.$auth.getAuthenticatedUser(),
                 users: [],
                 blockingUser: null,
-
             }
         },
         methods: {
@@ -50,6 +49,7 @@
                         this.successMessage = 'User Deleted';
                         this.getUsers();
                     });
+
             },
             savedUser: function () {
                 this.authUser = null;

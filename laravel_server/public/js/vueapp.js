@@ -48007,7 +48007,6 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             authUser: this.$auth.getAuthenticatedUser(),
             users: [],
             blockingUser: null
-
         };
     },
     methods: {
@@ -52966,7 +52965,9 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
     data: function data() {
         return {
             title: 'Images Management',
-            images: []
+            images: [],
+            showSuccess: false,
+            successMessage: ''
 
         };
     },
@@ -52977,6 +52978,20 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
             axios.get('api/images').then(function (response) {
                 _this.images = response.data.data;
+            });
+        },
+        deleteImage: function deleteImage(image) {
+            var _this2 = this;
+
+            console.log("image" + image);
+            console.log(image);
+            axios.delete('api/images/' + image.id).then(function (response) {
+                _this2.showSuccess = true;
+                _this2.successMessage = 'Image Deleted';
+                //this.getImages();
+                console.log("response: " + response);
+            }).catch(function (error) {
+                return console.log(error);
             });
         }
 
@@ -53057,6 +53072,10 @@ exports.push([module.i, "\ntr.activerow[data-v-bcbebdda] {\n    background: #123
 //
 //
 //
+//
+//
+//
+//
 
 // Component code (not registered)
 module.exports = {
@@ -53069,6 +53088,10 @@ module.exports = {
         pieceImageURL: function pieceImageURL(img) {
             var imgSrc = String(img);
             return 'img/' + imgSrc;
+        },
+        deleteImage: function deleteImage(image) {
+            console.log("ID " + image.id);
+            this.$emit('delete-click', image);
         }
 
     }
@@ -53097,6 +53120,22 @@ var render = function() {
           _vm._v(" "),
           _c("td", [
             _c("img", { attrs: { src: _vm.pieceImageURL(image.path) } })
+          ]),
+          _vm._v(" "),
+          _c("td", [
+            _c(
+              "a",
+              {
+                staticClass: "btn btn-xs btn-danger",
+                on: {
+                  click: function($event) {
+                    $event.preventDefault()
+                    _vm.deleteImage(image)
+                  }
+                }
+              },
+              [_vm._v("Delete")]
+            )
           ])
         ])
       })
@@ -53147,7 +53186,11 @@ var render = function() {
         _c("h1", [_vm._v(_vm._s(_vm.title))])
       ]),
       _vm._v(" "),
-      _c("images-list", { ref: "imagesListRef", attrs: { images: _vm.images } })
+      _c("images-list", {
+        ref: "imagesListRef",
+        attrs: { images: _vm.images },
+        on: { "delete-click": _vm.deleteImage }
+      })
     ],
     1
   )
