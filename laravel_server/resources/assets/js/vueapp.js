@@ -10,6 +10,7 @@ import VueRouter from 'vue-router';
 import VueSocketio from 'vue-socket.io';
 import VueResource from 'vue-resource';
 import Auth from './packages/auth/Auth.js';
+import swal from 'sweetalert'
 import axios from 'axios';
 window.axios = require('axios');
 

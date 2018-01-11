@@ -122,8 +122,6 @@
 
         },
         mounted() {
-            this.getUsers();
-            console.log("ola");
         }
 
     }

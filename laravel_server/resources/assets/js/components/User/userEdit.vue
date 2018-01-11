@@ -94,7 +94,7 @@
                         this.$emit('user-saved', this.authUser)
                     });
                 //TODO MENSAGENS
-                //swal("User edited with Sucess!", "success")
+                swal("User edited with Sucess!", "success")
             },
             
             cancelEdit: function () {
