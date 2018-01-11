@@ -10,6 +10,7 @@ import VueRouter from 'vue-router';
 import VueSocketio from 'vue-socket.io';
 import VueResource from 'vue-resource';
 import Auth from './packages/auth/Auth.js';
+import swal from 'sweetalert'
 import axios from 'axios';
 window.axios = require('axios');
 
@@ -33,6 +34,12 @@ const register = Vue.component('register', require('./components/Register.vue'))
 /** GAME ROUTES **/
 const singleplayerGame = Vue.component('singlegame', require('./components/singleplayer_game.vue'));
 const multiplayerGame = Vue.component('multiplayergame', require('./components/multiplayer_game.vue'));
+const statistics = Vue.component('statistics', require('./components/statistics.vue'));
+
+/** ADMIN ROUTES **/
+const imagesManagement = Vue.component('imagesManagement', require('./components/User/admin/imagesManagement.vue'));
+const imagesList = Vue.component('imagesList', require('./components/User/admin/imagesList.vue'));
+const uploadImage = Vue.component('uploadImage', require('./components/User/admin/uploadImage.vue'));
 
 
 const routes = [
@@ -42,8 +49,11 @@ const routes = [
     {path: '/multimemorygame', component: multiplayerGame},
     {path: '/singlememorygame', component: singleplayerGame, meta: {forAuth: true}},
     {path: '/multimemorygame', component: multiplayerGame, meta: {forAuth: true}},
+    {path: '/statistics', component: statistics, meta: {forAuth: true}},
     {path: '/login', component: login, meta: {forVisitors: true}},
     {path: '/register', component: register, meta: {forVisitors: true} },
+    {path: '/imagesManagement', component: imagesManagement, meta: {forAuth: true}},
+    {path: '/uploadImage', component: uploadImage, meta: {forAuth: true}},
 ];
 
 const router = new VueRouter({

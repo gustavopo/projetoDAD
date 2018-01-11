@@ -32,7 +32,6 @@ Route::middleware('auth:api')->get('user', function () {
 
 //----
 Route::get('users', 'UserControllerAPI@getUsers');
-//Route::get('users/emailavailable', 'UserControllerAPI@emailAvailable');
 Route::get('users/{id}', 'UserControllerAPI@getUser');
 Route::post('users', 'UserControllerAPI@store');
 Route::put('users/{id}', 'UserControllerAPI@update');
@@ -49,8 +48,15 @@ Route::middleware('auth:api')->get('user', function(Request $request)
 
 Route::get('/authUser', 'UserControllerApi@getAuthUser');
 
+//Images
+Route::get('images', 'ImageControllerAPI@getImages');
+Route::delete('images/{id}', 'ImageControllerAPI@delete');
+
+
+
 
 //Games
+/*
 Route::get('games', 'GameControllerAPI@index');
 Route::get('games/lobby', 'GameControllerAPI@lobby');
 Route::get('games/status/{status}', 'GameControllerAPI@gamesStatus');
@@ -58,8 +64,4 @@ Route::get('games/{id}', 'GameControllerAPI@getGame');
 Route::post('games', 'GameControllerAPI@store');
 Route::patch('games/{id}/join-start', 'GameControllerAPI@joinAndStart');
 Route::patch('games/{id}/endgame/{winner}', 'GameControllerAPI@endgame');
-
-
-//Images
-//Route::get('/images', 'ImageControllerApi@all');
-//Route::delete('images/{id}', 'ImageControllerAPI@delete');
+*/

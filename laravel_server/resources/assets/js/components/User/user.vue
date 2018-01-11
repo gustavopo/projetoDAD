@@ -3,6 +3,7 @@
         <div class="jumbotron">
             <h1>{{ title }}</h1>
         </div>
+
         <user-list :users="users" @edit-click="editUser" @delete-click="deleteUser" @block-click="blockUser"
                    @message="childMessage" ref="usersListRef"></user-list>
 
@@ -34,7 +35,6 @@
                 authUser: this.$auth.getAuthenticatedUser(),
                 users: [],
                 blockingUser: null,
-
             }
         },
         methods: {
@@ -49,6 +49,7 @@
                         this.successMessage = 'User Deleted';
                         this.getUsers();
                     });
+
             },
             savedUser: function () {
                 this.authUser = null;

@@ -7,9 +7,16 @@
             <div class="col-md-6 col-md-offset-3">
                 <div class="panel panel-default">
                     <div class="panel-body">
+
+
                         <!--Email-->
-                        <div class="form-group">
+                        <div v-if="loginByEmail" class="form-group">
                             <input v-model="email" class="form-control" type="email" placeholder="Email"/>
+                        </div>
+
+                        <!--Nickname-->
+                        <div v-if="!loginByEmail" class="form-group">
+                            <input v-model="nickname" class="form-control" type="text" placeholder="Nickname"/>
                         </div>
 
                         <!--Password-->
@@ -17,10 +24,18 @@
                             <input v-model="password" class="form-control" type="password" placeholder="Password"/>
                         </div>
 
-                        <!-- Button-->
-                        <button @click="loginClick" class="btn btn-success pull-right">
-                            Login
-                        </button>
+                        <!-- Buttons-->
+                        <div>
+                            <button @click="loginClick" class="btn btn-success pull-right">
+                                Login
+                            </button>
+                            <button v-if="!loginByEmail" @click="toogleLoginType" class="btn btn-success pull-right">
+                                Login by Email
+                            </button>
+                            <button v-if="loginByEmail" @click="toogleLoginType" class="btn btn-success pull-right">
+                                Login by Nickname
+                            </button>
+                        </div>
 
 
                     </div>
@@ -38,7 +53,9 @@
             return {
                 title: 'Login',
                 email: '',
-                password: ''
+                nickname: '',
+                password: '',
+                loginByEmail: true,
             }
         },
 
@@ -57,23 +74,14 @@
                 let userLogin =
                     {
                         email: this.email,
+                        nickname:this.nickname,
                         password: this.password
                     };
 
-/*
-                axios.post('api/login')
-                    .then(response=>{
-                        this.$auth.setToken(response.body.access_token, response.body.expires_in + Date.now());
-                        console.log(this.$auth.getAuthenticatedUser());
-                        //Object.assign(this.user, response.data.data);
-                        //this.$emit('user-login', this.user);
-                        this.$router.push("/");
-                    });
-                */
                 this.$http.post("/api/login", userLogin)
                     .then(function (response) {
                         console.log(response);
-                         this.$auth.setToken(response.body.access_token, response.body.expires_in + Date.now());
+                        this.$auth.setToken(response.body.access_token, response.body.expires_in + Date.now());
                         console.log("Auth user" + JSON.stringify(this.$auth.getAuthenticatedUser()));
                         //Redirecionar user após este ficar autenticado
                         this.$router.push("/");
@@ -83,7 +91,12 @@
                 });
 
 
+            },
+            toogleLoginType() {
+
+                this.loginByEmail = !this.loginByEmail;
             }
+
         }
     }
 </script>
