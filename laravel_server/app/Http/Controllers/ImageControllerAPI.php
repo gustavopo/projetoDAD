@@ -31,4 +31,35 @@ class ImageControllerAPI extends Controller
         return response()->json(null, 204);
     }
 
+    public function store(Request $request)
+    {
+        $exploded = explode(',', $request->path);
+        $decoded = base64_decode($exploded[1]);
+
+        // Verificar o Tipo
+        if (str_contains($exploded[0], 'jpeg')) {
+            $extension = 'jpg';
+        } else {
+            $extension = 'png';
+        }
+
+        $fileName = str_random() . '.' . $extension;
+        $filePath = public_path() . '/img/' . $fileName;
+        file_put_contents($filePath, $decoded);
+
+        $request->validate([
+            'face' => 'required|string|max:255',
+            'active' => 'required|string|max:255',
+        ]);
+
+        $image = new Image();
+        $image->fill($request->except('path')+ [
+                'path' => $fileName
+            ]);
+
+        $image->save();
+
+        return $image;
+    }
+
 }

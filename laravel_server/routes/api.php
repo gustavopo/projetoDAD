@@ -51,6 +51,7 @@ Route::get('/authUser', 'UserControllerApi@getAuthUser');
 //Images
 Route::get('images', 'ImageControllerAPI@getImages');
 Route::delete('images/{id}', 'ImageControllerAPI@delete');
+Route::post('images/storeImage','ImageControllerAPI@store');
 
 
 

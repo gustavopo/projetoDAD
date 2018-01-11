@@ -49939,13 +49939,14 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
     methods: {
         loginClick: function loginClick() {
-            var data = {
-                client_id: 8,
-                client_secret: 'zQRQYKrSQVKJuv8XtZxMJRmcCUpHyeizS9dHGeDu',
-                grant_type: 'password',
-                username: this.email,
-                password: this.password
-            };
+            /* let data =
+                 {
+                     client_id: 2,
+                     client_secret: 'heCChs0HZYPmDvNTEKrC1XOw05Y361M7TaJjsVsv',
+                     grant_type: 'password',
+                     username: this.email,
+                     password: this.password
+                 };*/
 
             var userLogin = {
                 email: this.email,
@@ -52936,6 +52937,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
 
 
 
@@ -53294,6 +53296,18 @@ module.exports = Component.exports
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 // Component code (not registered)
 module.exports = {
@@ -53301,13 +53315,50 @@ module.exports = {
     data: function data() {
         return {
             title: 'Images Management',
-            image: ''
+            image: {
+                face: '',
+                active: '',
+                path: ''
+
+            }
 
         };
     },
     methods: {
-        imageChanged: function imageChanged() {
-            //var fileReader = new File
+        imageChanged: function imageChanged(e) {
+            var _this = this;
+
+            console.log(e.target.files[0]);
+            var fileReader = new FileReader();
+            fileReader.readAsDataURL(e.target.files[0]);
+
+            fileReader.onload = function (e) {
+                _this.image.path = e.target.result;
+            };
+
+            console.log(this.image);
+            console.log(this.image.path);
+        },
+        uploadImage: function uploadImage(image) {
+            var _this2 = this;
+
+            //console.log("Upload Image click: " + this.image);
+
+            axios.post('/api/images/storeImage', image).then(function (response) {
+                console.log("Sucess " + response.data);
+                _this2.resetImage();
+                swal('Imagem Upload Successful!');
+            }).catch(function (error) {
+                //Show errors
+                console.log("Error: " + error);
+            });
+        },
+        resetImage: function resetImage() {
+            this.image = {
+                face: null,
+                active: null,
+                path: null
+            };
         }
     }
 };
@@ -53329,7 +53380,95 @@ var render = function() {
       _c("div", { staticClass: "col-md-6 col-md-offset-3" }, [
         _c("div", { staticClass: "panel panel-default" }, [
           _c("div", { staticClass: "panel-body", attrs: { align: "center" } }, [
-            _vm._m(0),
+            _c("br"),
+            _vm._v(" "),
+            _c("div", { staticClass: "form-group", attrs: { align: "left" } }, [
+              _c("label", [_vm._v("Face: ")]),
+              _vm._v(" "),
+              _c(
+                "select",
+                {
+                  directives: [
+                    {
+                      name: "model",
+                      rawName: "v-model",
+                      value: _vm.image.face,
+                      expression: "image.face"
+                    }
+                  ],
+                  on: {
+                    change: function($event) {
+                      var $$selectedVal = Array.prototype.filter
+                        .call($event.target.options, function(o) {
+                          return o.selected
+                        })
+                        .map(function(o) {
+                          var val = "_value" in o ? o._value : o.value
+                          return val
+                        })
+                      _vm.$set(
+                        _vm.image,
+                        "face",
+                        $event.target.multiple
+                          ? $$selectedVal
+                          : $$selectedVal[0]
+                      )
+                    }
+                  }
+                },
+                [
+                  _c("option", { attrs: { value: "tile" } }, [_vm._v("Tile")]),
+                  _vm._v(" "),
+                  _c("option", { attrs: { value: "hidden" } }, [
+                    _vm._v("Hidden")
+                  ])
+                ]
+              )
+            ]),
+            _vm._v(" "),
+            _c("div", { staticClass: "form-group", attrs: { align: "left" } }, [
+              _c("label", [_vm._v("Activation Status: ")]),
+              _vm._v(" "),
+              _c(
+                "select",
+                {
+                  directives: [
+                    {
+                      name: "model",
+                      rawName: "v-model",
+                      value: _vm.image.active,
+                      expression: "image.active"
+                    }
+                  ],
+                  on: {
+                    change: function($event) {
+                      var $$selectedVal = Array.prototype.filter
+                        .call($event.target.options, function(o) {
+                          return o.selected
+                        })
+                        .map(function(o) {
+                          var val = "_value" in o ? o._value : o.value
+                          return val
+                        })
+                      _vm.$set(
+                        _vm.image,
+                        "active",
+                        $event.target.multiple
+                          ? $$selectedVal
+                          : $$selectedVal[0]
+                      )
+                    }
+                  }
+                },
+                [
+                  _c("option", { attrs: { value: "1" } }, [_vm._v("Active")]),
+                  _vm._v(" "),
+                  _c("option", { attrs: { value: "0" } }, [
+                    _vm._v("Not Active")
+                  ])
+                ]
+              )
+            ]),
             _vm._v(" "),
             _c("div", { staticClass: "form-group", attrs: { align: "left" } }, [
               _c("label", [_vm._v("File Name")]),
@@ -53345,9 +53484,19 @@ var render = function() {
               "button",
               {
                 staticClass: "btn btn-xl btn-primary",
-                attrs: { align: "center" }
+                attrs: { align: "center" },
+                on: {
+                  click: function($event) {
+                    $event.preventDefault()
+                    _vm.uploadImage(_vm.image)
+                  }
+                }
               },
-              [_vm._v("\n                    Upload Image\n                ")]
+              [
+                _vm._v(
+                  "\n                        Upload Image\n                    "
+                )
+              ]
             )
           ])
         ])
@@ -53355,21 +53504,7 @@ var render = function() {
     ])
   ])
 }
-var staticRenderFns = [
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "form-group", attrs: { align: "left" } }, [
-      _c("label", [_vm._v("Image Name")]),
-      _vm._v(" "),
-      _c("input", {
-        staticClass: "form-control",
-        attrs: { type: "text", placeholder: "Image Name" }
-      })
-    ])
-  }
-]
+var staticRenderFns = []
 render._withStripped = true
 module.exports = { render: render, staticRenderFns: staticRenderFns }
 if (false) {

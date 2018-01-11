@@ -121,4 +121,23 @@ class UserControllerAPI extends Controller
         }
 
     }
+
+
+    /* TODO : SHOW PROFILE PHOTO
+     public function showProfilePhoto(User $user)
+    {
+        $path = $user->file('profile_photo')->storeAs(storage_path() . '/app/public/profiles/', $user->profile_photo);
+        $user->profile_photo = $path;
+
+        //$user->file('profile_photo')->move(storage_path().'/app/public/profiles/', $user->profile_photo);
+
+        //storage_path().'/app/public/profiles/', $user->profile_photo
+
+        // $path = storage_path('app/public/profiles/'.$user->profile_photo);
+
+        return Image::make($path)->response();
+
+    }
+
+     */
 }

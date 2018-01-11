@@ -11,6 +11,7 @@
 
 </template>
 
+
 <script>
     import ImagesList from './imagesList.vue';
 
