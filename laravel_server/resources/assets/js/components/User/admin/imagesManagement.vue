@@ -4,30 +4,8 @@
             <h1>{{ title }}</h1>
         </div>
 
-
+        <div align="right">  <a class="btn btn-xl btn-primary" style="margin-right: 40px" v-on:click.prevent="redirectUpload" >Upload Image</a></div>
         <images-list :images="images" ref="imagesListRef" @delete-click="deleteImage"></images-list>
-
-<!--
-
-        <table class="table table-striped">
-            <thead>
-            <tr>
-                <th>Id</th>
-                <th>Face</th>
-                <th>Active</th>
-                <th>Image</th>
-                <th>Actions</th>
-            </tr>
-            </thead>
-            <tbody>
-            <tr v-for="image in images"  :key="image.id"> <!--:class="{activerow: editingUser === user}
-                <td>{{ image.id }}</td>
-                <td>{{ image.face }}</td>
-                <td>{{ image.active }}</td>
-                <td>{{ image.path }}</td>
-            </tr>
-            </tbody>
-        </table>-->
 
     </div>
 
@@ -55,17 +33,24 @@
                     });
             },
             deleteImage: function (image) {
-                console.log("image"+image);
+                console.log("image" + image);
                 console.log(image);
                 axios.delete('api/images/' + image.id)
                     .then(response => {
                         this.showSuccess = true;
                         this.successMessage = 'Image Deleted';
-                        //this.getImages();
+                        swal("Image Deleted!", "success")
+                        this.getImages();
                         console.log("response: " + response);
-                    }).catch((error)=>
-                console.log(error)
-                )},
+                    }).catch((error) =>
+                    console.log(error)
+                )
+            },
+
+            redirectUpload: function () {
+               console.log("redirect upload")
+                this.$router.push('/uploadImage');
+            },
 
         },
         mounted() {
