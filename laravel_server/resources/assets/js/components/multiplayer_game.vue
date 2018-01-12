@@ -18,7 +18,7 @@
             </h4>
             <lobby :games="lobbyGames" @join-click="join"></lobby>
             <template v-for="game in activeGames">
-                <game :game="game"></game>
+                <game :socketParent="socketId" :game="game"></game>
             </template>
         </div>
     </div>
@@ -39,12 +39,15 @@ export default {
             socketId: "",
             createGameShow: false,
             maxPlayers:[],
+            authUser: '',
         }
     },
     sockets: {
         connect() {
             console.log('socket connected');
             this.socketId = this.$socket.id;
+            console.log('pai '+this.socketId);
+
         },
         discconnect() {
             console.log('socket disconnected');
@@ -106,6 +109,14 @@ export default {
 
 },
 methods: {
+
+    getAuthUser() {
+        let user = this.$auth.getAuthenticatedUser();
+        console.log(user);
+        this.authUser = user;
+        console.log(this.authUser.name);
+    },
+
     gameSaved(name, maxPlayers,format) {
         console.log(name + maxPlayers);
         this.createGame(name, maxPlayers, format);
@@ -121,6 +132,8 @@ methods: {
         this.$socket.emit('get_my_activegames');
     },
     createGame(name, maxPlayers,format) {
+
+        console.log('no create: '+  this.currentPlayer);
         if (this.currentPlayer == "") {
             alert('Current Player is Empty - Cannot Create a Game');
             return;
@@ -131,6 +144,7 @@ methods: {
         }
     },
     join(game) {
+        console.log('no join: '+  this.currentPlayer);
         if (game.player1 == this.currentPlayer) {
             alert('Cannot join a game because your name is the same as Player 1');
             return;
@@ -157,6 +171,14 @@ components: {
 mounted() {
     this.loadLobby();
 },
+beforeMount() {
+    this.getAuthUser();
+    console.log('kk' + this.authUser.name);
+    this.currentPlayer = this.authUser.name;
+   // console.log(this.$auth.getAuthenticatedUser());
+   // this.currentPlayer=this.authUser.name;
+},
+
 
 }
 </script>

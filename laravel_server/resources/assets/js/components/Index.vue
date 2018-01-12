@@ -65,7 +65,6 @@
                     }
                 }).then(response => {
                     this.$auth.setAuthenticatedUser(response.body);
-                    console.log(this.$auth.getAuthenticatedUser());
                 }).catch((error) => {
                     console.log(error);
                 });

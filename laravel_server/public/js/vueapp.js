@@ -47785,7 +47785,6 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                 }
             }).then(function (response) {
                 _this.$auth.setAuthenticatedUser(response.body);
-                console.log(_this.$auth.getAuthenticatedUser());
             }).catch(function (error) {
                 console.log(error);
             });
@@ -51745,7 +51744,7 @@ exports = module.exports = __webpack_require__(2)(undefined);
 
 
 // module
-exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", ""]);
+exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", ""]);
 
 // exports
 
@@ -51802,13 +51801,15 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             activeGames: [],
             socketId: "",
             createGameShow: false,
-            maxPlayers: []
+            maxPlayers: [],
+            authUser: ''
         };
     },
     sockets: {
         connect: function connect() {
             console.log('socket connected');
             this.socketId = this.$socket.id;
+            console.log('pai ' + this.socketId);
         },
         discconnect: function discconnect() {
             console.log('socket disconnected');
@@ -51954,6 +51955,12 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         }
     },
     methods: {
+        getAuthUser: function getAuthUser() {
+            var user = this.$auth.getAuthenticatedUser();
+            console.log(user);
+            this.authUser = user;
+            console.log(this.authUser.name);
+        },
         gameSaved: function gameSaved(name, maxPlayers, format) {
             console.log(name + maxPlayers);
             this.createGame(name, maxPlayers, format);
@@ -51968,6 +51975,8 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             this.$socket.emit('get_my_activegames');
         },
         createGame: function createGame(name, maxPlayers, format) {
+
+            console.log('no create: ' + this.currentPlayer);
             if (this.currentPlayer == "") {
                 alert('Current Player is Empty - Cannot Create a Game');
                 return;
@@ -51977,6 +51986,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             }
         },
         join: function join(game) {
+            console.log('no join: ' + this.currentPlayer);
             if (game.player1 == this.currentPlayer) {
                 alert('Cannot join a game because your name is the same as Player 1');
                 return;
@@ -51999,6 +52009,13 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
     },
     mounted: function mounted() {
         this.loadLobby();
+    },
+    beforeMount: function beforeMount() {
+        this.getAuthUser();
+        console.log('kk' + this.authUser.name);
+        this.currentPlayer = this.authUser.name;
+        // console.log(this.$auth.getAuthenticatedUser());
+        // this.currentPlayer=this.authUser.name;
     }
 });
 
@@ -52329,12 +52346,15 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 
 /* harmony default export */ __webpack_exports__["default"] = ({
-    props: ['game'],
+    props: ['game', 'socketParent'],
     data: function data() {
         return {};
     },
     computed: {
         ownPlayerNumber: function ownPlayerNumber() {
+            console.log('game socket: ' + this.game.player1SocketID);
+            console.log('parent socket: ' + this.$parent.socketId);
+            console.log('socketProps: ' + this.socketParent);
             if (this.game.player1SocketID == this.$parent.socketId) {
                 return 1;
             } else if (this.game.player2SocketID == this.$parent.socketId) {
@@ -52951,7 +52971,9 @@ var render = function() {
         }),
         _vm._v(" "),
         _vm._l(_vm.activeGames, function(game) {
-          return [_c("game", { attrs: { game: game } })]
+          return [
+            _c("game", { attrs: { socketParent: _vm.socketId, game: game } })
+          ]
         })
       ],
       2

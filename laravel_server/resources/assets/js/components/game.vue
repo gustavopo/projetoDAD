@@ -31,13 +31,16 @@
 
 <script type="text/javascript">
 export default {
-    props: ['game'],
+    props: ['game','socketParent'],
     data: function () {
         return {
         }
     },
     computed: {
         ownPlayerNumber() {
+            console.log('game socket: ' +this.game.player1SocketID );
+            console.log('parent socket: ' +this.$parent.socketId );
+            console.log('socketProps: '+this.socketParent);
             if (this.game.player1SocketID == this.$parent.socketId) {
                 return 1;
             } else if (this.game.player2SocketID == this.$parent.socketId) {
