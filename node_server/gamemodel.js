@@ -3,6 +3,8 @@
 
 var Tile = require('./Tile.js');
 var Player = require('./Player.js');
+var intervalT;
+var intervalJoin;
 
 
 class Game {
@@ -27,6 +29,7 @@ class Game {
         this.contadorParesMatched=0;
         this.playerOne = new Player(0,1,player1Name);
         this.playerTwo = new Player(0,1,'');
+        this.timer = 30;
 
 
 
@@ -39,13 +42,15 @@ class Game {
 
     }
 
-    join(player2Name){
+    join(player2Name, gameID,game,io){
         this.playerTwo.name= player2Name;
         this.gameStarted = true;
+
+        this.decrementTime(io, gameID, game);
+       //intervalJoin=setInterval(function() {io.to(gameID).emit('timer_changed',game);}, 1001);
     }
 
     checkGameEnded(){
-
         if(this.contadorParesMatched===(this.columns*this.rows)){
             this.checkWinner();
             this.gameEnded=true;
@@ -99,51 +104,59 @@ class Game {
         if (playerNumber != this.playerTurn) {
             return false;
         }
+
        /* if (this.board[r1][c1] !== 0) {
             return false;
         }*/
         this.board[r1][c1].tileFlipped = true;
 
         this.chooseCard(r1,c1);
-        console.log("Picks: "+this.picks);
         if(this.picks===2){
-            this.checkCards(); 
+            this.checkCards(io, gameID, game);
             setTimeout(function() {io.to(gameID).emit('game_changed',game);}, 1000);
         }
 
         if (!this.checkGameEnded()) {
             if(this.picksTurn==2 && !this.matched){
-                this.playerTurn = this.playerTurn == 1 ? 2 : 1;
-                this.picksTurn = 0;
-            }
-        }else{
-            console.log('ganhaste oh meu!!')
-        }
-
-
-        return true;
-
+              this.changeTurn(io,gameID,game);
+          }
+      }else{
+        console.log('ganhaste oh meu!!')
     }
 
-    chooseCard(posicaoLinha,posicaoColuna){
+
+    return true;
+
+}
+
+changeTurn(io, gameID, game){
+    this.playerTurn = this.playerTurn == 1 ? 2 : 1;
+    this.picksTurn = 0;
+
+    clearInterval(intervalT);
+    this.timer = 30;
+    this.decrementTime(io, gameID, game);
+    io.to(gameID).emit('game_changed',game);
+
+}
+
+chooseCard(posicaoLinha,posicaoColuna){
 
 
-        if (this.picks >= 2) {
-            console.log("ja foram selecionadas 2 cartas");
-            return;
-        }
+    if (this.picks >= 2) {
+        console.log("ja foram selecionadas 2 cartas");
+        return;
+    }
 
 
-
-        if (this.picks === 0) {
+    if (this.picks === 0) {
 
                     //TODO: show image corresponding to first card clicked
                     this.firstChoice = this.board[posicaoLinha][posicaoColuna];
                     this.picks = 1;
                    // console.log("First choice IMAGEM: " + this.board[posicaoLinha][posicaoColuna].image);
 
-                }
-                else {
+               }else {
 
                     //show image corresponding to second card clicked
                     this.secondChoice = this.board[posicaoLinha][posicaoColuna];
@@ -151,21 +164,37 @@ class Game {
                     //check is 
                     if(this.secondChoice.key===this.firstChoice.key){
                        // console.log("são a mesma peça!");
-                        return ;
-                    }
+                       return ;
+                   }
 
 
-                    this.picks = 2;
-                    this.picksTurn = 2;
+                   this.picks = 2;
+                   this.picksTurn = 2;
 
                     //para não se poder carregar
-                    // let boardClass = document.getElementById("board").classList;
+                    //let boardClass = document.getElementById("board").classList;
                    // boardClass.add("noClicks");
 
                }
            }
 
-           checkCards(){
+           decrementTime(io, gameID, game){
+            const clear = setInterval(() =>{
+                if(this.timer===0){
+                    clearInterval(clear);
+                    this.changeTurn(io, gameID, game);
+                }else{
+                    this.timer--;
+                    intervalT=setInterval(function() {io.to(gameID).emit('timer_changed',game);}, 1001);
+                    console.log("timer: " +this.timer);
+                }
+            }, 1000);
+
+        }
+
+
+
+        checkCards(io, gameID, game){
 
             if (this.secondChoice.image === this.firstChoice.image) {
                     //console.log("As imagens são iguais!");
@@ -173,15 +202,17 @@ class Game {
                     let self = this;
 
                    // this.matches++;
-                    setTimeout(function () {self.firstChoice.image='empty'}, 500);
-                    setTimeout(function () {self.secondChoice.image='empty';}, 500);
+                   setTimeout(function () {self.firstChoice.image='empty'}, 500);
+                   setTimeout(function () {self.secondChoice.image='empty';}, 500);
 
+                   //clear no timer!!!
+                   clearInterval(intervalT);
+                   this.timer = 30;
+                   this.decrementTime(io, gameID, game);
                    
-                  // this.firstChoice.image='empty';
-                  // this.secondChoice.image='empty';
                    this.matched = true;
-
                    this.picks = 0;
+
                    this.contadorParesMatched+=2;
                    switch(this.playerTurn){
                     case 1: this.playerOne.pairsCombined++;
@@ -191,6 +222,7 @@ class Game {
                     console.log('player 2 pares: '+this.playerTwo.pairsCombined );
                     break;
                 }
+
 
             }
 
@@ -209,8 +241,7 @@ class Game {
                     this.matched = false;
 
                     //para poder voltar a carregar nelas
-                    this.picks = 0;
-                    
+                    this.picks = 0;      
 
                 }
             }
@@ -307,26 +338,7 @@ class Game {
             }
         }        
 
-
-
-
-
-
-
-
-    }
-    class cell{
-        constructor(index, img){
-            this.index=index;
-            this.img=img;
-        }
     }
 
-    class piece{
-        constructor(urlImage, status){
-            this.urlImage = urlImage;
-            this.status = status;
-        }
-    }
 
     module.exports = Game;

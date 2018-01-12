@@ -21,12 +21,12 @@ class GameList {
     	return game;
     }
 
-    joinGame(gameID, playerName, socketID) {
+    joinGame(gameID, io, playerName, socketID) {
     	let game = this.gameByID(gameID);
     	if (game===null) {
     		return null;
     	}
-    	game.join(playerName);
+    	game.join(playerName,gameID, game, io);
     	game.player2SocketID = socketID;
     	return game;
     }

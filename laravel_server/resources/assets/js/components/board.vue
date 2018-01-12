@@ -156,7 +156,6 @@ export default {
                     self.$forceUpdate();
 
                     //para poder voltar a carregar nelas
-
                     this.picks = 0;
                     
                     setTimeout(function () {console.log("picks: " +this.picks);}, 2500);

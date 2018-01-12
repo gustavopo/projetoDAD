@@ -16,6 +16,9 @@
                         </div>
                     </div>
                 </div>
+            </div>
+            <div id="timer">
+                {{game.timer}}
             </div>  
             <table id="espaco">
             </table>
@@ -23,8 +26,6 @@
         </div>
 
         <hr>
-        <br>
-        <br>
     </div>
 </template>
 
@@ -126,27 +127,30 @@ export default {
         },
 
         clickPiece(r1,c1) {
-            if (!this.game.gameEnded) {
-                if (this.game.playerTurn != this.ownPlayerNumber) {
-                    alert("It's not your turn to play");
-                } else {
-                        //console.log(r1 +""+""+ c1)
-                        this.$parent.play(this.game, r1, c1);
-                    }
-                }
+          if (!this.game.gameEnded) {
+            if (this.game.playerTurn != this.ownPlayerNumber) {
+                alert("It's not your turn to play");
+            } else {
+                this.$parent.play(this.game, r1, c1);
             }
         }
     }
-    </script>
+},
 
-    <style scoped>
-    table {
-        width: 100%;
-    }
+mounted(){
 
-    .noClicks{
-      pointer-events: none;
-  }
+}
+}
+</script>
+
+<style scoped>
+table {
+    width: 100%;
+}
+
+.noClicks{
+  pointer-events: none;
+}
 
 
-  </style>
+</style>
