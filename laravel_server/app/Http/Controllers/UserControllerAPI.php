@@ -108,7 +108,7 @@ class UserControllerAPI extends Controller
             'email' => 'required|email|unique:users,email,'.$id,
             */
             'blocked' => 'required',
-            'blocked_reason' => 'nullable'
+            'reason_blocked' => 'nullable'
         ]);
         $user = User::findOrFail($id);
         $user->update($request->all());
@@ -123,7 +123,7 @@ class UserControllerAPI extends Controller
             'email' => 'required|email|unique:users,email,'.$id,
             */
             'blocked' => 'required',
-            'reactivated_reason' => 'nullable'
+            'reason_reactivated' => 'nullable'
         ]);
         $user = User::findOrFail($id);
         $user->update($request->all());

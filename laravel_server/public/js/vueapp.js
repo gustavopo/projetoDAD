@@ -60728,10 +60728,11 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             title: 'List Users',
             showSuccess: false,
             successMessage: '',
-            authUser: this.$auth.getAuthenticatedUser(),
+            authUser: '',
             users: [],
             blockingUser: null,
-            unblockingUser: null
+            unblockingUser: null,
+            authUserProp: ''
 
         };
     },
@@ -60800,6 +60801,12 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             this.unblockingUser = null;
             this.$refs.usersListRef.editingUser = null;
             this.showSuccess = false;
+        },
+        getAuthUser: function getAuthUser() {
+            var user = this.$auth.getAuthenticatedUser();
+            console.log(user);
+            this.authUserProp = user;
+            console.log(this.authUserProp.name);
         }
     },
     components: {
@@ -60808,16 +60815,13 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         'user-block': __WEBPACK_IMPORTED_MODULE_2__userBlock_vue___default.a,
         'user-unblock': __WEBPACK_IMPORTED_MODULE_3__unblockUser_vue___default.a
     },
+    beforeMount: function beforeMount() {
+        this.getAuthUser();
+        console.log(this.$auth.getAuthenticatedUser());
+    },
     mounted: function mounted() {
         this.getUsers();
-    },
-
-    computed: {
-        authenthicatedUser: function authenthicatedUser() {
-            return this.$auth.getAuthenticatedUser();
-        }
     }
-
 });
 
 /***/ }),
@@ -60946,7 +60950,7 @@ exports.push([module.i, "\ntr.activerow[data-v-3d5a74b4] {\n    background: #123
 
 // Component code (not registered)
 module.exports = {
-    props: ['users'],
+    props: ['users', 'authUserProp'],
     data: function data() {
         return {
             editingUser: null,
@@ -60978,7 +60982,9 @@ module.exports = {
             this.editingUser = user;
             this.$emit('unblock-click', user);
         }
+
     }
+
 };
 
 /***/ }),
@@ -61005,49 +61011,51 @@ var render = function() {
             _vm._v(" "),
             _c("td", [_vm._v(_vm._s(user.blocked) + " ")]),
             _vm._v(" "),
-            _c("td", [
-              _c(
-                "a",
-                {
-                  staticClass: "btn btn-xs btn-danger",
-                  on: {
-                    click: function($event) {
-                      $event.preventDefault()
-                      _vm.blockUser(user)
-                    }
-                  }
-                },
-                [_vm._v("Block")]
-              ),
-              _vm._v(" "),
-              _c(
-                "a",
-                {
-                  staticClass: "btn btn-xs btn-primary",
-                  on: {
-                    click: function($event) {
-                      $event.preventDefault()
-                      _vm.unblockUser(user)
-                    }
-                  }
-                },
-                [_vm._v("Unblock")]
-              ),
-              _vm._v(" "),
-              _c(
-                "a",
-                {
-                  staticClass: "btn btn-xs btn-danger",
-                  on: {
-                    click: function($event) {
-                      $event.preventDefault()
-                      _vm.deleteUser(user)
-                    }
-                  }
-                },
-                [_vm._v("Delete")]
-              )
-            ])
+            _vm.authUserProp.name != user.name
+              ? _c("td", [
+                  _c(
+                    "a",
+                    {
+                      staticClass: "btn btn-xs btn-danger",
+                      on: {
+                        click: function($event) {
+                          $event.preventDefault()
+                          _vm.blockUser(user)
+                        }
+                      }
+                    },
+                    [_vm._v("Block")]
+                  ),
+                  _vm._v(" "),
+                  _c(
+                    "a",
+                    {
+                      staticClass: "btn btn-xs btn-primary",
+                      on: {
+                        click: function($event) {
+                          $event.preventDefault()
+                          _vm.unblockUser(user)
+                        }
+                      }
+                    },
+                    [_vm._v("Unblock")]
+                  ),
+                  _vm._v(" "),
+                  _c(
+                    "a",
+                    {
+                      staticClass: "btn btn-xs btn-danger",
+                      on: {
+                        click: function($event) {
+                          $event.preventDefault()
+                          _vm.deleteUser(user)
+                        }
+                      }
+                    },
+                    [_vm._v("Delete")]
+                  )
+                ])
+              : _vm._e()
           ]
         )
       })
@@ -61372,20 +61380,6 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                 console.log("old: " + oldPassword);
                 console.log("new: " + newPassword);
                 console.log("input old: " + inputOldPassword);
-
-                /* teste sem bcrypt a funcionar
-                            if (inputOldPassword == oldPassword) {
-                                axios.put('api/users/changePassword/' + this.authUser.id, this.authUser).then(
-                                    response => {
-                                        console.log(response);
-                                        Object.assign(this.authUser, response.data.data);
-                                      //  this.$emit('password-changed', this.authUser)
-                                        swal('Sucess! Password changed');
-                                    });
-                            }else {
-                                swal('Password do not match');
-                            }*/
-
                 console.log(user);
 
                 bcrypt.compare(inputOldPassword, oldPassword, function (err, res) {
@@ -72863,7 +72857,7 @@ exports = module.exports = __webpack_require__(7)(undefined);
 
 
 // module
-exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", ""]);
+exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", ""]);
 
 // exports
 
@@ -72925,12 +72919,13 @@ module.exports = {
                 } else {
                     //this.user.blocked = '0';
                     //this.user.reason_blocked = inputReason_blocked;
-                    console.log(inputReason_blocked);
-                    axios.put('api/users/block/' + _this.user.id, {
-                        blocked: 1 }).then(function (response) {
-                        console.log(response);
+                    _this.user.reason_blocked;
+                    _this.user.blocked = 1;
+                    console.log(_this.user.reason_blocked);
+                    axios.put('api/users/block/' + _this.user.id, _this.user).then(function (response) {
+                        console.log(response.data.data);
                         swal("User blocked successfully!");
-                        _this.$emmit('user-blocked', _this.user);
+                        //this.$emmit('user-blocked', this.user);
                     });
 
                     //this.successMessage = 'User blocked';
@@ -73131,7 +73126,7 @@ exports = module.exports = __webpack_require__(7)(undefined);
 
 
 // module
-exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", ""]);
+exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", ""]);
 
 // exports
 
@@ -73174,16 +73169,17 @@ module.exports = {
             axios.get('api/users/' + this.user.id).then(function (response) {
                 _this.showSuccess = true;
                 if (_this.user.blocked == '0') {
-                    _this.successMessage = 'User is already unblocked';
+                    swal("User is already unblocked");
                 } else {
-                    //this.user.blocked = '1';
-                    //this.user.reason_reactivated = inputReason_reactivated;
-                    axios.put('api/users/unblock/' + _this.user.id, {
-                        blocked: 0
-                    }).then(function (response) {
-                        console.log(response);
+                    _this.user.reason_reactivated;
+                    _this.user.blocked = 0;
+                    console.log(_this.user.reason_reactivated);
+                    axios.put('api/users/block/' + _this.user.id, _this.user).then(function (response) {
+                        console.log(response.data.data);
+                        swal("User unblocked successfully!");
+                        //this.$emmit('user-blocked', this.user);
                     });
-                    swal("User unblocked successfully!");
+
                     //this.successMessage = 'User blocked';
                 }
             });
@@ -73309,7 +73305,7 @@ var render = function() {
       _vm._v(" "),
       _c("user-list", {
         ref: "usersListRef",
-        attrs: { users: _vm.users },
+        attrs: { users: _vm.users, authUserProp: _vm.authUserProp },
         on: {
           "delete-click": _vm.deleteUser,
           "block-click": _vm.blockUser,
@@ -74945,7 +74941,6 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                 _self.$forceUpdate();
 
                 //para poder voltar a carregar nelas
-
                 this.picks = 0;
 
                 setTimeout(function () {
@@ -75486,7 +75481,7 @@ exports = module.exports = __webpack_require__(7)(undefined);
 
 
 // module
-exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", ""]);
+exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", ""]);
 
 // exports
 
@@ -75634,12 +75629,70 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                     }
                 }
             }
+        },
+        timer_changed: function timer_changed(game) {
+            var _iteratorNormalCompletion3 = true;
+            var _didIteratorError3 = false;
+            var _iteratorError3 = undefined;
+
+            try {
+                for (var _iterator3 = this.lobbyGames[Symbol.iterator](), _step3; !(_iteratorNormalCompletion3 = (_step3 = _iterator3.next()).done); _iteratorNormalCompletion3 = true) {
+                    var lobbyGame = _step3.value;
+
+                    if (game.gameID == lobbyGame.gameID) {
+                        Object.assign(lobbyGame, game);
+                        break;
+                    }
+                }
+            } catch (err) {
+                _didIteratorError3 = true;
+                _iteratorError3 = err;
+            } finally {
+                try {
+                    if (!_iteratorNormalCompletion3 && _iterator3.return) {
+                        _iterator3.return();
+                    }
+                } finally {
+                    if (_didIteratorError3) {
+                        throw _iteratorError3;
+                    }
+                }
+            }
+
+            var _iteratorNormalCompletion4 = true;
+            var _didIteratorError4 = false;
+            var _iteratorError4 = undefined;
+
+            try {
+                for (var _iterator4 = this.activeGames[Symbol.iterator](), _step4; !(_iteratorNormalCompletion4 = (_step4 = _iterator4.next()).done); _iteratorNormalCompletion4 = true) {
+                    var activeGame = _step4.value;
+
+                    if (game.gameID == activeGame.gameID) {
+                        //console.log(game.timer);
+                        Object.assign(activeGame, game);
+                        break;
+                    }
+                }
+            } catch (err) {
+                _didIteratorError4 = true;
+                _iteratorError4 = err;
+            } finally {
+                try {
+                    if (!_iteratorNormalCompletion4 && _iterator4.return) {
+                        _iterator4.return();
+                    }
+                } finally {
+                    if (_didIteratorError4) {
+                        throw _iteratorError4;
+                    }
+                }
+            }
         }
     },
     methods: {
-        gameSaved: function gameSaved(name, maxPlayers) {
+        gameSaved: function gameSaved(name, maxPlayers, format) {
             console.log(name + maxPlayers);
-            this.createGame(name, maxPlayers);
+            this.createGame(name, maxPlayers, format);
         },
         showCreateGame: function showCreateGame() {
             this.createGameShow = true;
@@ -75650,12 +75703,12 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         loadActiveGames: function loadActiveGames() {
             this.$socket.emit('get_my_activegames');
         },
-        createGame: function createGame(name, maxPlayers) {
+        createGame: function createGame(name, maxPlayers, format) {
             if (this.currentPlayer == "") {
                 alert('Current Player is Empty - Cannot Create a Game');
                 return;
             } else {
-                this.$socket.emit('create_game', { playerName: this.currentPlayer, name: name, maxPlayers: maxPlayers });
+                this.$socket.emit('create_game', { playerName: this.currentPlayer, name: name, maxPlayers: maxPlayers, format: format });
                 this.createGameShow = false;
             }
         },
@@ -75968,7 +76021,7 @@ exports = module.exports = __webpack_require__(7)(undefined);
 
 
 // module
-exports.push([module.i, "\ntable[data-v-7c293f89] {\r\n    width: 100%;\n}\ntd[data-v-7c293f89] {\r\n    width: 33.333%;\n}\ntd[data-v-7c293f89]:after {\r\n    content: '';\r\n    display: block;\r\n    margin-top: 100%;\n}\r\n", ""]);
+exports.push([module.i, "\ntable[data-v-7c293f89] {\r\n    width: 100%;\n}\n.noClicks[data-v-7c293f89]{\r\n  pointer-events: none;\n}\r\n\r\n\r\n", ""]);
 
 // exports
 
@@ -75979,6 +76032,7 @@ exports.push([module.i, "\ntable[data-v-7c293f89] {\r\n    width: 100%;\n}\ntd[d
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+//
 //
 //
 //
@@ -76024,16 +76078,32 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             }
             return 0;
         },
+        getWinner: function getWinner() {
+            switch (this.ownPlayerNumber) {
+                case 1:
+                    return this.game.playerOne;
+                    break;
+                case 2:
+                    return this.game.playerTwo;
+                    break;
+                case 3:
+                    return this.game.playerThree;
+                    break;
+                case 4:
+                    return this.game.playerFour;
+                    break;
+            }
+        },
         ownPlayerName: function ownPlayerName() {
             var ownNumber = this.ownPlayerNumber;
-            if (ownNumber == 1) return this.game.player1;
-            if (ownNumber == 2) return this.game.player2;
+            if (ownNumber == 1) return this.game.playerOne.name;
+            if (ownNumber == 2) return this.game.playerTwo.name;
             return "Unknown";
         },
         adversaryPlayerName: function adversaryPlayerName() {
             var ownNumber = this.ownPlayerNumber;
-            if (ownNumber == 1) return this.game.player2;
-            if (ownNumber == 2) return this.game.player1;
+            if (ownNumber == 1) return this.game.playerTwo.name;
+            if (ownNumber == 2) return this.game.playerOne.name;
             return "Unknown";
         },
         message: function message() {
@@ -76041,7 +76111,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                 return "Game has not started yet";
             } else if (this.game.gameEnded) {
                 if (this.game.winner == this.ownPlayerNumber) {
-                    return "Game has ended. You Win.";
+                    return "Game has ended. You Win with: " + this.getWinner.pairsCombined + " pairs";
                 } else if (this.game.winner == 0) {
                     return "Game has ended. There was a tie.";
                 }
@@ -76076,7 +76146,6 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
     methods: {
         pieceImageURL: function pieceImageURL(piece) {
             var imgSrc = String(piece.image);
-            console.log(imgSrc);
             if (!piece.tileFlipped) {
                 return 'img/hidden.png';
             } else {
@@ -76091,16 +76160,13 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                 if (this.game.playerTurn != this.ownPlayerNumber) {
                     alert("It's not your turn to play");
                 } else {
-                    //console.log(r1 +""+""+ c1)
                     this.$parent.play(this.game, r1, c1);
-                    var self = this;
-                    setTimeout(function () {
-                        self.$forceUpdate();
-                    }, 3000);
                 }
             }
         }
-    }
+    },
+
+    mounted: function mounted() {}
 });
 
 /***/ }),
@@ -76111,7 +76177,7 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _c("div", [
+  return _c("div", { staticStyle: { "text-align": "center" } }, [
     _c("div", [
       _c("h2", { staticClass: "text-center" }, [
         _vm._v("JOGO " + _vm._s(_vm.game.gameID))
@@ -76120,66 +76186,73 @@ var render = function() {
       _c("br")
     ]),
     _vm._v(" "),
-    _c("div", { staticClass: "game-zone-content" }, [
-      _c("div", { staticClass: "alert", class: _vm.alerttype }, [
-        _c("strong", [
-          _vm._v(_vm._s(_vm.message) + "     "),
-          _c(
-            "a",
-            {
-              directives: [
-                {
-                  name: "show",
-                  rawName: "v-show",
-                  value: _vm.game.gameEnded,
-                  expression: "game.gameEnded"
-                }
-              ],
-              on: {
-                click: function($event) {
-                  $event.preventDefault()
-                  _vm.closeGame($event)
-                }
-              }
-            },
-            [_vm._v("Close Game")]
-          )
-        ])
-      ]),
-      _vm._v(" "),
-      _c(
-        "div",
-        { staticClass: "board", attrs: { id: "board" } },
-        _vm._l(4, function(c, c1) {
-          return _c("div", [
+    _c(
+      "div",
+      {
+        staticClass: "game-zone-content",
+        staticStyle: { display: "inline-block" }
+      },
+      [
+        _c("div", { staticClass: "alert", class: _vm.alerttype }, [
+          _c("strong", [
+            _vm._v(_vm._s(_vm.message) + "     "),
             _c(
-              "div",
-              { staticClass: "board-row" },
-              _vm._l(4, function(r, r1) {
-                return _c("div", [
-                  _c("img", {
-                    attrs: { src: _vm.pieceImageURL(_vm.game.board[r1][c1]) },
-                    on: {
-                      click: function($event) {
-                        _vm.clickPiece(r1, c1)
-                      }
-                    }
-                  })
-                ])
-              })
+              "a",
+              {
+                directives: [
+                  {
+                    name: "show",
+                    rawName: "v-show",
+                    value: _vm.game.gameEnded,
+                    expression: "game.gameEnded"
+                  }
+                ],
+                on: {
+                  click: function($event) {
+                    $event.preventDefault()
+                    _vm.closeGame($event)
+                  }
+                }
+              },
+              [_vm._v("Close Game")]
             )
           ])
-        })
-      ),
-      _vm._v(" "),
-      _c("table", { attrs: { id: "espaco" } })
-    ]),
+        ]),
+        _vm._v(" "),
+        _c(
+          "div",
+          { staticClass: "board", attrs: { id: "board" } },
+          _vm._l(_vm.game.columns, function(c, c1) {
+            return _c("div", [
+              _c(
+                "div",
+                { staticClass: "board-row" },
+                _vm._l(_vm.game.rows, function(r, r1) {
+                  return _c("div", [
+                    _c("img", {
+                      attrs: { src: _vm.pieceImageURL(_vm.game.board[r1][c1]) },
+                      on: {
+                        click: function($event) {
+                          _vm.clickPiece(r1, c1)
+                        }
+                      }
+                    })
+                  ])
+                })
+              )
+            ])
+          })
+        ),
+        _vm._v(" "),
+        _c("div", { attrs: { id: "timer" } }, [
+          _vm._v("\n            " + _vm._s(_vm.game.timer) + "\n        ")
+        ]),
+        _vm._v(" "),
+        _c("table", { attrs: { id: "espaco" } })
+      ]
+    ),
     _vm._v(" "),
-    _c("hr"),
-    _vm._v(" "),
-    _c("br"),
-    _vm._v(" "),
-    _c("br")
+    _c("hr")
   ])
 }
 var staticRenderFns = []
@@ -76278,7 +76351,7 @@ exports = module.exports = __webpack_require__(7)(undefined);
 
 
 // module
-exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", ""]);
+exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", ""]);
 
 // exports
 
@@ -76314,17 +76387,30 @@ exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 module.exports = {
     data: function data() {
         return {
             maxPlayers: '',
-            name: ''
+            name: '',
+            format: ''
+
         };
     },
     methods: {
         createGame: function createGame() {
-            this.$emit('game-saved', this.name, this.maxPlayers);
+            this.$emit('game-saved', this.name, this.maxPlayers, this.format);
         },
         cancelCreate: function cancelCreate() {
             this.$emit('game-canceled', this.game);
@@ -76409,11 +76495,57 @@ var render = function() {
         [
           _c("option", { attrs: { disabled: "", value: "" } }, [_vm._v("1")]),
           _vm._v(" "),
-          _c("option", [_vm._v("2")]),
+          _c("option", { attrs: { value: "2" } }, [_vm._v("2")]),
           _vm._v(" "),
-          _c("option", [_vm._v("3")]),
+          _c("option", { attrs: { value: "3" } }, [_vm._v("3")]),
           _vm._v(" "),
-          _c("option", [_vm._v("4")])
+          _c("option", { attrs: { value: "4" } }, [_vm._v("4")])
+        ]
+      )
+    ]),
+    _vm._v(" "),
+    _c("div", { staticClass: "form-group" }, [
+      _c("label", { attrs: { for: "inputName" } }, [
+        _vm._v("Formato do jogo:")
+      ]),
+      _vm._v(" "),
+      _c(
+        "select",
+        {
+          directives: [
+            {
+              name: "model",
+              rawName: "v-model",
+              value: _vm.format,
+              expression: "format"
+            }
+          ],
+          on: {
+            change: function($event) {
+              var $$selectedVal = Array.prototype.filter
+                .call($event.target.options, function(o) {
+                  return o.selected
+                })
+                .map(function(o) {
+                  var val = "_value" in o ? o._value : o.value
+                  return val
+                })
+              _vm.format = $event.target.multiple
+                ? $$selectedVal
+                : $$selectedVal[0]
+            }
+          }
+        },
+        [
+          _c("option", { attrs: { value: "" } }, [
+            _vm._v("Escolha um Formato")
+          ]),
+          _vm._v(" "),
+          _c("option", [_vm._v("4x4")]),
+          _vm._v(" "),
+          _c("option", [_vm._v("4x6")]),
+          _vm._v(" "),
+          _c("option", [_vm._v("6x6")])
         ]
       )
     ]),
@@ -76522,7 +76654,7 @@ var render = function() {
                 }
               }
             },
-            [_vm._v("Criar Jogo\n                        ")]
+            [_vm._v("Criar Jogo\n            ")]
           )
         ]),
         _vm._v(" "),
@@ -76546,7 +76678,7 @@ var render = function() {
             },
             [_vm._v("Refresh")]
           ),
-          _vm._v(")\n                    ")
+          _vm._v(")\n        ")
         ]),
         _vm._v(" "),
         _c("lobby", {
@@ -76738,13 +76870,6 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
-//
-//
-//
-//
-//
-//
-//
 
 
 /* harmony default export */ __webpack_exports__["default"] = ({
@@ -76755,9 +76880,12 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             showSuccess: false,
             successMessage: '',
             currentUser: null,
-            //winnerName: null,
             users: [],
-            games: []
+            games: [],
+            authUser: '',
+            singleplayergames: '',
+            multiplayergames: '',
+            totalgamesplayed: ''
         };
     },
     methods: {
@@ -76775,25 +76903,50 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                 _this2.games = response.data.data;
             });
         },
-        getGameWinner: function getGameWinner() {
+        getSingleplayerGames: function getSingleplayerGames() {
             var _this3 = this;
 
-            axios.get('api/users/' + game.winner).then(function (response) {
-                _this3.games.winnerName = response.data.data;
-                console.log(response.data.data);
+            axios.get('api/singleplayergames').then(function (response) {
+                _this3.singleplayergames = response.data;
             });
+        },
+        getMultiplayerGames: function getMultiplayerGames() {
+            var _this4 = this;
+
+            axios.get('api/multiplayergames').then(function (response) {
+                _this4.multiplayergames = response.data;
+                //console.log("resposta multi" + response);
+            });
+        },
+        getTotalPlayedGames: function getTotalPlayedGames() {
+            var _this5 = this;
+
+            axios.get('api/totalgamesplayed').then(function (response) {
+                _this5.totalgamesplayed = response.data;
+            });
+        },
+        /*getGameWinner: function () {
+                axios.get('api/users/' + game.winner)
+                    .then(response => {
+                        this.games.winnerName = response.data.data;
+                        console.log(response.data.data);
+                    });
+        },*/
+        getAuthUser: function getAuthUser() {
+            var user = this.$auth.getAuthenticatedUser();
+            console.log(user);
+            this.authUser = user;
         }
+    },
+    beforeMount: function beforeMount() {
+        this.getAuthUser();
     },
     mounted: function mounted() {
         this.getUsers();
         this.getGames();
-    },
-
-
-    computed: {
-        authenthicatedUser: function authenthicatedUser() {
-            return this.$auth.getAuthenticatedUser();
-        }
+        this.getSingleplayerGames();
+        this.getMultiplayerGames();
+        this.getTotalPlayedGames();
     }
 });
 
@@ -76806,17 +76959,13 @@ var render = function() {
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
   return _c("div", { staticStyle: { "text-align": "center" } }, [
-    _c("div", [
-      _c("h3", { staticClass: "text-center" }, [_vm._v(_vm._s(_vm.title))]),
-      _vm._v(" "),
-      _c("br")
-    ]),
-    _vm._v(" "),
     _vm._m(0),
+    _vm._v(" "),
+    _vm._m(1),
     _vm._v(" "),
     _c("div", { staticClass: "row" }, [
       _c("div", { staticClass: "card mb-3" }, [
-        _vm._m(1),
+        _vm._m(2),
         _vm._v(" "),
         _c("div", { staticClass: "card-body" }, [
           _c("div", { staticClass: "table-responsive" }, [
@@ -76827,26 +76976,21 @@ var render = function() {
                 attrs: { id: "dataTable", width: "100%", cellspacing: "0" }
               },
               [
-                _vm._m(2),
+                _vm._m(3),
                 _vm._v(" "),
-                _c(
-                  "tbody",
-                  _vm._l(_vm.games, function(game) {
-                    return _c("tr", { key: game.id }, [
-                      _c("td", [_vm._v(_vm._s(game.winner))]),
-                      _vm._v(" "),
-                      _c("td", [
-                        _vm._v(" getGameWinner(" + _vm._s(game.winner) + ") ")
-                      ]),
-                      _vm._v(" "),
-                      _c("td"),
-                      _vm._v(" "),
-                      _c("td"),
-                      _vm._v(" "),
-                      _c("td")
-                    ])
-                  })
-                )
+                _c("tbody", [
+                  _c("tr", [
+                    _c("td", [
+                      _vm._v(" " + _vm._s(_vm.singleplayergames) + " ")
+                    ]),
+                    _vm._v(" "),
+                    _c("td", [
+                      _vm._v(" " + _vm._s(_vm.multiplayergames) + " ")
+                    ]),
+                    _vm._v(" "),
+                    _c("td", [_vm._v(" " + _vm._s(_vm.totalgamesplayed) + " ")])
+                  ])
+                ])
               ]
             )
           ])
@@ -76856,6 +77000,16 @@ var render = function() {
   ])
 }
 var staticRenderFns = [
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", [
+      _c("h3", { staticClass: "text-center" }, [_vm._v("Your Statistics")]),
+      _vm._v(" "),
+      _c("br")
+    ])
+  },
   function() {
     var _vm = this
     var _h = _vm.$createElement
@@ -76929,7 +77083,7 @@ var staticRenderFns = [
                 _c("i", { staticClass: "fa fa-fw fa-gamepad" })
               ]),
               _vm._v(" "),
-              _c("div", { staticClass: "mr-5" }, [_vm._v("Jogos Jogados")])
+              _c("div", { staticClass: "mr-5" }, [_vm._v("Total Games Played")])
             ]),
             _vm._v(" "),
             _c(
@@ -76954,9 +77108,7 @@ var staticRenderFns = [
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
     return _c("div", [
-      _c("h3", { staticClass: "text-center" }, [_vm._v("Players List")]),
-      _vm._v(" "),
-      _c("br"),
+      _c("h3", { staticClass: "text-center" }, [_vm._v("Games Statistics")]),
       _vm._v(" "),
       _c("br")
     ])
@@ -76967,15 +77119,11 @@ var staticRenderFns = [
     var _c = _vm._self._c || _h
     return _c("thead", [
       _c("tr", [
-        _c("th", [_vm._v("Nome")]),
-        _vm._v(" "),
         _c("th", [_vm._v("Single Player")]),
         _vm._v(" "),
         _c("th", [_vm._v("Multi Player")]),
         _vm._v(" "),
-        _c("th", [_vm._v("Total de Jogos")]),
-        _vm._v(" "),
-        _c("th", [_vm._v("Total de Vitórias")])
+        _c("th", [_vm._v("Total de Jogos")])
       ])
     ])
   }

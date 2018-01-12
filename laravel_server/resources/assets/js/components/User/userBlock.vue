@@ -52,12 +52,13 @@
                         else{
                             //this.user.blocked = '0';
                             //this.user.reason_blocked = inputReason_blocked;
-                            console.log(inputReason_blocked);
-                            axios.put('api/users/block/'+this.user.id, {
-                            blocked: 1}).then(response => {          
-                              console.log(response);
+                            this.user.reason_blocked;
+                            this.user.blocked = 1;
+                            console.log(this.user.reason_blocked);
+                            axios.put('api/users/block/'+this.user.id, this.user).then(response => {          
+                                console.log(response.data.data);
                                swal("User blocked successfully!");
-                               this.$emmit('user-blocked', this.user);
+                               //this.$emmit('user-blocked', this.user);
                               });
 
                            

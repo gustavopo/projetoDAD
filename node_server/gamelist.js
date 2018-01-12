@@ -13,20 +13,20 @@ class GameList {
     	return game;
     }
 
-    createGame(playerName, socketID, name, maxPlayers) {
+    createGame(playerName, socketID, name, maxPlayers,format) {
     	this.contadorID = this.contadorID+1;
-    	var game = new Game(this.contadorID, playerName, name, maxPlayers);
+    	var game = new Game(this.contadorID, playerName, name, maxPlayers, format);
     	game.player1SocketID = socketID;
     	this.games.set(game.gameID, game);
     	return game;
     }
 
-    joinGame(gameID, playerName, socketID) {
+    joinGame(gameID, io, playerName, socketID) {
     	let game = this.gameByID(gameID);
     	if (game===null) {
     		return null;
     	}
-    	game.join(playerName);
+    	game.join(playerName,gameID, game, io);
     	game.player2SocketID = socketID;
     	return game;
     }

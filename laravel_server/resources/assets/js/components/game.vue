@@ -1,38 +1,40 @@
 <template>
-    <div>
+    <div style="text-align: center">
         <div>
             <h2 class="text-center">JOGO {{ game.gameID }}</h2>
             <br>
         </div>
-        <div class="game-zone-content">
+        <div class="game-zone-content" style="display: inline-block">
             <div class="alert" :class="alerttype">
                 <strong>{{ message }} &nbsp;&nbsp;&nbsp;&nbsp;<a v-show="game.gameEnded" v-on:click.prevent="closeGame">Close Game</a></strong>
             </div>
             <div id="board" class="board">
-                <div v-for="(c,c1) in 4">
+                <div v-for="(c,c1) in game.columns" >
                     <div class="board-row">
-                        <div v-for="(r,r1) in 4">
+                        <div v-for="(r,r1) in game.rows">
                             <img v-bind:src="pieceImageURL(game.board[r1][c1])" v-on:click="clickPiece(r1,c1)">
+                        </div>
                     </div>
                 </div>
             </div>
-        </div>  
+            <div id="timer">
+                {{game.timer}}
+            </div>  
             <table id="espaco">
             </table>
 
-    </div>
+        </div>
 
-    <hr>
-     <br>
-    <br>
-</div>
+        <hr>
+    </div>
 </template>
 
 <script type="text/javascript">
 export default {
     props: ['game'],
     data: function () {
-        return {}
+        return {
+        }
     },
     computed: {
         ownPlayerNumber() {
@@ -43,20 +45,33 @@ export default {
             }
             return 0;
         },
+        getWinner() {
+            switch(this.ownPlayerNumber){
+                case 1: return this.game.playerOne;
+                break;
+                case 2: return this.game.playerTwo;
+                break;
+                case 3: return this.game.playerThree;
+                break;
+                case 4: return this.game.playerFour;
+                break;
+            }
+        },
+
         ownPlayerName() {
             var ownNumber = this.ownPlayerNumber;
             if (ownNumber == 1)
-                return this.game.player1;
+                return this.game.playerOne.name;
             if (ownNumber == 2)
-                return this.game.player2;
+                return this.game.playerTwo.name;
             return "Unknown";
         },
         adversaryPlayerName() {
             var ownNumber = this.ownPlayerNumber;
             if (ownNumber == 1)
-                return this.game.player2;
+                return this.game.playerTwo.name;
             if (ownNumber == 2)
-                return this.game.player1;
+                return this.game.playerOne.name;
             return "Unknown";
         },
         message() {
@@ -64,7 +79,7 @@ export default {
                 return "Game has not started yet";
             } else if (this.game.gameEnded) {
                 if (this.game.winner == this.ownPlayerNumber) {
-                    return "Game has ended. You Win.";
+                    return "Game has ended. You Win with: " + this.getWinner.pairsCombined +" pairs";
                 } else if (this.game.winner == 0) {
                     return "Game has ended. There was a tie.";
                 }
@@ -99,32 +114,32 @@ export default {
     methods: {
         pieceImageURL(piece) {
             var imgSrc = String(piece.image);
-            console.log(imgSrc);
-        if(!piece.tileFlipped){
-            return 'img/hidden.png';
-        }else{
-            return 'img/' + imgSrc + '.png';
-        }
+            if(!piece.tileFlipped){
+                return 'img/hidden.png';
+            }else{
+                return 'img/' + imgSrc + '.png';
+            }
 
         },
+
         closeGame() {
             this.$parent.close(this.game);
         },
 
         clickPiece(r1,c1) {
-            if (!this.game.gameEnded) {
-                if (this.game.playerTurn != this.ownPlayerNumber) {
-                    alert("It's not your turn to play");
-                } else {
-                        //console.log(r1 +""+""+ c1)
-                        this.$parent.play(this.game, r1, c1);
-                        let self = this;
-                        setTimeout(function () { self.$forceUpdate();}, 3000);
-                        
-                }
+          if (!this.game.gameEnded) {
+            if (this.game.playerTurn != this.ownPlayerNumber) {
+                alert("It's not your turn to play");
+            } else {
+                this.$parent.play(this.game, r1, c1);
             }
         }
     }
+},
+
+mounted(){
+
+}
 }
 </script>
 
@@ -133,13 +148,9 @@ table {
     width: 100%;
 }
 
-td {
-    width: 33.333%;
+.noClicks{
+  pointer-events: none;
 }
 
-td:after {
-    content: '';
-    display: block;
-    margin-top: 100%;
-}
+
 </style>

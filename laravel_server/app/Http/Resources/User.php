@@ -22,6 +22,7 @@ class User extends Resource
             'reason_blocked' => $this->reason_blocked,
             'password' => $this->password,
               
+            'reason_reactivated' => $this->reason_reactivated
         ];
     }
 

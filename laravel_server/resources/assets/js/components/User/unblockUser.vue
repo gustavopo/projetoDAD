@@ -31,16 +31,18 @@
                     .then(response => {
                         this.showSuccess = true;
                         if (this.user.blocked == '0') {
-                            this.successMessage = 'User is already unblocked';
+                            swal("User is already unblocked");
                         }
                         else{
-                            //this.user.blocked = '1';
-                            //this.user.reason_reactivated = inputReason_reactivated;
-                            axios.put('api/users/unblock/'+this.user.id, {
-                            blocked: 0
-                              }).then(response => { console.log(response);
+                           this.user.reason_reactivated;
+                            this.user.blocked = 0;
+                            console.log(this.user.reason_reactivated);
+                            axios.put('api/users/block/'+this.user.id, this.user).then(response => {          
+                                console.log(response.data.data);
+                              swal("User unblocked successfully!");
+                               //this.$emmit('user-blocked', this.user);
                               });
-                            swal("User unblocked successfully!");
+                            
                             //this.successMessage = 'User blocked';
                         } 
                     });

@@ -28,6 +28,21 @@ class GameControllerAPI extends Controller
         return new GameResource(Game::find($id));
     }
 
+    public function singleplayergames()
+    {
+        return Game::whereRaw('type like "singleplayer" and status like "terminated"')->count();
+    }
+
+    public function multiplayergames()
+    {
+        return Game::whereRaw('type like "multiplayer" and status like "terminated"')->count();
+    }
+
+    public function totalgamesplayed()
+    {
+        return Game::whereRaw('status like "terminated"')->count();
+    }
+
     public function store(Request $request)
     {
         $request->validate([
