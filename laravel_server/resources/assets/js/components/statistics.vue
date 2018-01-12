@@ -1,7 +1,7 @@
 <template>
     <div style="text-align: center">
         <div>
-            <h3 class="text-center">{{ title }}</h3>
+            <h3 class="text-center">Your Statistics</h3>
             
             <br>
         </div>
@@ -44,7 +44,7 @@
                         <div class="card-body-icon">
                             <i class="fa fa-fw fa-gamepad"></i>
                         </div>
-                        <div class="mr-5">Jogos Jogados</div>
+                        <div class="mr-5">Total Games Played</div>
                     </div>
                     <a class="card-footer text-white clearfix small z-1" href="#">
                         <span class="float-left">x Jogos</span>
@@ -58,10 +58,7 @@
             <div class="card mb-3">
 
                 <div>
-                    <h3 class="text-center">Players List</h3>
-                    <br>
-                    <!-- <h2>Current Player : {{ currentPlayer }}</h2> -->
-
+                    <h3 class="text-center">Games Statistics</h3>
                     <br>
                 </div>
                 <div class="card-body">
@@ -69,23 +66,19 @@
                         <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
                             <thead>
                             <tr>
-                                <th>Nome</th>
                                 <th>Single Player</th>
                                 <th>Multi Player</th>
                                 <th>Total de Jogos</th>
-                                <th>Total de Vitórias</th>
                             </tr>
                             </thead>
                             <tbody>
                                   
-                   <tr v-for="game in games"  :key="game.id">
+                             <tr>
+                                <td> {{ singleplayergames }} </td> 
+                                <td> {{ multiplayergames }} </td> 
+                                <td> {{ totalgamesplayed }} </td> 
                                
-                                <td>{{ game.winner }}</td> 
-                                <td> getGameWinner({{game.winner}}) </td> 
-                                <td>  </td>
-                                <td>  </td>
-                                <td>  </td>
-                                   </tr>
+                            </tr>
                             </tbody>
                         </table>
                     </div>
@@ -121,13 +114,16 @@
                 showSuccess: false,
                 successMessage: '',
                 currentUser: null,
-                //winnerName: null,
                 users: [],
-                games: []
+                games: [],
+                authUser: '',
+                singleplayergames: '',
+                multiplayergames: '',
+                totalgamesplayed: ''
             }
         },
         methods: {
-            getUsers: function () {
+        getUsers: function () {
                 axios.get('api/users')
                     .then(response => {
                         this.users = response.data.data;
@@ -139,24 +135,47 @@
                         this.games = response.data.data;
                     });
         },
-        getGameWinner: function () {
+        getSingleplayerGames: function(){
+            axios.get('api/singleplayergames').then(response => {
+                this.singleplayergames = response.data;
+            });
+        },
+        getMultiplayerGames: function(){
+            axios.get('api/multiplayergames').then(response => {
+                this.multiplayergames = response.data;
+                //console.log("resposta multi" + response);
+            });
+        },
+        getTotalPlayedGames: function(){
+            axios.get('api/totalgamesplayed').then(response => {
+                this.totalgamesplayed = response.data;
+            });
+        },
+        /*getGameWinner: function () {
                 axios.get('api/users/' + game.winner)
                     .then(response => {
                         this.games.winnerName = response.data.data;
                         console.log(response.data.data);
                     });
-        },
+        },*/
+        getAuthUser() {
+                let user = this.$auth.getAuthenticatedUser();
+                console.log(user);
+                this.authUser = user;
+            },
     },
+        beforeMount() {
+            this.getAuthUser();          
+        },
+
         mounted() {
             this.getUsers();
             this.getGames();
+            this.getSingleplayerGames();
+            this.getMultiplayerGames();
+            this.getTotalPlayedGames();
         },
-
-        computed: {
-            authenthicatedUser() {
-                return this.$auth.getAuthenticatedUser();
-            }
-        },
+      
     } 
 
 </script>

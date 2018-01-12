@@ -53142,13 +53142,6 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
-//
-//
-//
-//
-//
-//
-//
 
 
 /* harmony default export */ __webpack_exports__["default"] = ({
@@ -53159,9 +53152,12 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             showSuccess: false,
             successMessage: '',
             currentUser: null,
-            //winnerName: null,
             users: [],
-            games: []
+            games: [],
+            authUser: '',
+            singleplayergames: '',
+            multiplayergames: '',
+            totalgamesplayed: ''
         };
     },
     methods: {
@@ -53179,25 +53175,50 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                 _this2.games = response.data.data;
             });
         },
-        getGameWinner: function getGameWinner() {
+        getSingleplayerGames: function getSingleplayerGames() {
             var _this3 = this;
 
-            axios.get('api/users/' + game.winner).then(function (response) {
-                _this3.games.winnerName = response.data.data;
-                console.log(response.data.data);
+            axios.get('api/singleplayergames').then(function (response) {
+                _this3.singleplayergames = response.data;
             });
+        },
+        getMultiplayerGames: function getMultiplayerGames() {
+            var _this4 = this;
+
+            axios.get('api/multiplayergames').then(function (response) {
+                _this4.multiplayergames = response.data;
+                //console.log("resposta multi" + response);
+            });
+        },
+        getTotalPlayedGames: function getTotalPlayedGames() {
+            var _this5 = this;
+
+            axios.get('api/totalgamesplayed').then(function (response) {
+                _this5.totalgamesplayed = response.data;
+            });
+        },
+        /*getGameWinner: function () {
+                axios.get('api/users/' + game.winner)
+                    .then(response => {
+                        this.games.winnerName = response.data.data;
+                        console.log(response.data.data);
+                    });
+        },*/
+        getAuthUser: function getAuthUser() {
+            var user = this.$auth.getAuthenticatedUser();
+            console.log(user);
+            this.authUser = user;
         }
+    },
+    beforeMount: function beforeMount() {
+        this.getAuthUser();
     },
     mounted: function mounted() {
         this.getUsers();
         this.getGames();
-    },
-
-
-    computed: {
-        authenthicatedUser: function authenthicatedUser() {
-            return this.$auth.getAuthenticatedUser();
-        }
+        this.getSingleplayerGames();
+        this.getMultiplayerGames();
+        this.getTotalPlayedGames();
     }
 });
 
@@ -53210,17 +53231,13 @@ var render = function() {
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
   return _c("div", { staticStyle: { "text-align": "center" } }, [
-    _c("div", [
-      _c("h3", { staticClass: "text-center" }, [_vm._v(_vm._s(_vm.title))]),
-      _vm._v(" "),
-      _c("br")
-    ]),
-    _vm._v(" "),
     _vm._m(0),
+    _vm._v(" "),
+    _vm._m(1),
     _vm._v(" "),
     _c("div", { staticClass: "row" }, [
       _c("div", { staticClass: "card mb-3" }, [
-        _vm._m(1),
+        _vm._m(2),
         _vm._v(" "),
         _c("div", { staticClass: "card-body" }, [
           _c("div", { staticClass: "table-responsive" }, [
@@ -53231,26 +53248,21 @@ var render = function() {
                 attrs: { id: "dataTable", width: "100%", cellspacing: "0" }
               },
               [
-                _vm._m(2),
+                _vm._m(3),
                 _vm._v(" "),
-                _c(
-                  "tbody",
-                  _vm._l(_vm.games, function(game) {
-                    return _c("tr", { key: game.id }, [
-                      _c("td", [_vm._v(_vm._s(game.winner))]),
-                      _vm._v(" "),
-                      _c("td", [
-                        _vm._v(" getGameWinner(" + _vm._s(game.winner) + ") ")
-                      ]),
-                      _vm._v(" "),
-                      _c("td"),
-                      _vm._v(" "),
-                      _c("td"),
-                      _vm._v(" "),
-                      _c("td")
-                    ])
-                  })
-                )
+                _c("tbody", [
+                  _c("tr", [
+                    _c("td", [
+                      _vm._v(" " + _vm._s(_vm.singleplayergames) + " ")
+                    ]),
+                    _vm._v(" "),
+                    _c("td", [
+                      _vm._v(" " + _vm._s(_vm.multiplayergames) + " ")
+                    ]),
+                    _vm._v(" "),
+                    _c("td", [_vm._v(" " + _vm._s(_vm.totalgamesplayed) + " ")])
+                  ])
+                ])
               ]
             )
           ])
@@ -53260,6 +53272,16 @@ var render = function() {
   ])
 }
 var staticRenderFns = [
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", [
+      _c("h3", { staticClass: "text-center" }, [_vm._v("Your Statistics")]),
+      _vm._v(" "),
+      _c("br")
+    ])
+  },
   function() {
     var _vm = this
     var _h = _vm.$createElement
@@ -53333,7 +53355,7 @@ var staticRenderFns = [
                 _c("i", { staticClass: "fa fa-fw fa-gamepad" })
               ]),
               _vm._v(" "),
-              _c("div", { staticClass: "mr-5" }, [_vm._v("Jogos Jogados")])
+              _c("div", { staticClass: "mr-5" }, [_vm._v("Total Games Played")])
             ]),
             _vm._v(" "),
             _c(
@@ -53358,9 +53380,7 @@ var staticRenderFns = [
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
     return _c("div", [
-      _c("h3", { staticClass: "text-center" }, [_vm._v("Players List")]),
-      _vm._v(" "),
-      _c("br"),
+      _c("h3", { staticClass: "text-center" }, [_vm._v("Games Statistics")]),
       _vm._v(" "),
       _c("br")
     ])
@@ -53371,15 +53391,11 @@ var staticRenderFns = [
     var _c = _vm._self._c || _h
     return _c("thead", [
       _c("tr", [
-        _c("th", [_vm._v("Nome")]),
-        _vm._v(" "),
         _c("th", [_vm._v("Single Player")]),
         _vm._v(" "),
         _c("th", [_vm._v("Multi Player")]),
         _vm._v(" "),
-        _c("th", [_vm._v("Total de Jogos")]),
-        _vm._v(" "),
-        _c("th", [_vm._v("Total de Vitórias")])
+        _c("th", [_vm._v("Total de Jogos")])
       ])
     ])
   }
