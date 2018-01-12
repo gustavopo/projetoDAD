@@ -14,7 +14,7 @@
             <td>{{ user.email }}</td>
             <td>{{ user.blocked }} </td>
 
-            <td>
+            <td v-if="authUserProp.name != user.name">
                 <a class="btn btn-xs btn-danger" v-on:click.prevent="blockUser(user)">Block</a>
                 <a class="btn btn-xs btn-primary" v-on:click.prevent="unblockUser(user)">Unblock</a> 
                 <a class="btn btn-xs btn-danger" v-on:click.prevent="deleteUser(user)">Delete</a>
@@ -29,11 +29,11 @@
 <script type="text/javascript">
     // Component code (not registered)
     module.exports={
-        props: ['users'],
+        props: ['users', 'authUserProp'],
         data: function(){
             return {
                 editingUser: null,
-                blockingUser: true
+                blockingUser: true,
             }
         },
         methods: {
@@ -61,8 +61,10 @@
             unblockUser: function(user){
                 this.editingUser = user;
                 this.$emit('unblock-click', user);
-            }
+            },
+            
         },
+        
     }
 </script>
 

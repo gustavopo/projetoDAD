@@ -3,7 +3,7 @@
         <div class="jumbotron">
             <h1>{{ title }}</h1>
         </div>
-        <user-list :users="users" @delete-click="deleteUser" @block-click="blockUser" @unblock-click="unblockUser"
+        <user-list :users="users" :authUserProp="authUserProp" @delete-click="deleteUser" @block-click="blockUser" @unblock-click="unblockUser"
                    @message="childMessage" ref="usersListRef"></user-list>
 
         <div class="alert alert-success" v-if="showSuccess">
@@ -39,10 +39,11 @@
                 title: 'List Users',
                 showSuccess: false,
                 successMessage: '',
-                authUser: this.$auth.getAuthenticatedUser(),
+                authUser: '',
                 users: [],
                 blockingUser: null,
-                unblockingUser: null
+                unblockingUser: null,
+                authUserProp: ''
 
             }
         },
@@ -111,6 +112,13 @@
                 this.$refs.usersListRef.editingUser = null;
                 this.showSuccess = false;
             },
+            getAuthUser() {
+                let user = this.$auth.getAuthenticatedUser();
+                console.log(user);
+                this.authUserProp = user;
+                console.log(this.authUserProp.name);
+            },
+            
         },
         components: {
             'user-list': UserList,
@@ -118,13 +126,13 @@
             'user-block': UserBlock,
             'user-unblock': UserUnblock
         },
+        beforeMount() {
+            this.getAuthUser();
+            console.log(this.$auth.getAuthenticatedUser());
+        },
+        
         mounted() {
             this.getUsers();
-        },
-        computed: {
-            authenthicatedUser() {
-                return this.$auth.getAuthenticatedUser();
-            }
         },
 
     }

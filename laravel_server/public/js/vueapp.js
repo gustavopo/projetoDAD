@@ -48057,10 +48057,11 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             title: 'List Users',
             showSuccess: false,
             successMessage: '',
-            authUser: this.$auth.getAuthenticatedUser(),
+            authUser: '',
             users: [],
             blockingUser: null,
-            unblockingUser: null
+            unblockingUser: null,
+            authUserProp: ''
 
         };
     },
@@ -48129,6 +48130,12 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             this.unblockingUser = null;
             this.$refs.usersListRef.editingUser = null;
             this.showSuccess = false;
+        },
+        getAuthUser: function getAuthUser() {
+            var user = this.$auth.getAuthenticatedUser();
+            console.log(user);
+            this.authUserProp = user;
+            console.log(this.authUserProp.name);
         }
     },
     components: {
@@ -48137,16 +48144,13 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         'user-block': __WEBPACK_IMPORTED_MODULE_2__userBlock_vue___default.a,
         'user-unblock': __WEBPACK_IMPORTED_MODULE_3__unblockUser_vue___default.a
     },
+    beforeMount: function beforeMount() {
+        this.getAuthUser();
+        console.log(this.$auth.getAuthenticatedUser());
+    },
     mounted: function mounted() {
         this.getUsers();
-    },
-
-    computed: {
-        authenthicatedUser: function authenthicatedUser() {
-            return this.$auth.getAuthenticatedUser();
-        }
     }
-
 });
 
 /***/ }),
@@ -48275,7 +48279,7 @@ exports.push([module.i, "\ntr.activerow[data-v-3d5a74b4] {\n    background: #123
 
 // Component code (not registered)
 module.exports = {
-    props: ['users'],
+    props: ['users', 'authUserProp'],
     data: function data() {
         return {
             editingUser: null,
@@ -48307,7 +48311,9 @@ module.exports = {
             this.editingUser = user;
             this.$emit('unblock-click', user);
         }
+
     }
+
 };
 
 /***/ }),
@@ -48334,49 +48340,51 @@ var render = function() {
             _vm._v(" "),
             _c("td", [_vm._v(_vm._s(user.blocked) + " ")]),
             _vm._v(" "),
-            _c("td", [
-              _c(
-                "a",
-                {
-                  staticClass: "btn btn-xs btn-danger",
-                  on: {
-                    click: function($event) {
-                      $event.preventDefault()
-                      _vm.blockUser(user)
-                    }
-                  }
-                },
-                [_vm._v("Block")]
-              ),
-              _vm._v(" "),
-              _c(
-                "a",
-                {
-                  staticClass: "btn btn-xs btn-primary",
-                  on: {
-                    click: function($event) {
-                      $event.preventDefault()
-                      _vm.unblockUser(user)
-                    }
-                  }
-                },
-                [_vm._v("Unblock")]
-              ),
-              _vm._v(" "),
-              _c(
-                "a",
-                {
-                  staticClass: "btn btn-xs btn-danger",
-                  on: {
-                    click: function($event) {
-                      $event.preventDefault()
-                      _vm.deleteUser(user)
-                    }
-                  }
-                },
-                [_vm._v("Delete")]
-              )
-            ])
+            _vm.authUserProp.name != user.name
+              ? _c("td", [
+                  _c(
+                    "a",
+                    {
+                      staticClass: "btn btn-xs btn-danger",
+                      on: {
+                        click: function($event) {
+                          $event.preventDefault()
+                          _vm.blockUser(user)
+                        }
+                      }
+                    },
+                    [_vm._v("Block")]
+                  ),
+                  _vm._v(" "),
+                  _c(
+                    "a",
+                    {
+                      staticClass: "btn btn-xs btn-primary",
+                      on: {
+                        click: function($event) {
+                          $event.preventDefault()
+                          _vm.unblockUser(user)
+                        }
+                      }
+                    },
+                    [_vm._v("Unblock")]
+                  ),
+                  _vm._v(" "),
+                  _c(
+                    "a",
+                    {
+                      staticClass: "btn btn-xs btn-danger",
+                      on: {
+                        click: function($event) {
+                          $event.preventDefault()
+                          _vm.deleteUser(user)
+                        }
+                      }
+                    },
+                    [_vm._v("Delete")]
+                  )
+                ])
+              : _vm._e()
           ]
         )
       })
@@ -49569,7 +49577,7 @@ var render = function() {
       _vm._v(" "),
       _c("user-list", {
         ref: "usersListRef",
-        attrs: { users: _vm.users },
+        attrs: { users: _vm.users, authUserProp: _vm.authUserProp },
         on: {
           "delete-click": _vm.deleteUser,
           "block-click": _vm.blockUser,
