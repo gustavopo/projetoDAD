@@ -16,7 +16,7 @@ class User extends Authenticatable
      * @var array
      */
     protected $fillable = [
-        'name','nickname', 'email', 'password', 'verifyToken'
+        'name','nickname', 'email', 'password', 'verifyToken', 'blocked', 'reason_blocked', 'reason_reactivated'
     ];
 
     /**
@@ -27,4 +27,9 @@ class User extends Authenticatable
     protected $hidden = [
         'password', 'remember_token',
     ];
+
+    public function getWinnerName()
+    {
+        return $this->belongsTo('App\Game', 'winner');
+    }
 }

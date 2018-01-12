@@ -21,7 +21,4 @@ class Image extends Model
      *
      * @var array
      */
-    protected $hidden = [
-
-    ];
 }

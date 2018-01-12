@@ -62,14 +62,14 @@
 
         methods: {
             loginClick() {
-                let data =
+               /* let data =
                     {
-                        client_id: 8,
-                        client_secret: 'zQRQYKrSQVKJuv8XtZxMJRmcCUpHyeizS9dHGeDu',
+                        client_id: 2,
+                        client_secret: 'heCChs0HZYPmDvNTEKrC1XOw05Y361M7TaJjsVsv',
                         grant_type: 'password',
                         username: this.email,
                         password: this.password
-                    };
+                    };*/
 
                 let userLogin =
                     {
@@ -89,7 +89,6 @@
                     }).catch((error) => {
                     console.log(error);
                 });
-
 
             },
             toogleLoginType() {

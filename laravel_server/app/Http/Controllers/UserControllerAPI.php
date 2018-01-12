@@ -78,6 +78,35 @@ class UserControllerAPI extends Controller
         $user->update($request->all());
         return new UserResource($user);
     }
+     public function block(Request $request, $id)
+    {
+        $request->validate([
+            /*'name' => 'required',
+            'nickname' => 'required',
+            'email' => 'required|email|unique:users,email,'.$id,
+            */
+            'blocked' => 'required',
+            'reason_blocked' => 'nullable'
+        ]);
+        $user = User::findOrFail($id);
+        $user->update($request->all());
+        return new UserResource($user);
+    }
+
+    public function unblock(Request $request, $id)
+    {
+        $request->validate([
+            /*'name' => 'required',
+            'nickname' => 'required',
+            'email' => 'required|email|unique:users,email,'.$id,
+            */
+            'blocked' => 'required',
+            'reason_reactivated' => 'nullable'
+        ]);
+        $user = User::findOrFail($id);
+        $user->update($request->all());
+        return new UserResource($user);
+    }
 
 
 
@@ -121,4 +150,23 @@ class UserControllerAPI extends Controller
         }
 
     }
+
+
+    /* TODO : SHOW PROFILE PHOTO
+     public function showProfilePhoto(User $user)
+    {
+        $path = $user->file('profile_photo')->storeAs(storage_path() . '/app/public/profiles/', $user->profile_photo);
+        $user->profile_photo = $path;
+
+        //$user->file('profile_photo')->move(storage_path().'/app/public/profiles/', $user->profile_photo);
+
+        //storage_path().'/app/public/profiles/', $user->profile_photo
+
+        // $path = storage_path('app/public/profiles/'.$user->profile_photo);
+
+        return Image::make($path)->response();
+
+    }
+
+     */
 }

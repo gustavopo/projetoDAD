@@ -33,12 +33,16 @@ Route::middleware('auth:api')->get('user', function () {
 //----
 Route::get('users', 'UserControllerAPI@getUsers');
 Route::get('users/{id}', 'UserControllerAPI@getUser');
+Route::put('users/block/{id}','UserControllerAPI@block');
+Route::put('users/unblock/{id}','UserControllerAPI@unblock');
 Route::post('users', 'UserControllerAPI@store');
 Route::put('users/{id}', 'UserControllerAPI@update');
 Route::delete('users/{id}', 'UserControllerAPI@delete');
 Route::post('register','UserControllerAPI@store');
 Route::get('verifyEmail','UserControllerAPI@verifyEmail')->name('verifyEmail');
 Route::get('verify/{email}/{verifyToken}', 'UserControllerApi@sendEmailDone')->name('sendEmailDone');
+
+
 
 //GetAuthenthicatedUser
 Route::middleware('auth:api')->get('user', function(Request $request)
@@ -51,6 +55,7 @@ Route::get('/authUser', 'UserControllerApi@getAuthUser');
 //Images
 Route::get('images', 'ImageControllerAPI@getImages');
 Route::delete('images/{id}', 'ImageControllerAPI@delete');
+Route::post('images/storeImage','ImageControllerAPI@store');
 
 
 

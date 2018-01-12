@@ -18,6 +18,11 @@ class User extends Resource
             'id' => $this->id,
             'name' => $this->name,
             'email' => $this->email,
+            'blocked' => $this->blocked,
+            'reason_blocked' => $this->reason_blocked,
+            'reason_reactivated' => $this->reason_reactivated
         ];
     }
+
+    
 }
