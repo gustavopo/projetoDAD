@@ -36,6 +36,24 @@ class UserControllerAPI extends Controller
         return new UserResource(User::find($id));
     }
 
+    public function changePassword(Request $request)
+    {
+
+        // Session::flash('status', 'Registered! But verify your email to activate your account!');
+        $request->validate([
+            'password' => 'required|string|min:4',
+
+        ]);
+
+        $user = new User();
+
+        $user->fill($request->all());
+        $user->password = Hash::make($user->password);
+        $user->save();
+
+        return $user;
+    }
+
     public function store(Request $request)
     {
 
@@ -61,7 +79,9 @@ class UserControllerAPI extends Controller
      //   $thisUser=User::findOrFail($user->id);
         $user->save();
 
-        $this->sendEmail($user);
+
+
+        //$this->sendEmail($user);
 
       //  return response()->json(new UserResource($user), 201);
         return $user;

@@ -40,6 +40,8 @@ const statistics = Vue.component('statistics', require('./components/statistics.
 const imagesManagement = Vue.component('imagesManagement', require('./components/User/admin/imagesManagement.vue'));
 const imagesList = Vue.component('imagesList', require('./components/User/admin/imagesList.vue'));
 const uploadImage = Vue.component('uploadImage', require('./components/User/admin/uploadImage.vue'));
+const passwordEdit = Vue.component('passwordEdit', require('./components/User/passwordEdit.vue'));
+
 
 
 const routes = [
@@ -54,10 +56,10 @@ const routes = [
     {path: '/register', component: register, meta: {forVisitors: true} },
     {path: '/imagesManagement', component: imagesManagement, meta: {forAuth: true}},
     {path: '/uploadImage', component: uploadImage, meta: {forAuth: true}},
+    {path: '/passwordEdit', component: passwordEdit, meta: {forAuth: true}},
 ];
 
 const router = new VueRouter({
-
     routes: routes
 });
 

@@ -42,7 +42,8 @@ Route::post('register','UserControllerAPI@store');
 Route::get('verifyEmail','UserControllerAPI@verifyEmail')->name('verifyEmail');
 Route::get('verify/{email}/{verifyToken}', 'UserControllerApi@sendEmailDone')->name('sendEmailDone');
 
-
+//Change Password
+Route::put('users/changePassword/{id}', 'UserControllerAPI@changePassword');
 
 //GetAuthenthicatedUser
 Route::middleware('auth:api')->get('user', function(Request $request)
