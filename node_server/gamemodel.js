@@ -29,8 +29,8 @@ class Game {
         this.contadorParesMatched=0;
         this.playerOne = new Player(0,1,player1Name);
         this.playerTwo = new Player(0,1,'');
-        this.timer = 30;
-
+        this.timer = 5;
+        var interval = 1;
 
 
         this.board = new Array(this.rows);
@@ -47,7 +47,7 @@ class Game {
         this.gameStarted = true;
 
         this.decrementTime(io, gameID, game);
-       //intervalJoin=setInterval(function() {io.to(gameID).emit('timer_changed',game);}, 1001);
+        intervalJoin=setInterval(function() {io.to(gameID).emit('game_changed',game);}, 1001);
     }
 
     checkGameEnded(){
@@ -133,10 +133,11 @@ changeTurn(io, gameID, game){
     this.playerTurn = this.playerTurn == 1 ? 2 : 1;
     this.picksTurn = 0;
 
+    clearInterval(intervalJoin);
     clearInterval(intervalT);
     this.timer = 30;
     this.decrementTime(io, gameID, game);
-    io.to(gameID).emit('game_changed',game);
+    intervalJoin=setInterval(function() {io.to(gameID).emit('game_changed',game);}, 1001);
 
 }
 
@@ -154,9 +155,8 @@ chooseCard(posicaoLinha,posicaoColuna){
                     //TODO: show image corresponding to first card clicked
                     this.firstChoice = this.board[posicaoLinha][posicaoColuna];
                     this.picks = 1;
-                   // console.log("First choice IMAGEM: " + this.board[posicaoLinha][posicaoColuna].image);
 
-               }else {
+                }else {
 
                     //show image corresponding to second card clicked
                     this.secondChoice = this.board[posicaoLinha][posicaoColuna];
@@ -167,28 +167,19 @@ chooseCard(posicaoLinha,posicaoColuna){
                        return ;
                    }
 
-
                    this.picks = 2;
                    this.picksTurn = 2;
-
-                    //para não se poder carregar
-                    //let boardClass = document.getElementById("board").classList;
-                   // boardClass.add("noClicks");
-
                }
            }
 
            decrementTime(io, gameID, game){
-            const clear = setInterval(() =>{
+            intervalT = setInterval(() =>{
                 if(this.timer===0){
-                    clearInterval(clear);
                     this.changeTurn(io, gameID, game);
-                }else{
-                    this.timer--;
-                    intervalT=setInterval(function() {io.to(gameID).emit('timer_changed',game);}, 1001);
-                    console.log("timer: " +this.timer);
-                }
-            }, 1000);
+                   // intervalT=setInterval(function() {io.to(gameID).emit('timer_changed',game);}, 1001);
+               }
+               this.timer--;
+           }, 1000);
 
         }
 
