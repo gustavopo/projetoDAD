@@ -75,10 +75,9 @@
                         password: null
                     }
             },
-
             sentVerifyEmail: function () {
 
-                axios.get('/api/verifyEmail')
+                axios.get('api/verifyEmail')
                     .then((response) => {
                         console.log(response);
                         this.resetUser()

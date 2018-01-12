@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Image;
+//use Intervention\Image as ImageIntervention;
+use Intervention\Image\ImageManagerStatic as ImageIntervention;
 use Illuminate\Http\Request;
 use App\Http\Resources\Image as ImageResource;
 
@@ -33,6 +35,9 @@ class ImageControllerAPI extends Controller
 
     public function store(Request $request)
     {
+        //Configure Image Class
+
+
         $exploded = explode(',', $request->path);
         $decoded = base64_decode($exploded[1]);
 
@@ -52,7 +57,7 @@ class ImageControllerAPI extends Controller
             'active' => 'required|string|max:255',
         ]);
 
-        $image = new Image();
+        $image =  new Image();
         $image->fill($request->except('path')+ [
                 'path' => $fileName
             ]);

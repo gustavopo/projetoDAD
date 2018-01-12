@@ -1599,37 +1599,38 @@ var statistics = Vue.component('statistics', __webpack_require__(126));
 var imagesManagement = Vue.component('imagesManagement', __webpack_require__(129));
 var imagesList = Vue.component('imagesList', __webpack_require__(15));
 var uploadImage = Vue.component('uploadImage', __webpack_require__(136));
+var passwordEdit = Vue.component('passwordEdit', __webpack_require__(65));
 
-var routes = [{ path: '/', redirect: '/index', component: index }, { path: '/users', component: user }, { path: '/userPage', component: userPage }, { path: '/multimemorygame', component: multiplayerGame }, { path: '/singlememorygame', component: singleplayerGame, meta: { forAuth: true } }, { path: '/multimemorygame', component: multiplayerGame, meta: { forAuth: true } }, { path: '/statistics', component: statistics, meta: { forAuth: true } }, { path: '/login', component: login, meta: { forVisitors: true } }, { path: '/register', component: register, meta: { forVisitors: true } }, { path: '/imagesManagement', component: imagesManagement, meta: { forAuth: true } }, { path: '/uploadImage', component: uploadImage, meta: { forAuth: true } }];
+var routes = [{ path: '/', redirect: '/statistics', component: statistics }, { path: '/users', component: user }, { path: '/userPage', component: userPage }, { path: '/multimemorygame', component: multiplayerGame }, { path: '/singlememorygame', component: singleplayerGame, meta: { forAuth: true } }, { path: '/multimemorygame', component: multiplayerGame, meta: { forAuth: true } }, { path: '/statistics', component: statistics, meta: { forAuth: true } }, { path: '/login', component: login, meta: { forVisitors: true } }, { path: '/register', component: register, meta: { forVisitors: true } }, { path: '/imagesManagement', component: imagesManagement, meta: { forAuth: true } }, { path: '/uploadImage', component: uploadImage, meta: { forAuth: true } }, { path: '/passwordEdit', component: passwordEdit, meta: { forAuth: true } }];
 
 var router = new __WEBPACK_IMPORTED_MODULE_0_vue_router__["a" /* default */]({
-
     routes: routes
 });
 
-/*router.beforeEach(
-    (to, from, next) => {
-        //Quando uma navegaçao é ativada
-        //#NavigationGuard
-        //to => where we want to go
-        //from => current route
-        if (to.matched.some(record => record.meta.forVisitors)) {
-            if (Vue.auth.isAuthenticated()) {
-                next({
-                    path: '/singlememorygame'
-                })
-            } else next()
-
-        } else if (to.matched.some(record => record.meta.forAuth)) {
-            if (!Vue.auth.isAuthenticated()) {
-                next({
-                    path: '/login'
-                })
-            } else next()
-        } else next()
-        //$route.matched
-    }
-)*/
+router.beforeEach(function (to, from, next) {
+    //Quando uma navegaçao é ativada
+    //#NavigationGuard
+    //to => where we want to go
+    //from => current route
+    if (to.matched.some(function (record) {
+        return record.meta.forVisitors;
+    })) {
+        if (Vue.auth.isAuthenticated()) {
+            next({
+                path: '/statistics'
+            });
+        } else next();
+    } else if (to.matched.some(function (record) {
+        return record.meta.forAuth;
+    })) {
+        if (!Vue.auth.isAuthenticated()) {
+            next({
+                path: '/login'
+            });
+        } else next();
+    } else next();
+    //$route.matched
+});
 
 var app = new Vue({
     router: router
@@ -48056,10 +48057,11 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             title: 'List Users',
             showSuccess: false,
             successMessage: '',
-            authUser: this.$auth.getAuthenticatedUser(),
+            authUser: '',
             users: [],
             blockingUser: null,
-            unblockingUser: null
+            unblockingUser: null,
+            authUserProp: ''
 
         };
     },
@@ -48128,6 +48130,12 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             this.unblockingUser = null;
             this.$refs.usersListRef.editingUser = null;
             this.showSuccess = false;
+        },
+        getAuthUser: function getAuthUser() {
+            var user = this.$auth.getAuthenticatedUser();
+            console.log(user);
+            this.authUserProp = user;
+            console.log(this.authUserProp.name);
         }
     },
     components: {
@@ -48136,16 +48144,13 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         'user-block': __WEBPACK_IMPORTED_MODULE_2__userBlock_vue___default.a,
         'user-unblock': __WEBPACK_IMPORTED_MODULE_3__unblockUser_vue___default.a
     },
+    beforeMount: function beforeMount() {
+        this.getAuthUser();
+        console.log(this.$auth.getAuthenticatedUser());
+    },
     mounted: function mounted() {
         this.getUsers();
-    },
-
-    computed: {
-        authenthicatedUser: function authenthicatedUser() {
-            return this.$auth.getAuthenticatedUser();
-        }
     }
-
 });
 
 /***/ }),
@@ -48274,7 +48279,7 @@ exports.push([module.i, "\ntr.activerow[data-v-3d5a74b4] {\n    background: #123
 
 // Component code (not registered)
 module.exports = {
-    props: ['users'],
+    props: ['users', 'authUserProp'],
     data: function data() {
         return {
             editingUser: null,
@@ -48306,7 +48311,9 @@ module.exports = {
             this.editingUser = user;
             this.$emit('unblock-click', user);
         }
+
     }
+
 };
 
 /***/ }),
@@ -48333,49 +48340,51 @@ var render = function() {
             _vm._v(" "),
             _c("td", [_vm._v(_vm._s(user.blocked) + " ")]),
             _vm._v(" "),
-            _c("td", [
-              _c(
-                "a",
-                {
-                  staticClass: "btn btn-xs btn-danger",
-                  on: {
-                    click: function($event) {
-                      $event.preventDefault()
-                      _vm.blockUser(user)
-                    }
-                  }
-                },
-                [_vm._v("Block")]
-              ),
-              _vm._v(" "),
-              _c(
-                "a",
-                {
-                  staticClass: "btn btn-xs btn-primary",
-                  on: {
-                    click: function($event) {
-                      $event.preventDefault()
-                      _vm.unblockUser(user)
-                    }
-                  }
-                },
-                [_vm._v("Unblock")]
-              ),
-              _vm._v(" "),
-              _c(
-                "a",
-                {
-                  staticClass: "btn btn-xs btn-danger",
-                  on: {
-                    click: function($event) {
-                      $event.preventDefault()
-                      _vm.deleteUser(user)
-                    }
-                  }
-                },
-                [_vm._v("Delete")]
-              )
-            ])
+            _vm.authUserProp.name != user.name
+              ? _c("td", [
+                  _c(
+                    "a",
+                    {
+                      staticClass: "btn btn-xs btn-danger",
+                      on: {
+                        click: function($event) {
+                          $event.preventDefault()
+                          _vm.blockUser(user)
+                        }
+                      }
+                    },
+                    [_vm._v("Block")]
+                  ),
+                  _vm._v(" "),
+                  _c(
+                    "a",
+                    {
+                      staticClass: "btn btn-xs btn-primary",
+                      on: {
+                        click: function($event) {
+                          $event.preventDefault()
+                          _vm.unblockUser(user)
+                        }
+                      }
+                    },
+                    [_vm._v("Unblock")]
+                  ),
+                  _vm._v(" "),
+                  _c(
+                    "a",
+                    {
+                      staticClass: "btn btn-xs btn-danger",
+                      on: {
+                        click: function($event) {
+                          $event.preventDefault()
+                          _vm.deleteUser(user)
+                        }
+                      }
+                    },
+                    [_vm._v("Delete")]
+                  )
+                ])
+              : _vm._e()
           ]
         )
       })
@@ -48444,7 +48453,7 @@ exports = module.exports = __webpack_require__(2)(undefined);
 
 
 // module
-exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", ""]);
+exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", ""]);
 
 // exports
 
@@ -48524,17 +48533,24 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
+
 
 
 
 /* harmony default export */ __webpack_exports__["default"] = ({
+
     props: ['authUser', 'editingUser'],
 
     data: function data() {
         return {
             editingPassword: false,
-            oldPassword: '',
-            newPassword: ''
+            user: {
+                id: '',
+                password: ''
+            }
 
         };
     },
@@ -48574,40 +48590,53 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         },
 
         savePassword: function savePassword(user) {
-            var _this3 = this;
-
-            console.log("Password: " + this.authUser.password);
-
-            if (this.authUser.password === this.oldPassword) {
-                //save new password
-                axios.put('api/users/' + this.authUser.id, this.authUser).then(function (response) {
-                    // Copy object properties from response.data.data to this.user
-                    // without creating a new reference
-                    console.log(response.data);
-                    console.log(response.data.data);
-
-                    Object.assign(_this3.authUser, response.data.data);
-                    _this3.$emit('user-saved', _this3.authUser);
-                });
-            }
-
-            //verificar se password do campo é igual a password do user
-            //se sim
-            //guardar nova password
-            //se nao
-            //console log password antiga diferente
-            //return
-
-            this.editingPassword = !this.editingPassword;
-            //this.$emit('edit-password', user);
+            console.log("entrei no save password");
+            this.$emit('save-password', user);
         },
 
-        computed: {
-            // a computed getter
-            /* cancelFunction: function () {
-               this.editingUser=false;
-             }*/
-        },
+        /*
+                    savePassword: function () {
+        
+                        let bcrypt = require('bcryptjs');
+                        axios.get('api/users/'+ this.authUser.id).then(
+                            response => {
+                                console.log(response);
+        
+                                let user = this.authUser;
+                                let oldPassword= response.data.data.password;
+                                let newPassword= this.user.newPassword;
+                                let inputOldPassword = this.user.oldPassword;
+                                console.log(this.user);
+                                console.log(user);
+                                console.log("old: "+oldPassword);
+                                console.log("new: "+newPassword);
+                                console.log("input old: "+inputOldPassword);
+        
+                                bcrypt.compare(inputOldPassword, oldPassword, function (err, res) {
+                                    if (err) {
+                                        // handle error
+                                    }
+                                    if (res) {
+                                        //if compare true
+                                        // Send JWT
+                                        axios.put('api/users/changePassword/' + user.id, user).then(
+                                            response => {
+        
+                                                console.log(response);
+                                                swal('Sucess');
+                                            });
+        
+                                    } else {
+                                                swal('Password do not match');
+                                    }
+                                });
+        
+                            });
+        
+                        this.editingPassword = !this.editingPassword;
+                        //this.$emit('edit-password', user);
+                    },
+            */
         components: {
             'password-edit': __WEBPACK_IMPORTED_MODULE_0__passwordEdit_vue___default.a
 
@@ -48690,6 +48719,10 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
+//
 
 
 /* harmony default export */ __webpack_exports__["default"] = ({
@@ -48697,10 +48730,75 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
     data: function data() {
         return {
-            editingPassword: false
+            editingPassword: false,
+            user: {
+                id: '',
+                password: ''
+            }
         };
     },
-    methods: {}
+    methods: {
+        savePassword: function savePassword() {
+            var _this = this;
+
+            console.log("entre no save password 22222 ->");
+            var bcrypt = __webpack_require__(!(function webpackMissingModule() { var e = new Error("Cannot find module \"bcryptjs\""); e.code = 'MODULE_NOT_FOUND'; throw e; }()));
+            axios.get('api/users/' + this.authUser.id).then(function (response) {
+                console.log(response);
+
+                var user = _this.authUser;
+                var oldPassword = response.data.data.password;
+                var newPassword = _this.user.newPassword;
+                var inputOldPassword = _this.user.oldPassword;
+                _this.authUser.password = _this.user.password;
+                console.log(_this.authUser);
+                // console.log(user);
+                console.log("old: " + oldPassword);
+                console.log("new: " + newPassword);
+                console.log("input old: " + inputOldPassword);
+
+                /* teste sem bcrypt a funcionar
+                            if (inputOldPassword == oldPassword) {
+                                axios.put('api/users/changePassword/' + this.authUser.id, this.authUser).then(
+                                    response => {
+                                        console.log(response);
+                                        Object.assign(this.authUser, response.data.data);
+                                      //  this.$emit('password-changed', this.authUser)
+                                        swal('Sucess! Password changed');
+                                    });
+                            }else {
+                                swal('Password do not match');
+                            }*/
+
+                console.log(user);
+
+                bcrypt.compare(inputOldPassword, oldPassword, function (err, res) {
+                    if (err) {
+                        console.log("Error password edit: " + err);
+                    }
+                    if (res) {
+                        console.log("entrei no put");
+                        axios.put('api/users/changePassword/' + user.id, user).then(function (response) {
+                            console.log(user);
+                            console.log(response);
+                            swal('Sucess! Password changed');
+                        });
+                    } else {
+                        //if(old password != inputOldPassword)
+                        //swal password antiga está errada
+                        //if password are diferentes
+                        //swal passwords do not match
+
+                        swal('Password do not match');
+                    }
+                });
+            });
+
+            this.editingPassword = !this.editingPassword;
+            //this.$emit('edit-password', user);
+        }
+
+    }
 });
 
 /***/ }),
@@ -48720,8 +48818,8 @@ var render = function() {
           {
             name: "model",
             rawName: "v-model",
-            value: _vm.authUser.password,
-            expression: "authUser.password"
+            value: _vm.user.oldPassword,
+            expression: "user.oldPassword"
           }
         ],
         staticClass: "form-control",
@@ -48731,13 +48829,13 @@ var render = function() {
           id: "oldPassword",
           placeholder: "Old Password"
         },
-        domProps: { value: _vm.authUser.password },
+        domProps: { value: _vm.user.oldPassword },
         on: {
           input: function($event) {
             if ($event.target.composing) {
               return
             }
-            _vm.$set(_vm.authUser, "password", $event.target.value)
+            _vm.$set(_vm.user, "oldPassword", $event.target.value)
           }
         }
       })
@@ -48751,8 +48849,8 @@ var render = function() {
           {
             name: "model",
             rawName: "v-model",
-            value: _vm.authUser.password,
-            expression: "authUser.password"
+            value: _vm.user.password,
+            expression: "user.password"
           }
         ],
         staticClass: "form-control",
@@ -48762,16 +48860,32 @@ var render = function() {
           id: "newPassword",
           placeholder: "New Password"
         },
-        domProps: { value: _vm.authUser.password },
+        domProps: { value: _vm.user.password },
         on: {
           input: function($event) {
             if ($event.target.composing) {
               return
             }
-            _vm.$set(_vm.authUser, "password", $event.target.value)
+            _vm.$set(_vm.user, "password", $event.target.value)
           }
         }
       })
+    ]),
+    _vm._v(" "),
+    _c("div", [
+      _c(
+        "a",
+        {
+          staticClass: "btn btn-default",
+          on: {
+            click: function($event) {
+              $event.preventDefault()
+              _vm.savePassword()
+            }
+          }
+        },
+        [_vm._v("Save Password")]
+      )
     ])
   ])
 }
@@ -48891,73 +49005,21 @@ var render = function() {
       ]),
       _vm._v(" "),
       this.editingPassword
-        ? _c("div", [
-            _c("div", { staticClass: "form-group" }, [
-              _c("label", { attrs: { for: "oldPassword" } }, [
-                _vm._v("Old Password")
-              ]),
-              _vm._v(" "),
-              _c("input", {
-                directives: [
-                  {
-                    name: "model",
-                    rawName: "v-model",
-                    value: this.oldPassword,
-                    expression: "this.oldPassword"
-                  }
-                ],
-                staticClass: "form-control",
-                attrs: {
-                  type: "text",
-                  name: "name",
-                  id: "oldPassword",
-                  placeholder: "Old Password"
-                },
-                domProps: { value: this.oldPassword },
-                on: {
-                  input: function($event) {
-                    if ($event.target.composing) {
-                      return
-                    }
-                    _vm.$set(this, "oldPassword", $event.target.value)
-                  }
-                }
-              })
-            ]),
-            _vm._v(" "),
-            _c("div", { staticClass: "form-group" }, [
-              _c("label", { attrs: { for: "newPassword" } }, [
-                _vm._v("New Password")
-              ]),
-              _vm._v(" "),
-              _c("input", {
-                directives: [
-                  {
-                    name: "model",
-                    rawName: "v-model",
-                    value: this.newPassword,
-                    expression: "this.newPassword"
-                  }
-                ],
-                staticClass: "form-control",
-                attrs: {
-                  type: "text",
-                  name: "name",
-                  id: "newPassword",
-                  placeholder: "New Password"
-                },
-                domProps: { value: this.newPassword },
-                on: {
-                  input: function($event) {
-                    if ($event.target.composing) {
-                      return
-                    }
-                    _vm.$set(this, "newPassword", $event.target.value)
-                  }
-                }
-              })
-            ])
-          ])
+        ? _c(
+            "div",
+            [
+              _vm.editingPassword
+                ? _c("password-edit", {
+                    attrs: {
+                      authUser: this.authUser,
+                      editigPassword: _vm.editingPassword
+                    },
+                    on: { "save-password": _vm.savePassword }
+                  })
+                : _vm._e()
+            ],
+            1
+          )
         : _vm._e(),
       _vm._v(" "),
       _c("div", { staticClass: "form-group" }, [
@@ -48988,22 +49050,6 @@ var render = function() {
                 }
               },
               [_vm._v("Edit Password")]
-            )
-          : _vm._e(),
-        _vm._v(" "),
-        this.editingPassword
-          ? _c(
-              "a",
-              {
-                staticClass: "btn btn-default",
-                on: {
-                  click: function($event) {
-                    $event.preventDefault()
-                    _vm.savePassword(this.authUser)
-                  }
-                }
-              },
-              [_vm._v("Save Password")]
             )
           : _vm._e(),
         _vm._v(" "),
@@ -49568,7 +49614,7 @@ var render = function() {
       _vm._v(" "),
       _c("user-list", {
         ref: "usersListRef",
-        attrs: { users: _vm.users },
+        attrs: { users: _vm.users, authUserProp: _vm.authUserProp },
         on: {
           "delete-click": _vm.deleteUser,
           "block-click": _vm.blockUser,
@@ -50291,8 +50337,9 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                 this.$auth.setToken(response.body.access_token, response.body.expires_in + Date.now());
                 console.log("Auth user" + JSON.stringify(this.$auth.getAuthenticatedUser()));
                 //Redirecionar user após este ficar autenticado
-                this.$router.push("/");
+                this.$router.push("/multimemorygame");
             }).catch(function (error) {
+                swal('Invalid Credentials! ');
                 console.log(error);
             });
         },
@@ -50585,11 +50632,10 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             };
         },
 
-
         sentVerifyEmail: function sentVerifyEmail() {
             var _this = this;
 
-            axios.get('/api/verifyEmail').then(function (response) {
+            axios.get('api/verifyEmail').then(function (response) {
                 console.log(response);
                 _this.resetUser();
             }).catch(function (error) {
@@ -53152,17 +53198,6 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
 
 
 /* harmony default export */ __webpack_exports__["default"] = ({
@@ -53173,9 +53208,12 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             showSuccess: false,
             successMessage: '',
             currentUser: null,
-            //winnerName: null,
             users: [],
-            games: []
+            games: [],
+            authUser: '',
+            singleplayergames: '',
+            multiplayergames: '',
+            totalgamesplayed: ''
         };
     },
     methods: {
@@ -53193,25 +53231,50 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                 _this2.games = response.data.data;
             });
         },
-        getGameWinner: function getGameWinner() {
+        getSingleplayerGames: function getSingleplayerGames() {
             var _this3 = this;
 
-            axios.get('api/users/' + game.winner).then(function (response) {
-                _this3.games.winnerName = response.data.data;
-                console.log(response.data.data);
+            axios.get('api/singleplayergames').then(function (response) {
+                _this3.singleplayergames = response.data;
             });
+        },
+        getMultiplayerGames: function getMultiplayerGames() {
+            var _this4 = this;
+
+            axios.get('api/multiplayergames').then(function (response) {
+                _this4.multiplayergames = response.data;
+                //console.log("resposta multi" + response);
+            });
+        },
+        getTotalPlayedGames: function getTotalPlayedGames() {
+            var _this5 = this;
+
+            axios.get('api/totalgamesplayed').then(function (response) {
+                _this5.totalgamesplayed = response.data;
+            });
+        },
+        /*getGameWinner: function () {
+                axios.get('api/users/' + game.winner)
+                    .then(response => {
+                        this.games.winnerName = response.data.data;
+                        console.log(response.data.data);
+                    });
+        },*/
+        getAuthUser: function getAuthUser() {
+            var user = this.$auth.getAuthenticatedUser();
+            console.log(user);
+            this.authUser = user;
         }
+    },
+    beforeMount: function beforeMount() {
+        this.getAuthUser();
     },
     mounted: function mounted() {
         this.getUsers();
         this.getGames();
-    },
-
-
-    computed: {
-        authenthicatedUser: function authenthicatedUser() {
-            return this.$auth.getAuthenticatedUser();
-        }
+        this.getSingleplayerGames();
+        this.getMultiplayerGames();
+        this.getTotalPlayedGames();
     }
 });
 
@@ -53224,12 +53287,6 @@ var render = function() {
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
   return _c("div", { staticStyle: { "text-align": "center" } }, [
-    _c("div", [
-      _c("h3", { staticClass: "text-center" }, [_vm._v(_vm._s(_vm.title))]),
-      _vm._v(" "),
-      _c("br")
-    ]),
-    _vm._v(" "),
     _vm._m(0),
     _vm._v(" "),
     _c("div", { staticClass: "row" }, [
@@ -53247,30 +53304,27 @@ var render = function() {
               [
                 _vm._m(2),
                 _vm._v(" "),
-                _c(
-                  "tbody",
-                  _vm._l(_vm.games, function(game) {
-                    return _c("tr", { key: game.id }, [
-                      _c("td", [_vm._v(_vm._s(game.winner))]),
-                      _vm._v(" "),
-                      _c("td", [
-                        _vm._v(" getGameWinner(" + _vm._s(game.winner) + ") ")
-                      ]),
-                      _vm._v(" "),
-                      _c("td"),
-                      _vm._v(" "),
-                      _c("td"),
-                      _vm._v(" "),
-                      _c("td")
-                    ])
-                  })
-                )
+                _c("tbody", [
+                  _c("tr", [
+                    _c("td", [
+                      _vm._v(" " + _vm._s(_vm.singleplayergames) + " ")
+                    ]),
+                    _vm._v(" "),
+                    _c("td", [
+                      _vm._v(" " + _vm._s(_vm.multiplayergames) + " ")
+                    ]),
+                    _vm._v(" "),
+                    _c("td", [_vm._v(" " + _vm._s(_vm.totalgamesplayed) + " ")])
+                  ])
+                ])
               ]
             )
           ])
         ])
       ])
-    ])
+    ]),
+    _vm._v(" "),
+    _vm._m(3)
   ])
 }
 var staticRenderFns = [
@@ -53279,91 +53333,49 @@ var staticRenderFns = [
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
     return _c("div", { staticClass: "row" }, [
-      _c("div", { staticClass: "col-xl-3 col-sm-6 mb-3" }, [
-        _c(
-          "div",
-          { staticClass: "card text-white bg-primary o-hidden h-100" },
-          [
-            _c("div", { staticClass: "card-body" }, [
-              _c("div", { staticClass: "card-body-icon" }, [
-                _c("i", { staticClass: "fa fa-fw fa-user" })
-              ]),
-              _vm._v(" "),
-              _c("div", { staticClass: "mr-5" }, [_vm._v("Single Player")])
-            ]),
-            _vm._v(" "),
+      _c("div", { staticClass: "card mb-3" }, [
+        _c("div", [
+          _c("h3", { staticClass: "text-center" }, [_vm._v("Your Statistics")]),
+          _vm._v(" "),
+          _c("br")
+        ]),
+        _vm._v(" "),
+        _c("div", { staticClass: "card-body" }, [
+          _c("div", { staticClass: "table-responsive" }, [
             _c(
-              "a",
+              "table",
               {
-                staticClass: "card-footer text-white clearfix small z-1",
-                attrs: { href: "#" }
+                staticClass: "table table-bordered",
+                attrs: { id: "dataTable", width: "100%", cellspacing: "0" }
               },
               [
-                _c("span", { staticClass: "float-left" }, [_vm._v("x Jogos")]),
+                _c("thead", [
+                  _c("tr", [
+                    _c("th", [_vm._v("Your Single Player")]),
+                    _vm._v(" "),
+                    _c("th", [_vm._v("Your Multi Player")]),
+                    _vm._v(" "),
+                    _c("th", [_vm._v("All Your Games")]),
+                    _vm._v(" "),
+                    _c("th", [_vm._v("Your Wins")])
+                  ])
+                ]),
                 _vm._v(" "),
-                _c("span", { staticClass: "float-right" })
+                _c("tbody", [
+                  _c("tr", [
+                    _c("td"),
+                    _vm._v(" "),
+                    _c("td"),
+                    _vm._v(" "),
+                    _c("td"),
+                    _vm._v(" "),
+                    _c("td")
+                  ])
+                ])
               ]
             )
-          ]
-        )
-      ]),
-      _vm._v(" "),
-      _c("div", { staticClass: "col-xl-3 col-sm-6 mb-3" }, [
-        _c(
-          "div",
-          { staticClass: "card text-white bg-warning o-hidden h-100" },
-          [
-            _c("div", { staticClass: "card-body" }, [
-              _c("div", { staticClass: "card-body-icon" }, [
-                _c("i", { staticClass: "fa fa-fw fa-users" })
-              ]),
-              _vm._v(" "),
-              _c("div", { staticClass: "mr-5" }, [_vm._v("Multi Player")])
-            ]),
-            _vm._v(" "),
-            _c(
-              "a",
-              {
-                staticClass: "card-footer text-white clearfix small z-1",
-                attrs: { href: "#" }
-              },
-              [
-                _c("span", { staticClass: "float-left" }, [_vm._v("x Jogos")]),
-                _vm._v(" "),
-                _c("span", { staticClass: "float-right" })
-              ]
-            )
-          ]
-        )
-      ]),
-      _vm._v(" "),
-      _c("div", { staticClass: "col-xl-3 col-sm-6 mb-3" }, [
-        _c(
-          "div",
-          { staticClass: "card text-white bg-success o-hidden h-100" },
-          [
-            _c("div", { staticClass: "card-body" }, [
-              _c("div", { staticClass: "card-body-icon" }, [
-                _c("i", { staticClass: "fa fa-fw fa-gamepad" })
-              ]),
-              _vm._v(" "),
-              _c("div", { staticClass: "mr-5" }, [_vm._v("Jogos Jogados")])
-            ]),
-            _vm._v(" "),
-            _c(
-              "a",
-              {
-                staticClass: "card-footer text-white clearfix small z-1",
-                attrs: { href: "#" }
-              },
-              [
-                _c("span", { staticClass: "float-left" }, [_vm._v("x Jogos")]),
-                _vm._v(" "),
-                _c("span", { staticClass: "float-right" })
-              ]
-            )
-          ]
-        )
+          ])
+        ])
       ])
     ])
   },
@@ -53372,9 +53384,7 @@ var staticRenderFns = [
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
     return _c("div", [
-      _c("h3", { staticClass: "text-center" }, [_vm._v("Players List")]),
-      _vm._v(" "),
-      _c("br"),
+      _c("h3", { staticClass: "text-center" }, [_vm._v("Games Statistics")]),
       _vm._v(" "),
       _c("br")
     ])
@@ -53385,15 +53395,31 @@ var staticRenderFns = [
     var _c = _vm._self._c || _h
     return _c("thead", [
       _c("tr", [
-        _c("th", [_vm._v("Nome")]),
-        _vm._v(" "),
         _c("th", [_vm._v("Single Player")]),
         _vm._v(" "),
         _c("th", [_vm._v("Multi Player")]),
         _vm._v(" "),
-        _c("th", [_vm._v("Total de Jogos")]),
+        _c("th", [_vm._v("All Games")])
+      ])
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "row" }, [
+      _c("div", { staticClass: "card mb-3" }, [
+        _c("div", [
+          _c("h3", { staticClass: "text-center" }, [_vm._v("Top 3")])
+        ]),
         _vm._v(" "),
-        _c("th", [_vm._v("Total de Vitórias")])
+        _c("div", { staticClass: "card-body" }, [
+          _c("h1", [_c("p", [_vm._v("Jauqim")])]),
+          _vm._v(" "),
+          _c("h2", [_c("p", [_vm._v("JUCA")])]),
+          _vm._v(" "),
+          _c("h3", [_c("p", [_vm._v("FIGAYREDO")])])
+        ])
       ])
     ])
   }
@@ -53890,6 +53916,8 @@ module.exports = {
                 //Show errors
                 console.log("Error: " + error);
             });
+
+            this.$router.push('/imagesManagement');
         },
         resetImage: function resetImage() {
             this.image = {
