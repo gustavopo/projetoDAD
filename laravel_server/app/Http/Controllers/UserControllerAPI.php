@@ -81,10 +81,6 @@ class UserControllerAPI extends Controller
      public function block(Request $request, $id)
     {
         $request->validate([
-            /*'name' => 'required',
-            'nickname' => 'required',
-            'email' => 'required|email|unique:users,email,'.$id,
-            */
             'blocked' => 'required',
             'reason_blocked' => 'nullable'
         ]);

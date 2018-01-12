@@ -53138,10 +53138,6 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
-//
-//
-//
-//
 
 
 /* harmony default export */ __webpack_exports__["default"] = ({
@@ -53233,11 +53229,9 @@ var render = function() {
   return _c("div", { staticStyle: { "text-align": "center" } }, [
     _vm._m(0),
     _vm._v(" "),
-    _vm._m(1),
-    _vm._v(" "),
     _c("div", { staticClass: "row" }, [
       _c("div", { staticClass: "card mb-3" }, [
-        _vm._m(2),
+        _vm._m(1),
         _vm._v(" "),
         _c("div", { staticClass: "card-body" }, [
           _c("div", { staticClass: "table-responsive" }, [
@@ -53248,7 +53242,7 @@ var render = function() {
                 attrs: { id: "dataTable", width: "100%", cellspacing: "0" }
               },
               [
-                _vm._m(3),
+                _vm._m(2),
                 _vm._v(" "),
                 _c("tbody", [
                   _c("tr", [
@@ -53268,7 +53262,9 @@ var render = function() {
           ])
         ])
       ])
-    ])
+    ]),
+    _vm._v(" "),
+    _vm._m(3)
   ])
 }
 var staticRenderFns = [
@@ -53276,102 +53272,50 @@ var staticRenderFns = [
     var _vm = this
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
-    return _c("div", [
-      _c("h3", { staticClass: "text-center" }, [_vm._v("Your Statistics")]),
-      _vm._v(" "),
-      _c("br")
-    ])
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
     return _c("div", { staticClass: "row" }, [
-      _c("div", { staticClass: "col-xl-3 col-sm-6 mb-3" }, [
-        _c(
-          "div",
-          { staticClass: "card text-white bg-primary o-hidden h-100" },
-          [
-            _c("div", { staticClass: "card-body" }, [
-              _c("div", { staticClass: "card-body-icon" }, [
-                _c("i", { staticClass: "fa fa-fw fa-user" })
-              ]),
-              _vm._v(" "),
-              _c("div", { staticClass: "mr-5" }, [_vm._v("Single Player")])
-            ]),
-            _vm._v(" "),
+      _c("div", { staticClass: "card mb-3" }, [
+        _c("div", [
+          _c("h3", { staticClass: "text-center" }, [_vm._v("Your Statistics")]),
+          _vm._v(" "),
+          _c("br")
+        ]),
+        _vm._v(" "),
+        _c("div", { staticClass: "card-body" }, [
+          _c("div", { staticClass: "table-responsive" }, [
             _c(
-              "a",
+              "table",
               {
-                staticClass: "card-footer text-white clearfix small z-1",
-                attrs: { href: "#" }
+                staticClass: "table table-bordered",
+                attrs: { id: "dataTable", width: "100%", cellspacing: "0" }
               },
               [
-                _c("span", { staticClass: "float-left" }, [_vm._v("x Jogos")]),
+                _c("thead", [
+                  _c("tr", [
+                    _c("th", [_vm._v("Your Single Player")]),
+                    _vm._v(" "),
+                    _c("th", [_vm._v("Your Multi Player")]),
+                    _vm._v(" "),
+                    _c("th", [_vm._v("All Your Games")]),
+                    _vm._v(" "),
+                    _c("th", [_vm._v("Your Wins")])
+                  ])
+                ]),
                 _vm._v(" "),
-                _c("span", { staticClass: "float-right" })
+                _c("tbody", [
+                  _c("tr", [
+                    _c("td"),
+                    _vm._v(" "),
+                    _c("td"),
+                    _vm._v(" "),
+                    _c("td"),
+                    _vm._v(" "),
+                    _c("td")
+                  ])
+                ])
               ]
             )
-          ]
-        )
-      ]),
-      _vm._v(" "),
-      _c("div", { staticClass: "col-xl-3 col-sm-6 mb-3" }, [
-        _c(
-          "div",
-          { staticClass: "card text-white bg-warning o-hidden h-100" },
-          [
-            _c("div", { staticClass: "card-body" }, [
-              _c("div", { staticClass: "card-body-icon" }, [
-                _c("i", { staticClass: "fa fa-fw fa-users" })
-              ]),
-              _vm._v(" "),
-              _c("div", { staticClass: "mr-5" }, [_vm._v("Multi Player")])
-            ]),
-            _vm._v(" "),
-            _c(
-              "a",
-              {
-                staticClass: "card-footer text-white clearfix small z-1",
-                attrs: { href: "#" }
-              },
-              [
-                _c("span", { staticClass: "float-left" }, [_vm._v("x Jogos")]),
-                _vm._v(" "),
-                _c("span", { staticClass: "float-right" })
-              ]
-            )
-          ]
-        )
-      ]),
-      _vm._v(" "),
-      _c("div", { staticClass: "col-xl-3 col-sm-6 mb-3" }, [
-        _c(
-          "div",
-          { staticClass: "card text-white bg-success o-hidden h-100" },
-          [
-            _c("div", { staticClass: "card-body" }, [
-              _c("div", { staticClass: "card-body-icon" }, [
-                _c("i", { staticClass: "fa fa-fw fa-gamepad" })
-              ]),
-              _vm._v(" "),
-              _c("div", { staticClass: "mr-5" }, [_vm._v("Total Games Played")])
-            ]),
-            _vm._v(" "),
-            _c(
-              "a",
-              {
-                staticClass: "card-footer text-white clearfix small z-1",
-                attrs: { href: "#" }
-              },
-              [
-                _c("span", { staticClass: "float-left" }, [_vm._v("x Jogos")]),
-                _vm._v(" "),
-                _c("span", { staticClass: "float-right" })
-              ]
-            )
-          ]
-        )
+          ])
+        ])
       ])
     ])
   },
@@ -53395,7 +53339,27 @@ var staticRenderFns = [
         _vm._v(" "),
         _c("th", [_vm._v("Multi Player")]),
         _vm._v(" "),
-        _c("th", [_vm._v("Total de Jogos")])
+        _c("th", [_vm._v("All Games")])
+      ])
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "row" }, [
+      _c("div", { staticClass: "card mb-3" }, [
+        _c("div", [
+          _c("h3", { staticClass: "text-center" }, [_vm._v("Top 3")])
+        ]),
+        _vm._v(" "),
+        _c("div", { staticClass: "card-body" }, [
+          _c("h1", [_c("p", [_vm._v("Jauqim")])]),
+          _vm._v(" "),
+          _c("h2", [_c("p", [_vm._v("JUCA")])]),
+          _vm._v(" "),
+          _c("h3", [_c("p", [_vm._v("FIGAYREDO")])])
+        ])
       ])
     ])
   }

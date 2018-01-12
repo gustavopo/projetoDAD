@@ -1,56 +1,35 @@
 <template>
     <div style="text-align: center">
-        <div>
-            <h3 class="text-center">Your Statistics</h3>
-            
-            <br>
-        </div>
-
         <div class="row">
-            <div class="col-xl-3 col-sm-6 mb-3">
-                <div class="card text-white bg-primary o-hidden h-100">
-                    <div class="card-body">
-                        <div class="card-body-icon">
-                            <i class="fa fa-fw fa-user"></i>
-                        </div>
-                        <div class="mr-5">Single Player</div>
+            <div class="card mb-3">
 
-                    </div>
-                    <a class="card-footer text-white clearfix small z-1" href="#">
-                        <span class="float-left">x Jogos</span>
-                        <span class="float-right">
-                  </span>
-                    </a>
+                <div>
+                    <h3 class="text-center">Your Statistics</h3>
+                    <br>
                 </div>
-            </div>
-            <div class="col-xl-3 col-sm-6 mb-3">
-                <div class="card text-white bg-warning o-hidden h-100">
-                    <div class="card-body">
-                        <div class="card-body-icon">
-                            <i class="fa fa-fw fa-users"></i>
-                        </div>
-                        <div class="mr-5">Multi Player</div>
+                <div class="card-body">
+                    <div class="table-responsive">
+                        <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                            <thead>
+                            <tr>
+                                <th>Your Single Player</th>
+                                <th>Your Multi Player</th>
+                                <th>All Your Games</th>
+                                <th>Your Wins</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                                  
+                             <tr>
+                                <td>  </td> 
+                                <td>  </td>
+                                <td>  </td> 
+                                <td>  </td> 
+                               
+                            </tr>
+                            </tbody>
+                        </table>
                     </div>
-                    <a class="card-footer text-white clearfix small z-1" href="#">
-                        <span class="float-left">x Jogos</span>
-                        <span class="float-right">
-                  </span>
-                    </a>
-                </div>
-            </div>
-            <div class="col-xl-3 col-sm-6 mb-3">
-                <div class="card text-white bg-success o-hidden h-100">
-                    <div class="card-body">
-                        <div class="card-body-icon">
-                            <i class="fa fa-fw fa-gamepad"></i>
-                        </div>
-                        <div class="mr-5">Total Games Played</div>
-                    </div>
-                    <a class="card-footer text-white clearfix small z-1" href="#">
-                        <span class="float-left">x Jogos</span>
-                        <span class="float-right">
-                  </span>
-                    </a>
                 </div>
             </div>
         </div>
@@ -68,7 +47,7 @@
                             <tr>
                                 <th>Single Player</th>
                                 <th>Multi Player</th>
-                                <th>Total de Jogos</th>
+                                <th>All Games</th>
                             </tr>
                             </thead>
                             <tbody>
@@ -85,6 +64,23 @@
                 </div>
             </div>
         </div>
+        <div class="row">
+            <div class="card mb-3">
+
+                <div>
+                    <h3 class="text-center">Top 3</h3>
+                </div>
+                <div class="card-body">
+                        <h1><p>Jauqim</p></h1>
+                        <h2><p>JUCA</p></h2>
+                        <h3><p>FIGAYREDO</p></h3>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+
         <!--
         <div class="row">
             <div class="card mb-3">
