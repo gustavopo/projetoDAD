@@ -20,6 +20,8 @@ class User extends Resource
             'email' => $this->email,
             'blocked' => $this->blocked,
             'reason_blocked' => $this->reason_blocked,
+            'password' => $this->password,
+              
             'reason_reactivated' => $this->reason_reactivated
         ];
     }

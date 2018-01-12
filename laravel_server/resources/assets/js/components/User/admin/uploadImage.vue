@@ -93,6 +93,8 @@
                         //Show errors
                         console.log("Error: " + error);
                     });
+
+                this.$router.push('/imagesManagement');
             },
             resetImage()
             {

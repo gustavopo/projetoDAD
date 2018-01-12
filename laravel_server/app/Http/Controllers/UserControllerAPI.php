@@ -2,22 +2,27 @@
 
 namespace App\Http\Controllers;
 
+use App\Mail\Registration;
+use Illuminate\Foundation\Auth\RegistersUsers;
 use Illuminate\Http\Request;
 use Illuminate\Contracts\Support\Jsonable;
+use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Str;
 use App\Mail\verifyEmail;
+
 
 use App\Http\Resources\User as UserResource;
 use Illuminate\Support\Facades\DB;
 
 use App\User;
 use App\StoreUserRequest;
-use Hash;
 use Illuminate\Support\Facades\Auth;
 
 class UserControllerAPI extends Controller
 {
+    use RegistersUsers;
+
     public function getAuthUser(){
         return $authUser = Auth::user();
     }
@@ -36,6 +41,26 @@ class UserControllerAPI extends Controller
         return new UserResource(User::find($id));
     }
 
+    public function changePassword(Request $request , $id)
+    {
+
+        // Session::flash('status', 'Registered! But verify your email to activate your account!');
+        $request->validate([
+            'password' => 'required|string|min:4',
+
+        ]);
+
+        $user = User::findOrFail($id);
+
+       // $request['password'] =bcrypt($request['password']);
+        //$user->password = Hash::make($user->password);
+
+        $user->fill($request->all());
+        $user->password = Hash::make($user->password);
+        $user->save();
+         return $user;
+    }
+
     public function store(Request $request)
     {
 
@@ -49,22 +74,19 @@ class UserControllerAPI extends Controller
         ]);
 
         $user = new User();
-
+       // $request['password'] =bcrypt($request['password']);
         $user->fill($request->all());
-
-        // Feito no
-        //$user->verifyToken = Str::random(40);
+        $user->verifyToken = Str::random(40);
 
         $user->password = Hash::make($user->password);
-
-
-     //   $thisUser=User::findOrFail($user->id);
         $user->save();
+    //    $thisUser = User::findOrFail($user->id);
+     //   $this->sendEmail($thisUser);
 
-        $this->sendEmail($user);
+        //SEND EMAIL TEST LARACAST
+      //  \Mail::to($user)->send(new Registration($user));
 
-      //  return response()->json(new UserResource($user), 201);
-        return $user;
+    return $user;
     }
 
     public function update(Request $request, $id)
@@ -112,6 +134,7 @@ class UserControllerAPI extends Controller
         $user->delete();
         return response()->json(null, 204);
     }
+
     public function emailAvailable(Request $request)
     {
         $totalEmail = 1;
@@ -124,8 +147,9 @@ class UserControllerAPI extends Controller
     }
 
 
-    public function verifyEmail()
+    public function verifyEmailFirst()
     {
+        return view('email.registration');
 
     }
 

@@ -39,10 +39,11 @@ Route::post('users', 'UserControllerAPI@store');
 Route::put('users/{id}', 'UserControllerAPI@update');
 Route::delete('users/{id}', 'UserControllerAPI@delete');
 Route::post('register','UserControllerAPI@store');
-Route::get('verifyEmail','UserControllerAPI@verifyEmail')->name('verifyEmail');
 Route::get('verify/{email}/{verifyToken}', 'UserControllerApi@sendEmailDone')->name('sendEmailDone');
+Route::get('verifyEmail','UserControllerAPI@verifyEmailFirst')->name('verifyEmail');
 
-
+//Change Password
+Route::put('users/changePassword/{id}', 'UserControllerAPI@changePassword');
 
 //GetAuthenthicatedUser
 Route::middleware('auth:api')->get('user', function(Request $request)

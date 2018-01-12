@@ -40,10 +40,12 @@ const statistics = Vue.component('statistics', require('./components/statistics.
 const imagesManagement = Vue.component('imagesManagement', require('./components/User/admin/imagesManagement.vue'));
 const imagesList = Vue.component('imagesList', require('./components/User/admin/imagesList.vue'));
 const uploadImage = Vue.component('uploadImage', require('./components/User/admin/uploadImage.vue'));
+const passwordEdit = Vue.component('passwordEdit', require('./components/User/passwordEdit.vue'));
+
 
 
 const routes = [
-    {path: '/', redirect: '/index', component: index},
+    {path: '/', redirect: '/statistics', component: statistics},
     {path: '/users', component: user},
     {path: '/userPage', component: userPage},
     {path: '/multimemorygame', component: multiplayerGame},
@@ -54,15 +56,15 @@ const routes = [
     {path: '/register', component: register, meta: {forVisitors: true} },
     {path: '/imagesManagement', component: imagesManagement, meta: {forAuth: true}},
     {path: '/uploadImage', component: uploadImage, meta: {forAuth: true}},
+    {path: '/passwordEdit', component: passwordEdit, meta: {forAuth: true}},
 ];
 
 const router = new VueRouter({
-
     routes: routes
 });
 
 
-/*router.beforeEach(
+router.beforeEach(
     (to, from, next) => {
         //Quando uma navegaçao é ativada
         //#NavigationGuard
@@ -71,7 +73,7 @@ const router = new VueRouter({
         if (to.matched.some(record => record.meta.forVisitors)) {
             if (Vue.auth.isAuthenticated()) {
                 next({
-                    path: '/singlememorygame'
+                    path: '/statistics'
                 })
             } else next()
 
@@ -84,7 +86,7 @@ const router = new VueRouter({
         } else next()
         //$route.matched
     }
-)*/
+)
 
 
 const app = new Vue({
