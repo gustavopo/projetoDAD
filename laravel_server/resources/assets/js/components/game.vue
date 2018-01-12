@@ -9,9 +9,9 @@
                 <strong>{{ message }} &nbsp;&nbsp;&nbsp;&nbsp;<a v-show="game.gameEnded" v-on:click.prevent="closeGame">Close Game</a></strong>
             </div>
             <div id="board" class="board">
-                <div v-for="(c,c1) in 4">
+                <div v-for="(c,c1) in game.columns" >
                     <div class="board-row">
-                        <div v-for="(r,r1) in 4">
+                        <div v-for="(r,r1) in game.rows">
                             <img v-bind:src="pieceImageURL(game.board[r1][c1])" v-on:click="clickPiece(r1,c1)">
                         </div>
                     </div>

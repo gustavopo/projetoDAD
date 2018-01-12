@@ -51954,9 +51954,9 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         }
     },
     methods: {
-        gameSaved: function gameSaved(name, maxPlayers) {
+        gameSaved: function gameSaved(name, maxPlayers, format) {
             console.log(name + maxPlayers);
-            this.createGame(name, maxPlayers);
+            this.createGame(name, maxPlayers, format);
         },
         showCreateGame: function showCreateGame() {
             this.createGameShow = true;
@@ -51967,12 +51967,12 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         loadActiveGames: function loadActiveGames() {
             this.$socket.emit('get_my_activegames');
         },
-        createGame: function createGame(name, maxPlayers) {
+        createGame: function createGame(name, maxPlayers, format) {
             if (this.currentPlayer == "") {
                 alert('Current Player is Empty - Cannot Create a Game');
                 return;
             } else {
-                this.$socket.emit('create_game', { playerName: this.currentPlayer, name: name, maxPlayers: maxPlayers });
+                this.$socket.emit('create_game', { playerName: this.currentPlayer, name: name, maxPlayers: maxPlayers, format: format });
                 this.createGameShow = false;
             }
         },
@@ -52285,11 +52285,7 @@ exports = module.exports = __webpack_require__(2)(undefined);
 
 
 // module
-<<<<<<< HEAD
 exports.push([module.i, "\ntable[data-v-7c293f89] {\n    width: 100%;\n}\n.noClicks[data-v-7c293f89]{\n  pointer-events: none;\n}\n\n\n", ""]);
-=======
-exports.push([module.i, "\ntable[data-v-7c293f89] {\n    width: 100%;\n}\ntd[data-v-7c293f89] {\n    width: 33.333%;\n}\ntd[data-v-7c293f89]:after {\n    content: '';\n    display: block;\n    margin-top: 100%;\n}\n", ""]);
->>>>>>> master
 
 // exports
 
@@ -52490,12 +52486,12 @@ var render = function() {
         _c(
           "div",
           { staticClass: "board", attrs: { id: "board" } },
-          _vm._l(4, function(c, c1) {
+          _vm._l(_vm.game.columns, function(c, c1) {
             return _c("div", [
               _c(
                 "div",
                 { staticClass: "board-row" },
-                _vm._l(4, function(r, r1) {
+                _vm._l(_vm.game.rows, function(r, r1) {
                   return _c("div", [
                     _c("img", {
                       attrs: { src: _vm.pieceImageURL(_vm.game.board[r1][c1]) },
@@ -52619,7 +52615,7 @@ exports = module.exports = __webpack_require__(2)(undefined);
 
 
 // module
-exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", ""]);
+exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", ""]);
 
 // exports
 
@@ -52655,17 +52651,30 @@ exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 module.exports = {
     data: function data() {
         return {
             maxPlayers: '',
-            name: ''
+            name: '',
+            format: ''
+
         };
     },
     methods: {
         createGame: function createGame() {
-            this.$emit('game-saved', this.name, this.maxPlayers);
+            this.$emit('game-saved', this.name, this.maxPlayers, this.format);
         },
         cancelCreate: function cancelCreate() {
             this.$emit('game-canceled', this.game);
@@ -52750,11 +52759,57 @@ var render = function() {
         [
           _c("option", { attrs: { disabled: "", value: "" } }, [_vm._v("1")]),
           _vm._v(" "),
-          _c("option", [_vm._v("2")]),
+          _c("option", { attrs: { value: "2" } }, [_vm._v("2")]),
           _vm._v(" "),
-          _c("option", [_vm._v("3")]),
+          _c("option", { attrs: { value: "3" } }, [_vm._v("3")]),
           _vm._v(" "),
-          _c("option", [_vm._v("4")])
+          _c("option", { attrs: { value: "4" } }, [_vm._v("4")])
+        ]
+      )
+    ]),
+    _vm._v(" "),
+    _c("div", { staticClass: "form-group" }, [
+      _c("label", { attrs: { for: "inputName" } }, [
+        _vm._v("Formato do jogo:")
+      ]),
+      _vm._v(" "),
+      _c(
+        "select",
+        {
+          directives: [
+            {
+              name: "model",
+              rawName: "v-model",
+              value: _vm.format,
+              expression: "format"
+            }
+          ],
+          on: {
+            change: function($event) {
+              var $$selectedVal = Array.prototype.filter
+                .call($event.target.options, function(o) {
+                  return o.selected
+                })
+                .map(function(o) {
+                  var val = "_value" in o ? o._value : o.value
+                  return val
+                })
+              _vm.format = $event.target.multiple
+                ? $$selectedVal
+                : $$selectedVal[0]
+            }
+          }
+        },
+        [
+          _c("option", { attrs: { value: "" } }, [
+            _vm._v("Escolha um Formato")
+          ]),
+          _vm._v(" "),
+          _c("option", [_vm._v("4x4")]),
+          _vm._v(" "),
+          _c("option", [_vm._v("4x6")]),
+          _vm._v(" "),
+          _c("option", [_vm._v("6x6")])
         ]
       )
     ]),

@@ -13,15 +13,26 @@
             <select v-model="maxPlayers">
                 <!--<option disabled value="">jogadores</option>-->
                 <option disabled value="">1</option>
-                <option>2</option>
-                <option>3</option>
-                <option>4</option>
+                <option value="2">2</option>
+                <option value="3">3</option>
+                <option value="4">4</option>
             </select>
         </div>
+        <div class="form-group">
+            <label for="inputName">Formato do jogo:</label>
+            <select v-model="format">
+                <option value="">Escolha um Formato</option>
+                <option>4x4</option>
+                <option>4x6</option>
+                <option>6x6</option>
+            </select>
+        </div>
+
         <div class="form-group">
             <a class="btn btn-danger" v-on:click.prevent="createGame()">Criar</a>
             <a class="btn btn-danger" v-on:click.prevent="cancelCreate()">Cancelar</a>
         </div>
+
     </div>
 </template>
 
@@ -30,12 +41,14 @@ module.exports={
     data:function() {
         return{
             maxPlayers:'',
-            name:''
+            name:'',
+            format:'',
+
         }
     },
     methods: {
         createGame: function(){
-            this.$emit('game-saved', this.name, this.maxPlayers);
+            this.$emit('game-saved', this.name, this.maxPlayers, this.format);
 
         },
         cancelCreate: function(){

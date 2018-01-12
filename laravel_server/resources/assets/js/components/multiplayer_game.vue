@@ -106,9 +106,9 @@ export default {
 
 },
 methods: {
-    gameSaved(name, maxPlayers) {
+    gameSaved(name, maxPlayers,format) {
         console.log(name + maxPlayers);
-        this.createGame(name, maxPlayers);
+        this.createGame(name, maxPlayers, format);
     },
     showCreateGame() {
         this.createGameShow = true;
@@ -120,13 +120,13 @@ methods: {
     loadActiveGames() {
         this.$socket.emit('get_my_activegames');
     },
-    createGame(name, maxPlayers) {
+    createGame(name, maxPlayers,format) {
         if (this.currentPlayer == "") {
             alert('Current Player is Empty - Cannot Create a Game');
             return;
         }
         else {
-            this.$socket.emit('create_game', {playerName: this.currentPlayer, name, maxPlayers});
+            this.$socket.emit('create_game', {playerName: this.currentPlayer, name, maxPlayers, format});
             this.createGameShow = false;
         }
     },

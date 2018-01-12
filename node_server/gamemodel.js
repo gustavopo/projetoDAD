@@ -8,7 +8,7 @@ var intervalJoin;
 
 
 class Game {
-    constructor(ID, player1Name, name, maxPlayers) {
+    constructor(ID, player1Name, name, maxPlayers, format) {
         this.gameID = ID;
         this.gameEnded = false;
         this.gameStarted = false;
@@ -29,8 +29,10 @@ class Game {
         this.contadorParesMatched=0;
         this.playerOne = new Player(0,1,player1Name);
         this.playerTwo = new Player(0,1,'');
-        this.timer = 5;
-        var interval = 1;
+        this.timer = 30;
+        this.setFormat(format);
+
+        console.log(this.columns);
 
 
         this.board = new Array(this.rows);
@@ -42,31 +44,49 @@ class Game {
 
     }
 
-    join(player2Name, gameID,game,io){
-        this.playerTwo.name= player2Name;
-        this.gameStarted = true;
+    setFormat(format){
+     switch(format){
+        case '4x4':
+        this.rows =4;
+        this.columns =4;
+        break;
+        case '4x6':
+        this.rows=4;
+        this.columns=6;
+        break;
+        case '6x6':
+        this.rows=6;
+        this.columns=6;
+        break;
 
-        this.decrementTime(io, gameID, game);
-        intervalJoin=setInterval(function() {io.to(gameID).emit('game_changed',game);}, 1001);
+    }
+}
+
+join(player2Name, gameID,game,io){
+    this.playerTwo.name= player2Name;
+    this.gameStarted = true;
+
+    this.decrementTime(io, gameID, game);
+    intervalJoin=setInterval(function() {io.to(gameID).emit('game_changed',game);}, 1001);
+}
+
+checkGameEnded(){
+    if(this.contadorParesMatched===(this.columns*this.rows)){
+        this.checkWinner();
+        this.gameEnded=true;
+        return true;
     }
 
-    checkGameEnded(){
-        if(this.contadorParesMatched===(this.columns*this.rows)){
-            this.checkWinner();
-            this.gameEnded=true;
-            return true;
-        }
 
+}
 
+checkWinner(){
+    if(this.playerOne.pairsCombined > this.playerTwo.pairsCombined){
+        this.winner = 1;
+    }else if(this.playerTwo.pairsCombined > this.playerOne.pairsCombined ) {
+        this.winner = 2;
     }
-
-    checkWinner(){
-        if(this.playerOne.pairsCombined > this.playerTwo.pairsCombined){
-            this.winner = 1;
-        }else if(this.playerTwo.pairsCombined > this.playerOne.pairsCombined ) {
-            this.winner = 2;
-        }
-    }
+}
 
     /*checkGameEnded(){
        /* if (this.hasRow(1)) {

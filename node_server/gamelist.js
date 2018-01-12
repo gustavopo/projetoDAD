@@ -13,9 +13,9 @@ class GameList {
     	return game;
     }
 
-    createGame(playerName, socketID, name, maxPlayers) {
+    createGame(playerName, socketID, name, maxPlayers,format) {
     	this.contadorID = this.contadorID+1;
-    	var game = new Game(this.contadorID, playerName, name, maxPlayers);
+    	var game = new Game(this.contadorID, playerName, name, maxPlayers, format);
     	game.player1SocketID = socketID;
     	this.games.set(game.gameID, game);
     	return game;
