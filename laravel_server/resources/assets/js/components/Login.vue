@@ -84,9 +84,10 @@
                         this.$auth.setToken(response.body.access_token, response.body.expires_in + Date.now());
                         console.log("Auth user" + JSON.stringify(this.$auth.getAuthenticatedUser()));
                         //Redirecionar user após este ficar autenticado
-                        this.$router.push("/");
+                        this.$router.push("/multimemorygame");
 
                     }).catch((error) => {
+                    swal('Invalid Credentials! ');
                     console.log(error);
                 });
 

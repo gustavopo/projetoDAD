@@ -45,7 +45,7 @@ const passwordEdit = Vue.component('passwordEdit', require('./components/User/pa
 
 
 const routes = [
-    {path: '/', redirect: '/index', component: index},
+    {path: '/', redirect: '/statistics', component: statistics},
     {path: '/users', component: user},
     {path: '/userPage', component: userPage},
     {path: '/multimemorygame', component: multiplayerGame},
@@ -64,7 +64,7 @@ const router = new VueRouter({
 });
 
 
-/*router.beforeEach(
+router.beforeEach(
     (to, from, next) => {
         //Quando uma navegaçao é ativada
         //#NavigationGuard
@@ -73,7 +73,7 @@ const router = new VueRouter({
         if (to.matched.some(record => record.meta.forVisitors)) {
             if (Vue.auth.isAuthenticated()) {
                 next({
-                    path: '/singlememorygame'
+                    path: '/statistics'
                 })
             } else next()
 
@@ -86,7 +86,7 @@ const router = new VueRouter({
         } else next()
         //$route.matched
     }
-)*/
+)
 
 
 const app = new Vue({

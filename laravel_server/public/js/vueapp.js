@@ -14342,35 +14342,36 @@ var imagesList = Vue.component('imagesList', __webpack_require__(84));
 var uploadImage = Vue.component('uploadImage', __webpack_require__(293));
 var passwordEdit = Vue.component('passwordEdit', __webpack_require__(51));
 
-var routes = [{ path: '/', redirect: '/index', component: index }, { path: '/users', component: user }, { path: '/userPage', component: userPage }, { path: '/multimemorygame', component: multiplayerGame }, { path: '/singlememorygame', component: singleplayerGame, meta: { forAuth: true } }, { path: '/multimemorygame', component: multiplayerGame, meta: { forAuth: true } }, { path: '/statistics', component: statistics, meta: { forAuth: true } }, { path: '/login', component: login, meta: { forVisitors: true } }, { path: '/register', component: register, meta: { forVisitors: true } }, { path: '/imagesManagement', component: imagesManagement, meta: { forAuth: true } }, { path: '/uploadImage', component: uploadImage, meta: { forAuth: true } }, { path: '/passwordEdit', component: passwordEdit, meta: { forAuth: true } }];
+var routes = [{ path: '/', redirect: '/statistics', component: statistics }, { path: '/users', component: user }, { path: '/userPage', component: userPage }, { path: '/multimemorygame', component: multiplayerGame }, { path: '/singlememorygame', component: singleplayerGame, meta: { forAuth: true } }, { path: '/multimemorygame', component: multiplayerGame, meta: { forAuth: true } }, { path: '/statistics', component: statistics, meta: { forAuth: true } }, { path: '/login', component: login, meta: { forVisitors: true } }, { path: '/register', component: register, meta: { forVisitors: true } }, { path: '/imagesManagement', component: imagesManagement, meta: { forAuth: true } }, { path: '/uploadImage', component: uploadImage, meta: { forAuth: true } }, { path: '/passwordEdit', component: passwordEdit, meta: { forAuth: true } }];
 
 var router = new __WEBPACK_IMPORTED_MODULE_0_vue_router__["a" /* default */]({
     routes: routes
 });
 
-/*router.beforeEach(
-    (to, from, next) => {
-        //Quando uma navegaçao é ativada
-        //#NavigationGuard
-        //to => where we want to go
-        //from => current route
-        if (to.matched.some(record => record.meta.forVisitors)) {
-            if (Vue.auth.isAuthenticated()) {
-                next({
-                    path: '/singlememorygame'
-                })
-            } else next()
-
-        } else if (to.matched.some(record => record.meta.forAuth)) {
-            if (!Vue.auth.isAuthenticated()) {
-                next({
-                    path: '/login'
-                })
-            } else next()
-        } else next()
-        //$route.matched
-    }
-)*/
+router.beforeEach(function (to, from, next) {
+    //Quando uma navegaçao é ativada
+    //#NavigationGuard
+    //to => where we want to go
+    //from => current route
+    if (to.matched.some(function (record) {
+        return record.meta.forVisitors;
+    })) {
+        if (Vue.auth.isAuthenticated()) {
+            next({
+                path: '/statistics'
+            });
+        } else next();
+    } else if (to.matched.some(function (record) {
+        return record.meta.forAuth;
+    })) {
+        if (!Vue.auth.isAuthenticated()) {
+            next({
+                path: '/login'
+            });
+        } else next();
+    } else next();
+    //$route.matched
+});
 
 var app = new Vue({
     router: router
@@ -61365,28 +61366,48 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                 var oldPassword = response.data.data.password;
                 var newPassword = _this.user.newPassword;
                 var inputOldPassword = _this.user.oldPassword;
-                console.log(_this.user);
-                console.log(user);
+                _this.authUser.password = _this.user.password;
+                console.log(_this.authUser);
+                // console.log(user);
                 console.log("old: " + oldPassword);
                 console.log("new: " + newPassword);
                 console.log("input old: " + inputOldPassword);
-                /*bcrypt.compare(inputOldPassword, oldPassword, function (err, res) {
+
+                /* teste sem bcrypt a funcionar
+                            if (inputOldPassword == oldPassword) {
+                                axios.put('api/users/changePassword/' + this.authUser.id, this.authUser).then(
+                                    response => {
+                                        console.log(response);
+                                        Object.assign(this.authUser, response.data.data);
+                                      //  this.$emit('password-changed', this.authUser)
+                                        swal('Sucess! Password changed');
+                                    });
+                            }else {
+                                swal('Password do not match');
+                            }*/
+
+                console.log(user);
+
+                bcrypt.compare(inputOldPassword, oldPassword, function (err, res) {
                     if (err) {
-                        // handle error
+                        console.log("Error password edit: " + err);
                     }
                     if (res) {
-                        //if compare true
-                        // Send JWT*/
-                axios.put('api/users/changePassword/' + user.id, _this.authUser).then(function (response) {
+                        console.log("entrei no put");
+                        axios.put('api/users/changePassword/' + user.id, user).then(function (response) {
+                            console.log(user);
+                            console.log(response);
+                            swal('Sucess! Password changed');
+                        });
+                    } else {
+                        //if(old password != inputOldPassword)
+                        //swal password antiga está errada
+                        //if password are diferentes
+                        //swal passwords do not match
 
-                    console.log(response);
-                    swal('Sucess');
+                        swal('Password do not match');
+                    }
                 });
-                /*
-                                            } else {
-                                                        swal('Password do not match');
-                                            }
-                                        });*/
             });
 
             this.editingPassword = !this.editingPassword;
@@ -72525,8 +72546,8 @@ var render = function() {
           {
             name: "model",
             rawName: "v-model",
-            value: _vm.user.newPassword,
-            expression: "user.newPassword"
+            value: _vm.user.password,
+            expression: "user.password"
           }
         ],
         staticClass: "form-control",
@@ -72536,13 +72557,13 @@ var render = function() {
           id: "newPassword",
           placeholder: "New Password"
         },
-        domProps: { value: _vm.user.newPassword },
+        domProps: { value: _vm.user.password },
         on: {
           input: function($event) {
             if ($event.target.composing) {
               return
             }
-            _vm.$set(_vm.user, "newPassword", $event.target.value)
+            _vm.$set(_vm.user, "password", $event.target.value)
           }
         }
       })
@@ -74011,8 +74032,9 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                 this.$auth.setToken(response.body.access_token, response.body.expires_in + Date.now());
                 console.log("Auth user" + JSON.stringify(this.$auth.getAuthenticatedUser()));
                 //Redirecionar user após este ficar autenticado
-                this.$router.push("/");
+                this.$router.push("/multimemorygame");
             }).catch(function (error) {
+                swal('Invalid Credentials! ');
                 console.log(error);
             });
         },
@@ -74305,11 +74327,10 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             };
         },
 
-
         sentVerifyEmail: function sentVerifyEmail() {
             var _this = this;
 
-            axios.get('/api/verifyEmail').then(function (response) {
+            axios.get('api/verifyEmail').then(function (response) {
                 console.log(response);
                 _this.resetUser();
             }).catch(function (error) {
