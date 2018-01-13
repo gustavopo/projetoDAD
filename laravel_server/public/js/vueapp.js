@@ -61688,11 +61688,12 @@ if (typeof window !== 'undefined' && window.Vue) {
             localStorage.removeItem('token');
             localStorage.removeItem('expiration');
 
-            localStorage.removeItem('name', data.name);
-            localStorage.removeItem('email', data.email);
-            localStorage.removeItem('nickname', data.nickname);
-            localStorage.removeItem('admin', data.admin);
-            localStorage.removeItem('blocked', data.blocked);
+            localStorage.removeItem('id');
+            localStorage.removeItem('name');
+            localStorage.removeItem('email');
+            localStorage.removeItem('nickname');
+            localStorage.removeItem('admin');
+            localStorage.removeItem('blocked');
         },
 
         isAuthenticated: function isAuthenticated() {
@@ -61710,6 +61711,7 @@ if (typeof window !== 'undefined' && window.Vue) {
 
         setAuthenticatedUser: function setAuthenticatedUser(data) {
             localStorage.setItem('authUser', data);
+            localStorage.setItem('id', data.id);
             localStorage.setItem('name', data.name);
             localStorage.setItem('email', data.email);
             localStorage.setItem('nickname', data.nickname);
@@ -61719,6 +61721,9 @@ if (typeof window !== 'undefined' && window.Vue) {
         getAuthenticatedUser: function getAuthenticatedUser() {
             return localStorage.getItem('authUser');
         },
+        getAuthenticatedUserId: function getAuthenticatedUserId() {
+            return localStorage.getItem('id');
+        },
         getAuthenticatedUserName: function getAuthenticatedUserName() {
             return localStorage.getItem('name');
         },
@@ -61727,6 +61732,9 @@ if (typeof window !== 'undefined' && window.Vue) {
         },
         getAuthenticatedAdmin: function getAuthenticatedAdmin() {
             return localStorage.getItem('admin');
+        },
+        getAuthenticatedNickname: function getAuthenticatedNickname() {
+            return localStorage.getItem('nickname');
         }
     };
 
@@ -73559,26 +73567,6 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
 
 // Component code (not registered)
 
@@ -73593,17 +73581,20 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
             showSuccess: false,
             successMessage: '',
             editingUser: false,
-            authUser: ''
+            authUser: {
+                name: '',
+                nickname: '',
+                email: ''
+            }
         };
     },
 
     methods: (_methods = {
         getAuthUser: function getAuthUser() {
 
-            var user = this.$auth.getAuthenticatedUser();
-            console.log(user);
-            this.authUser = user;
-            console.log(this.authUser.name);
+            this.authUser.name = this.$auth.getAuthenticatedUserName();
+            this.authUser.nickname = this.$auth.getAuthenticatedNickname();
+            this.authUser.email = this.$auth.getAuthenticatedEmail();
         },
 
 
@@ -73618,6 +73609,15 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
             this.showSuccess = false;
         },
 
+        deleteUser: function deleteUser(user) {
+            console.log(user.data);
+            /* axios.delete('api/users/'+user.id)
+                 .then(response => {
+                     this.$router.push('/statistics');
+                 });
+                 this.$auth.destroyToken();*/
+        },
+
         savedUser: function savedUser() {
             this.showSuccess = true;
             this.successMessage = 'User Saved';
@@ -73630,11 +73630,6 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
         this.$router.push('/uploadImage');
     }), _methods),
 
-    computed: {
-        authenthicatedUser: function authenthicatedUser() {
-            // return this.$auth.getAuthenticatedUser();
-        }
-    },
     components: {
         'user-data': __WEBPACK_IMPORTED_MODULE_0__userData_vue___default.a,
         'user-edit': __WEBPACK_IMPORTED_MODULE_1__userEdit_vue___default.a
@@ -73867,7 +73862,24 @@ var render = function() {
           [_c("i", { staticClass: "glyphicon glyphicon-edit" })]
         ),
         _vm._v(" "),
-        _vm._m(3)
+        _c(
+          "a",
+          {
+            staticClass: "btn btn-sm btn-danger",
+            attrs: {
+              "data-original-title": "Remove this user",
+              "data-toggle": "tooltip",
+              type: "button"
+            },
+            on: {
+              click: function($event) {
+                $event.preventDefault()
+                _vm.deleteUser(this.authUser)
+              }
+            }
+          },
+          [_c("i", { staticClass: "glyphicon glyphicon-remove" })]
+        )
       ])
     ])
   ])
@@ -73915,23 +73927,6 @@ var staticRenderFns = [
         }
       },
       [_c("i", { staticClass: "glyphicon glyphicon-envelope" })]
-    )
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c(
-      "a",
-      {
-        staticClass: "btn btn-sm btn-danger",
-        attrs: {
-          "data-original-title": "Remove this user",
-          "data-toggle": "tooltip",
-          type: "button"
-        }
-      },
-      [_c("i", { staticClass: "glyphicon glyphicon-remove" })]
     )
   }
 ]
@@ -74087,8 +74082,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                         'Accept': 'application/json'
                     }
                 }).then(function (response) {
-
-                    //console.log(response.data);
+                    console.log(response.data);
                     self.$auth.setAuthenticatedUser(response.data);
                 });
                 //Route::get('users/{id}', 'UserControllerAPI@getUser');
@@ -76991,6 +76985,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
 
 
 /* harmony default export */ __webpack_exports__["default"] = ({
@@ -76998,69 +76993,43 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
     data: function data() {
         return {
             title: 'Statistics',
-            showSuccess: false,
-            successMessage: '',
-            currentUser: null,
-            users: [],
-            games: [],
             authUser: null,
             singleplayergames: '',
             multiplayergames: '',
             totalgamesplayed: '',
-            topthree: ''
+            topthree: []
         };
     },
     methods: {
-        getUsers: function getUsers() {
+
+        getSingleplayerGames: function getSingleplayerGames() {
             var _this = this;
 
-            axios.get('api/users').then(function (response) {
-                _this.users = response.data.data;
-            });
-        },
-        getGames: function getGames() {
-            var _this2 = this;
-
-            axios.get('api/games').then(function (response) {
-                _this2.games = response.data.data;
-            });
-        },
-        getSingleplayerGames: function getSingleplayerGames() {
-            var _this3 = this;
-
             axios.get('api/singleplayergames').then(function (response) {
-                _this3.singleplayergames = response.data;
+                _this.singleplayergames = response.data;
             });
         },
         getMultiplayerGames: function getMultiplayerGames() {
-            var _this4 = this;
+            var _this2 = this;
 
             axios.get('api/multiplayergames').then(function (response) {
-                _this4.multiplayergames = response.data;
+                _this2.multiplayergames = response.data;
             });
         },
         getTotalPlayedGames: function getTotalPlayedGames() {
-            var _this5 = this;
+            var _this3 = this;
 
             axios.get('api/totalgamesplayed').then(function (response) {
-                _this5.totalgamesplayed = response.data;
+                _this3.totalgamesplayed = response.data;
             });
         },
-        /* getTopThree: function(){
-             axios.get('api/topthree').then(response => {
-                 
-                 console.log("entras aqui ze");
-                 this.topthree = response.data;
-                 console.log(response);
-             });
-         },*/
-        /*getGameWinner: function () {
-                axios.get('api/users/' + game.winner)
-                    .then(response => {
-                        this.games.winnerName = response.data.data;
-                        console.log(response.data.data);
-                    });
-        },*/
+        getTopThree: function getTopThree() {
+            var _this4 = this;
+
+            axios.get('api/topthree').then(function (response) {
+                _this4.topthree = response.data;
+            });
+        },
         getAuthUser: function getAuthUser() {
             var user = this.$auth.getAuthenticatedUser();
             console.log(user);
@@ -77068,15 +77037,13 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         }
     },
     beforeMount: function beforeMount() {
-        this.getAuthUser();
-    },
-    mounted: function mounted() {
-        this.getUsers();
-        this.getGames();
         this.getSingleplayerGames();
-        // this.getTopThree();
+        this.getTopThree();
         this.getMultiplayerGames();
         this.getTotalPlayedGames();
+    },
+    mounted: function mounted() {
+        this.getAuthUser();
     }
 });
 
@@ -77126,6 +77093,54 @@ var render = function() {
           ])
         ])
       ])
+    ]),
+    _vm._v(" "),
+    _c("div", { staticClass: "row" }, [
+      _c("div", { staticClass: "card mb-3" }, [
+        _vm._m(3),
+        _vm._v(" "),
+        _c("h2", [
+          _vm._v("1st"),
+          _c("p", [
+            _vm._v(
+              _vm._s(_vm.topthree[0].name) +
+                " AKA " +
+                _vm._s(_vm.topthree[0].nickname) +
+                " with " +
+                _vm._s(_vm.topthree[0].wins) +
+                " wins!"
+            )
+          ])
+        ]),
+        _vm._v(" "),
+        _c("h3", [
+          _vm._v("2nd"),
+          _c("p", [
+            _vm._v(
+              _vm._s(_vm.topthree[1].name) +
+                " AKA " +
+                _vm._s(_vm.topthree[1].nickname) +
+                " with " +
+                _vm._s(_vm.topthree[1].wins) +
+                " wins!"
+            )
+          ])
+        ]),
+        _vm._v(" "),
+        _c("h4", [
+          _vm._v("3rd"),
+          _c("p", [
+            _vm._v(
+              _vm._s(_vm.topthree[2].name) +
+                " AKA " +
+                _vm._s(_vm.topthree[2].nickname) +
+                " with " +
+                _vm._s(_vm.topthree[2].wins) +
+                " wins!"
+            )
+          ])
+        ])
+      ])
     ])
   ])
 }
@@ -77136,7 +77151,7 @@ var staticRenderFns = [
     var _c = _vm._self._c || _h
     return _c("div", { staticClass: "card mb-3" }, [
       _c("div", [
-        _c("h3", { staticClass: "text-center" }, [_vm._v("Your Statistics")]),
+        _c("h2", { staticClass: "text-center" }, [_vm._v("Your Statistics")]),
         _vm._v(" "),
         _c("br"),
         _vm._v(" "),
@@ -77184,7 +77199,7 @@ var staticRenderFns = [
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
     return _c("div", [
-      _c("h3", { staticClass: "text-center" }, [_vm._v("Games Statistics")]),
+      _c("h2", { staticClass: "text-center" }, [_vm._v("Games Statistics")]),
       _vm._v(" "),
       _c("br")
     ])
@@ -77201,6 +77216,14 @@ var staticRenderFns = [
         _vm._v(" "),
         _c("th", [_vm._v("All Games")])
       ])
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", [
+      _c("h1", { staticClass: "text-center" }, [_vm._v("Top Three")])
     ])
   }
 ]

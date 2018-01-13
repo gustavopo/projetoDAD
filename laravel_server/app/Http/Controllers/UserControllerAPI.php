@@ -81,12 +81,8 @@ class UserControllerAPI extends Controller
 
         $user->password = Hash::make($user->password);
 
-
-        Mail::to($user->email)->send(new Registration);
-
-
-
         $user->save();
+        Mail::to($user->email)->send(new Registration);
 
       /*  Mail::send('email.registration', $user, function($message) use ($user) {
             $message->to('projetodad123@gmail.com');

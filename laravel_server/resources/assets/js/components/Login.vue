@@ -90,8 +90,7 @@
                                 'Accept': 'application/json'
                             }
                         }).then(function (response) {
-
-                            //console.log(response.data);
+                            console.log(response.data);
                             self.$auth.setAuthenticatedUser(response.data);
 
                             });

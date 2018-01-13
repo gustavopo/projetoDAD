@@ -30,11 +30,12 @@ export default function (Vue) {
                 localStorage.removeItem('token');
                 localStorage.removeItem('expiration');
 
-                localStorage.removeItem('name', data.name);
-                localStorage.removeItem('email', data.email);
-                localStorage.removeItem('nickname', data.nickname);
-                localStorage.removeItem('admin', data.admin);
-                localStorage.removeItem('blocked', data.blocked);
+                localStorage.removeItem('id');
+                localStorage.removeItem('name');
+                localStorage.removeItem('email');
+                localStorage.removeItem('nickname');
+                localStorage.removeItem('admin');
+                localStorage.removeItem('blocked');
             },
 
 
@@ -54,6 +55,7 @@ export default function (Vue) {
 
             setAuthenticatedUser(data){
                 localStorage.setItem('authUser', data);
+                localStorage.setItem('id', data.id);
                 localStorage.setItem('name', data.name);
                 localStorage.setItem('email', data.email);
                 localStorage.setItem('nickname', data.nickname);
@@ -65,6 +67,12 @@ export default function (Vue) {
             {
                 return localStorage.getItem('authUser');
             },
+
+            getAuthenticatedUserId()
+            {
+                return localStorage.getItem('id');
+            },
+
             getAuthenticatedUserName()
             {
                 return localStorage.getItem('name');
@@ -77,6 +85,11 @@ export default function (Vue) {
             getAuthenticatedAdmin()
             {
                 return localStorage.getItem('admin');
+            },
+
+            getAuthenticatedNickname()
+            {
+                return localStorage.getItem('nickname');
             }
 
         }

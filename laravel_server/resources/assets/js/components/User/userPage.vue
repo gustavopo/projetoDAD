@@ -15,38 +15,17 @@
                     <img alt="User Pic" src="http://babyinfoforyou.com/wp-content/uploads/2014/10/avatar-300x300.png"
                          class="img-circle img-responsive"></div>
                 <div class=" col-md-9 col-lg-9 ">
-                   <!-- <table class="table table-user-information">
-                        <tbody>
-                        <tr>
-                            <td>Name:</td>
-                            <td>{{this.authUser.name}} </td>
-                        </tr>
-                        <tr>
-                            <td>Nickname:</td>
-                            <td>{{this.authUser.nickname}}</td>
-                        </tr>
-                        <tr>
-
-                            <td>Email</td>
-                            <td><a>{{this.authUser.email}}</a></td>
-                        <tr>
-                        </tr>
-                        <hr>
-                        <br>
-
-                        </tbody>
-                    </table>-->
                     <user-data :authUser="authUser">
 
                     </user-data>
 
-                <user-edit  v-if="editingUser" :authUser="authUser" :editingUser="editingUser" @edit-click="editUser(this.authUser)"
-                            @user-saved="savedUser" @user-canceled="cancelEdit">
+                    <user-edit v-if="editingUser" :authUser="authUser" :editingUser="editingUser"
+                               @edit-click="editUser(this.authUser)"
+                               @user-saved="savedUser" @user-canceled="cancelEdit">
 
-                </user-edit>
+                    </user-edit>
 
 
-                    
                 </div>
             </div>
         </div>
@@ -54,11 +33,12 @@
             <a data-original-title="Broadcast Message" data-toggle="tooltip" type="button"
                class="btn btn-sm btn-primary"><i class="glyphicon glyphicon-envelope"></i></a>
             <span class="pull-right">
-                   <a class="btn btn-xl btn-primary" style="margin-right: 40px" >Upload Image</a>
+                   <a class="btn btn-xl btn-primary" style="margin-right: 40px">Upload Image</a>
                             <a v-on:click.prevent="editUser(this.authUser)" data-original-title="Edit this user"
                                data-toggle="tooltip" type="button"
                                class="btn btn-sm btn-warning"><i class="glyphicon glyphicon-edit"></i></a>
-                            <a v-on:click.prevent="deleteUser(this.authUser)" data-original-title="Remove this user" data-toggle="tooltip" type="button"
+                            <a v-on:click.prevent="deleteUser(this.authUser)" data-original-title="Remove this user"
+                               data-toggle="tooltip" type="button"
                                class="btn btn-sm btn-danger"><i class="glyphicon glyphicon-remove"></i></a>
                         </span>
         </div>
@@ -74,14 +54,18 @@
     import UserEdit from './userEdit.vue';
 
     export default {
-       // props: ['user'],
+        // props: ['user'],
         data: function () {
             return {
                 title: 'Gestão do Utilizador',
                 showSuccess: false,
                 successMessage: '',
                 editingUser: false,
-                authUser: '',
+                authUser: {
+                    name: '',
+                    nickname: '',
+                    email: '',
+                },
             }
 
         },
@@ -90,10 +74,11 @@
         methods: {
             getAuthUser() {
 
-                let user = this.$auth.getAuthenticatedUser();
-                console.log(user);
-                this.authUser = user;
-                console.log(this.authUser.name);
+                this.authUser.name = this.$auth.getAuthenticatedUserName();
+                this.authUser.nickname = this.$auth.getAuthenticatedNickname();
+                this.authUser.email = this.$auth.getAuthenticatedEmail();
+
+
             },
 
             editUser: function (user) {
@@ -102,26 +87,26 @@
                 this.$emit('edit-click', user);
             },
 
-            cancelEdit: function(){
+            cancelEdit: function () {
                 this.editingUser = null;
                 this.showSuccess = false;
             },
 
             deleteUser: function (user) {
                 console.log(user.data);
-               /* axios.delete('api/users/'+user.id)
-                    .then(response => {
-                        this.$router.push('/statistics');
-                    });
-                    this.$auth.destroyToken();*/
+                /* axios.delete('api/users/'+user.id)
+                     .then(response => {
+                         this.$router.push('/statistics');
+                     });
+                     this.$auth.destroyToken();*/
             },
 
-            savedUser: function(){
+            savedUser: function () {
                 this.showSuccess = true;
                 this.successMessage = 'User Saved';
             },
-            cancelEdit: function(){
-                this.editingUser =false;
+            cancelEdit: function () {
+                this.editingUser = false;
                 this.showSuccess = false;
             },
 
@@ -134,11 +119,6 @@
         },
 
 
-        computed: {
-            authenthicatedUser() {
-                // return this.$auth.getAuthenticatedUser();
-            }
-        },
         components: {
             'user-data': UserData,
             'user-edit': UserEdit,
