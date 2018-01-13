@@ -59,15 +59,15 @@ class GameControllerAPI extends Controller
     }
 
     public function allYourGames ($id){
-        //return DB::table('games')->where(function ($query) use ($id){$query->where('winner','=',$id); })->count();
-        //return DB::table('games')->select(DB::raw('count(winner)'))->whereRaw('winner = '$id''))->get();
         return DB::table('games')->where('winner',$id)->count();
     } 
 
     public function allYourSingleWins ($id){
-        //return DB::table('games')->where(function ($query) use ($id){$query->where('winner','=',$id); })->count();
-        //return DB::table('games')->select(DB::raw('count(winner)'))->whereRaw('winner = '$id''))->get();
-        return DB::table('games')->where('winner',$id)->whereRaw('type like "singleplayer"')->count();
+        return DB::table('games')->where('winner',$id)->whereRaw('type like "singleplayer"and status like "terminated"')->count();
+    }
+
+    public function allYourMultiWins ($id){
+        return DB::table('games')->where('winner',$id)->whereRaw('type like "multiplayer" and status like "terminated"')->count();
     }
 
     public function store(Request $request)
