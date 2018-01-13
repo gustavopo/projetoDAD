@@ -13,8 +13,9 @@ class GameList {
     	return game;
     }
 
-    createGame(playerName, socketID, name, maxPlayers,format) {
+    createGame(playerName, socketID, name, maxPlayers, format) {
     	this.contadorID = this.contadorID+1;
+        console.log(socketID);
     	var game = new Game(this.contadorID, playerName, name, maxPlayers, format);
     	game.player1SocketID = socketID;
     	this.games.set(game.gameID, game);
@@ -27,6 +28,7 @@ class GameList {
     		return null;
     	}
     	game.join(playerName,gameID, game, io);
+        console.log(playerName);
     	game.player2SocketID = socketID;
     	return game;
     }

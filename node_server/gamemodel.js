@@ -32,7 +32,6 @@ class Game {
         this.timer = 30;
         this.setFormat(format);
 
-        console.log(this.columns);
 
 
         this.board = new Array(this.rows);
