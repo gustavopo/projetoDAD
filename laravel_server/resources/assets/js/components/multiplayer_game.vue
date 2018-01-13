@@ -15,6 +15,7 @@
             <createGame v-if="createGameShow" @game-saved="gameSaved"></createGame>
             <hr>
             <h4>Jogos Pendentes (<a @click.prevent="loadLobby">Refresh</a>)
+                {{numberGames}}
             </h4>
             <lobby :games="lobbyGames" @join-click="join"></lobby>
             <template v-for="game in activeGames">
@@ -41,6 +42,7 @@ export default {
             maxPlayers:[],
             authUser: null,
             name:'joao',
+            numberGames:''
         }
     },
     sockets: {
@@ -137,37 +139,96 @@ methods: {
             return;
         }
         else {
-            this.$socket.emit('create_game', {playerName: this.currentPlayer, name, maxPlayers, format});
+            if(maxPlayers == ""){
+                maxPlayers = 2;
+            }
+            let self = this;
+            this.getNumberGames();
+            this.registerGame(maxPlayers);
+            setTimeout(function () { self.$socket.emit('create_game', {gameID: self.numberGames, playerName: self.currentPlayer, name, maxPlayers, format});}, 2000);
+           
             this.createGameShow = false;
         }
     },
-    join(game) {
-        console.log('no join: '+  this.currentPlayer);
-        if (game.player1 == this.currentPlayer) {
-            alert('Cannot join a game because your name is the same as Player 1');
-            return;
+
+
+    getNumberGames(){
+        axios.get('api/gamescount')
+        .then(response => {
+            this.numberGames = response.data;
+        });
+
+    },
+
+    registerGame(maxPlayers) {
+        let newGame =
+        {
+            type:"multiplayer",
+            total_players:maxPlayers,
+            created_by:"1",
+            status:"pending"
         }
 
-        this.players += 1;
-        this.$socket.emit('join_game', {gameID: game.gameID, playerName: this.currentPlayer});
-    },
+        console.log(newGame);
 
-    play(game, r1, c1) {
-        this.$socket.emit('play', {gameID: game.gameID, r1: r1, c1: c1});
-    },
+        axios.post('/api/games', newGame)
+        .then((response) => {
+                        //console.log(response);
+                       // this.resetUser()
+                       //let successMessage = response.data.message;
+                       //alert('Sucess' + sucessMessage);
+                   })
+        .catch((error) => {
+                        //Show errors
+                        let data = error.response.data;
+                        console.log(data);
+                        for (let key in this.errors) {
+                            this.errors[key] = []
+                            let errorMessage = data[key];
+                            //   console.log('key  ', key);
+                            //   console.log('errorMessage: ', response.data.message);
 
-    close(game) {
-        this.$socket.emit('remove_game', {gameID: game.gameID});
-    }
+                            if (errorMessage) {
+                                this.error[key] = errorMessage;
+                            }
+                        }
+                    });
 
-},
-components: {
-    'lobby': Lobby,
-    'game': Game,
-    'createGame': CreateGame
-},
-mounted() {
-    this.loadLobby();
+                //this.sendRegisterEmail(newUser);
+
+                console.log("UTILIZADOR CRIADO COM SUCESSO");
+
+                //TODO: ONClick register -> enviar email de confirmação
+            },
+
+            join(game) {
+                console.log('game id: '+ game.gameID);
+                console.log('no join: '+  this.currentPlayer);
+                if (game.player1 == this.currentPlayer) {
+                    alert('Cannot join a game because your name is the same as Player 1');
+                    return;
+                }
+
+                this.players += 1;
+                this.$socket.emit('join_game', {gameID: game.gameID, playerName: this.currentPlayer});
+            },
+
+            play(game, r1, c1) {
+                this.$socket.emit('play', {gameID: game.gameID, r1: r1, c1: c1});
+            },
+
+            close(game) {
+                this.$socket.emit('remove_game', {gameID: game.gameID});
+            }
+
+        },
+        components: {
+            'lobby': Lobby,
+            'game': Game,
+            'createGame': CreateGame
+        },
+        mounted() {
+            this.loadLobby();
    // console.log("socketID " +this.socketId);
 
 
