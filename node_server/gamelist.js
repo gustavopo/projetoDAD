@@ -15,7 +15,6 @@ class GameList {
 
     createGame(playerName, socketID, name, maxPlayers, format) {
     	this.contadorID = this.contadorID+1;
-        console.log(socketID);
     	var game = new Game(this.contadorID, playerName, name, maxPlayers, format);
     	game.player1SocketID = socketID;
     	this.games.set(game.gameID, game);
@@ -29,7 +28,18 @@ class GameList {
     	}
     	game.join(playerName,gameID, game, io);
         console.log(playerName);
-    	game.player2SocketID = socketID;
+    	
+
+        switch(game.currentNumberPlayers){
+            case 2: game.player2SocketID = socketID;
+            break;
+            case 3: game.player3SocketID = socketID;
+            break;
+            case 4: game.player4SocketID = socketID;
+            break;
+        }
+
+        //console.log("socketID: "+socketID)
     	return game;
     }
 
@@ -52,7 +62,7 @@ class GameList {
     getConnectedGamesOf(socketID) {
     	let games = [];
     	for (var [key, value] of this.games) {
-    		if ((value.player1SocketID == socketID) || (value.player2SocketID == socketID)) {
+    		if ((value.player1SocketID == socketID) || (value.player2SocketID == socketID) || (value.player3SocketID == socketID) || (value.player4SocketID == socketID)) {
     			games.push(value);
     		}
 		}
@@ -63,7 +73,7 @@ class GameList {
     	let games = [];
     	for (var [key, value] of this.games) {
     		if ((!value.gameStarted) && (!value.gameEnded))  {
-    			if ((value.player1SocketID != socketID) && (value.player2SocketID != socketID)) {
+    			if ((value.player1SocketID != socketID) && (value.player2SocketID != socketID) && (value.player3SocketID != socketID) && (value.player4SocketID != socketID)) {
     				games.push(value);
     			}
     		}

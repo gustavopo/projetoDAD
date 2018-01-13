@@ -36,18 +36,17 @@ export default {
             currentPlayer: 'Player X',
             lobbyGames: [],
             activeGames: [],
-            socketId: "",
+            socketId: "ola mundo",
             createGameShow: false,
             maxPlayers:[],
-            authUser: '',
+            authUser: null,
+            name:'joao',
         }
     },
     sockets: {
         connect() {
             console.log('socket connected');
             this.socketId = this.$socket.id;
-            console.log('pai '+this.socketId);
-
         },
         discconnect() {
             console.log('socket disconnected');
@@ -91,7 +90,7 @@ export default {
             }
         },
         timer_changed(game){  
-           for (var lobbyGame of this.lobbyGames) {
+         for (var lobbyGame of this.lobbyGames) {
             if (game.gameID == lobbyGame.gameID) {
                 Object.assign(lobbyGame, game);
                 break;
@@ -112,9 +111,8 @@ methods: {
 
     getAuthUser() {
         let user = this.$auth.getAuthenticatedUser();
-        console.log(user);
         this.authUser = user;
-        console.log(this.authUser.name);
+        this.currentPlayer = this.authUser.name;
     },
 
     gameSaved(name, maxPlayers,format) {
@@ -170,11 +168,22 @@ components: {
 },
 mounted() {
     this.loadLobby();
+   // console.log("socketID " +this.socketId);
+
+
+
+   // let teste = this.$auth.getAuthenticatedUser().name;
+   // this.currentPlayer = teste;
 },
 beforeMount() {
-    this.getAuthUser();
-    console.log('kk' + this.authUser.name);
-    this.currentPlayer = this.authUser.name;
+    //this.getAuthUser();
+
+
+    //console.log("socketID " +this.socketId);
+
+    //this.$auth.getAuthenticatedUser();
+   // this.currentPlayer = "dasdas";
+
    // console.log(this.$auth.getAuthenticatedUser());
    // this.currentPlayer=this.authUser.name;
 },

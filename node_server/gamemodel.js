@@ -13,7 +13,7 @@ class Game {
         this.gameEnded = false;
         this.gameStarted = false;
         this.name=name;
-        this.maxPlayers=maxPlayers;
+        this.maxPlayers=maxPlayers || 2;
         this.playerTurn = 1;
         this.winner = 0;
         this.rows=4;
@@ -27,10 +27,11 @@ class Game {
         this.allTiles=new Array(40);
         this.imagesArray= new Array((this.rows*this.columns)/2);
         this.contadorParesMatched=0;
-        this.playerOne = new Player(0,1,player1Name);
-        this.playerTwo = new Player(0,1,'');
+        this.playersArray =  new Array(this.maxPlayers);
+        this.playersArray[0] = new Player(0,1,player1Name);
         this.timer = 30;
         this.setFormat(format);
+        this.currentNumberPlayers=1;
 
 
 
@@ -57,12 +58,23 @@ class Game {
         this.rows=6;
         this.columns=6;
         break;
-
+        default:
+        this.rows =4;
+        this.columns =4;
     }
 }
 
 join(player2Name, gameID,game,io){
-    this.playerTwo.name= player2Name;
+    if(this.currentNumberPlayers == this.maxPlayers){
+        return;
+    }
+    this.playersArray[this.currentNumberPlayers] = new Player(0,this.currentNumberPlayers+1,player2Name);
+    this.currentNumberPlayers++;
+    if(this.currentNumberPlayers!=this.maxPlayers){
+        return;
+    }
+
+
     this.gameStarted = true;
 
     this.decrementTime(io, gameID, game);
@@ -80,10 +92,17 @@ checkGameEnded(){
 }
 
 checkWinner(){
-    if(this.playerOne.pairsCombined > this.playerTwo.pairsCombined){
-        this.winner = 1;
-    }else if(this.playerTwo.pairsCombined > this.playerOne.pairsCombined ) {
-        this.winner = 2;
+
+    let playerWinner =  this.playersArray[0];
+    this.winner = playerWinner.playerNumber;
+
+    for(let i=1; i<this.playersArray.length; i++){
+        if(this.playersArray[i].pairsCombined>playerWinner.pairsCombined){
+
+            playerWinner = this.playersArray[i];
+            this.winner =  this.playersArray[i].playerNumber;
+
+        }
     }
 }
 
@@ -136,6 +155,7 @@ checkWinner(){
         }
 
         if (!this.checkGameEnded()) {
+            this.checkWinner();
             if(this.picksTurn==2 && !this.matched){
               this.changeTurn(io,gameID,game);
           }
@@ -149,7 +169,10 @@ checkWinner(){
 }
 
 changeTurn(io, gameID, game){
-    this.playerTurn = this.playerTurn == 1 ? 2 : 1;
+
+    this.playerTurn = this.playerTurn == this.maxPlayers ? 1 : this.playerTurn+1;
+
+
     this.picksTurn = 0;
 
     clearInterval(intervalJoin);
@@ -224,14 +247,7 @@ chooseCard(posicaoLinha,posicaoColuna){
                    this.picks = 0;
 
                    this.contadorParesMatched+=2;
-                   switch(this.playerTurn){
-                    case 1: this.playerOne.pairsCombined++;
-                    console.log('player 1 pares: '+this.playerOne.pairsCombined );
-                    break;
-                    case 2: this.playerTwo.pairsCombined++;
-                    console.log('player 2 pares: '+this.playerTwo.pairsCombined );
-                    break;
-                }
+                   this.playersArray[this.playerTurn-1].pairsCombined++;
 
 
             }

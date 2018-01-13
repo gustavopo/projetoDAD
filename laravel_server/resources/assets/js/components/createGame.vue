@@ -12,7 +12,7 @@
             <label for="inputName">Numero de jogadores:</label>
             <select v-model="maxPlayers">
                 <!--<option disabled value="">jogadores</option>-->
-                <option disabled value="">1</option>
+                <option disabled value="">Numero de Jogadores</option>
                 <option value="2">2</option>
                 <option value="3">3</option>
                 <option value="4">4</option>
