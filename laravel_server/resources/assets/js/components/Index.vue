@@ -18,7 +18,7 @@
                 -
                 <router-link to="/adminPasswordEdit"> AdminPasswordChange</router-link>
                 -
-                <button @click="logoutClick" v-if="isAuth" to="/logout">Logout</button>
+                <button @click="logoutClick"  v-if="isAuth" to="/logout">Logout</button>
                 -
                 <router-link v-if="!isAuth" to="/login"> Login</router-link>
                 -
@@ -78,6 +78,7 @@
                         this.$auth.destroyToken();
                       console.log("Logout OK!");
                         //Redirecionar user após este ficar autenticado
+                        location.reload();
                         this.$router.push("/statistics");
             }
         }

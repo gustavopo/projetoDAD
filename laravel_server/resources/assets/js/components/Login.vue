@@ -96,6 +96,7 @@
                             });
                         //Route::get('users/{id}', 'UserControllerAPI@getUser');
 
+                        location.reload();
                         this.$router.push("/multimemorygame");
 
 
