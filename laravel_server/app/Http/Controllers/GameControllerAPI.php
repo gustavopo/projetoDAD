@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Http\Resources\Game as GameResource;
 use App\Game;
 use App\User;
+use DB;
 
 class GameControllerAPI extends Controller
 {
@@ -43,18 +44,14 @@ class GameControllerAPI extends Controller
     {
         return Game::whereRaw('status like "terminated"')->count();
     }
-/*
-    public function topthree()
+
+    public function topThreePlayers() 
     {
-        //return Game::selectRaw('u.name from games g join users u on u.id = g.winner group by  u.name')->get(3);
-         return  Game::join('users', function ($join) {
-            $join->on('games.winner', '=', 'users.id');
-        })->groupBy('users.id')->get(3);
+        $topThreePlayers = DB::table('users')->join('games','users.id','=','games.winner')->select('users.name','users.nickname', DB::raw('count(games.winner) as wins'))->groupBy('users.name','users.nickname')->orderBy('wins','desc')->limit(3)->get();
+        return $topThreePlayers;
 
-        //return Game::select(Game::raw('select u.name from games g join users u on u.id = g.winner group by u.name order by count(*) desc limit 3;'))->get(3);
+}
 
-    }
-*/
     public function store(Request $request)
     {
         $request->validate([
