@@ -77,7 +77,8 @@ Route::get('singleplayergames', 'GameControllerAPI@singleplayergames');
 Route::get('games/lobby', 'GameControllerAPI@lobby');
 Route::get('games/status/{status}', 'GameControllerAPI@gamesStatus');
 Route::get('games/{id}', 'GameControllerAPI@getGame');
+Route::get('gamescount', 'GameControllerAPI@numberOfGames');
 Route::post('games', 'GameControllerAPI@store');
 Route::patch('games/{id}/join-start', 'GameControllerAPI@joinAndStart');
-Route::patch('games/{id}/endgame/{winner}', 'GameControllerAPI@endgame');
+Route::put('games/{id}/endgame/{winner}', 'GameControllerAPI@endgame');
 

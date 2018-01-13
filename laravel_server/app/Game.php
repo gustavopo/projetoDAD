@@ -12,8 +12,11 @@ class Game extends Model
      * @var array
      */
     protected $fillable = [
+        'created_by',
         'status',
-        'winnerName'    ];
+        'winnerName',
+        'total_players',
+        'type'    ];
 
     public function getWinnerName()
     {

@@ -3,6 +3,8 @@
 
 var Tile = require('./Tile.js');
 var Player = require('./Player.js');
+const axios = require("axios");
+var url = "http://projetodad.dad";
 var intervalT;
 var intervalJoin;
 
@@ -45,7 +47,7 @@ class Game {
     }
 
     setFormat(format){
-     switch(format){
+       switch(format){
         case '4x4':
         this.rows =4;
         this.columns =4;
@@ -90,6 +92,7 @@ checkGameEnded(){
 
 
 }
+
 
 checkWinner(){
 
@@ -250,9 +253,9 @@ chooseCard(posicaoLinha,posicaoColuna){
                    this.playersArray[this.playerTurn-1].pairsCombined++;
 
 
-            }
+               }
 
-            else {
+               else {
                     /*turn over first card to show back
                     turn over second card to show back*/
                     let self = this;
@@ -289,13 +292,15 @@ chooseCard(posicaoLinha,posicaoColuna){
                     for (let i = 0; i < this.rows; ++i) {
                         for (let j = 0; j < this.columns / 2; ++j) {
                             this.randomImage = this.allTiles[Math.floor(Math.random() * this.allTiles.length)];
+
                             this.checkNonRepeated();
 
                             this.board[i][j] = new Tile(this.randomImage, false,`${i}${j}`, false);
                             pairingArray[i][j] = this.board[i][j];
 
                             //meter imagens no array de imagens
-                            this.imagesArray[contadorImagens] = this.board[i][j].image;
+                            this.imagesArray[contadorImagens] = this.randomImage;
+                            console.log('imagem: ' + this.imagesArray[contadorImagens]);
                             contadorImagens++;
                         }
                     }
@@ -352,17 +357,15 @@ chooseCard(posicaoLinha,posicaoColuna){
 
         }
 
-        checkNonRepeated(){
-            while(this.checkIncludes(this.randomImage)){
+        checkNonRepeated(randomImageMethod){
+
+            var includes = require('array-includes');
+
+            while(includes(this.imagesArray, this.randomImage)){
                 this.randomImage = this.allTiles[Math.floor(Math.random() * this.allTiles.length)];
             }
         }
 
-        checkIncludes(randomImageMethod){
-            for(let i=0; i<this.imagesArray.length; i++){
-                return this.imagesArray[i]===randomImageMethod;
-            }
-        }        
 
     }
 

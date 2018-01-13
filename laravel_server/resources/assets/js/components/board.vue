@@ -44,6 +44,7 @@ export default {
             randomImage:null,
             contadorParesMatched:0,
             win:false,
+            gameStarted:0,
 
                 /*
                 numAttempts = 0  //counts the number of attempts made
@@ -56,7 +57,53 @@ export default {
 
         methods: {
 
+        registerGame() {
+        let newGame =
+        {
+            type:"singleplayer",
+            total_players:"1",
+            created_by:"1",
+            status:"active"
+        }
+
+        console.log(newGame);
+
+        axios.post('/api/games', newGame)
+        .then((response) => {
+                        //console.log(response);
+                       // this.resetUser()
+                       //let successMessage = response.data.message;
+                       //alert('Sucess' + sucessMessage);
+                   })
+        .catch((error) => {
+                        //Show errors
+                        let data = error.response.data;
+                        console.log(data);
+                        for (let key in this.errors) {
+                            this.errors[key] = []
+                            let errorMessage = data[key];
+                            //   console.log('key  ', key);
+                            //   console.log('errorMessage: ', response.data.message);
+
+                            if (errorMessage) {
+                                this.error[key] = errorMessage;
+                            }
+                        }
+                    });
+
+                //this.sendRegisterEmail(newUser);
+
+                console.log("UTILIZADOR CRIADO COM SUCESSO");
+
+                //TODO: ONClick register -> enviar email de confirmação
+            },
+
             clickTile: function (posicaoLinha, posicaoColuna) {
+                this.gameStarted++;
+                if(this.gameStarted==1){
+                    this.registerGame();
+                }
+
                 if (this.board[posicaoLinha][posicaoColuna].image==="empty") {
                     return;
                 }
