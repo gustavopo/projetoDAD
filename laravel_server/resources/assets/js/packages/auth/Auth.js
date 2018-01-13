@@ -41,6 +41,11 @@ export default function (Vue) {
                 }
             },
 
+            isAuthenticatedAndAdmin: function () {
+                let isAdmin = this.getAuthenticatedUser();
+                console.log(isAdmin.body);
+            },
+
             setAuthenticatedUser(data){
                 authenticatedUser=data
             },

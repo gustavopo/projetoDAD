@@ -14353,7 +14353,7 @@ var imagesList = Vue.component('imagesList', __webpack_require__(85));
 var uploadImage = Vue.component('uploadImage', __webpack_require__(292));
 var passwordEdit = Vue.component('passwordEdit', __webpack_require__(51));
 
-var routes = [{ path: '/', redirect: '/statistics', component: statistics }, { path: '/users', component: user }, { path: '/userPage', component: userPage }, { path: '/multimemorygame', component: multiplayerGame }, { path: '/singlememorygame', component: singleplayerGame, meta: { forAuth: true } }, { path: '/multimemorygame', component: multiplayerGame, meta: { forAuth: true } }, { path: '/statistics', component: statistics, meta: { forAuth: true } }, { path: '/login', component: login, meta: { forVisitors: true } }, { path: '/register', component: register, meta: { forVisitors: true } }, { path: '/imagesManagement', component: imagesManagement, meta: { forAuth: true } }, { path: '/uploadImage', component: uploadImage, meta: { forAuth: true } }, { path: '/passwordEdit', component: passwordEdit, meta: { forAuth: true } }];
+var routes = [{ path: '/', redirect: '/statistics', component: statistics }, { path: '/users', component: user, meta: { forAuth: true } }, { path: '/userPage', component: userPage }, { path: '/singlememorygame', component: singleplayerGame, meta: { forAuth: true } }, { path: '/multimemorygame', component: multiplayerGame, meta: { forAuth: true } }, { path: '/statistics', component: statistics }, { path: '/login', component: login }, { path: '/register', component: register }, { path: '/imagesManagement', component: imagesManagement, meta: { forAuth: true } }, { path: '/uploadImage', component: uploadImage, meta: { forAuth: true } }, { path: '/passwordEdit', component: passwordEdit, meta: { forAuth: true } }];
 
 var router = new __WEBPACK_IMPORTED_MODULE_0_vue_router__["a" /* default */]({
     routes: routes
@@ -14365,21 +14365,13 @@ router.beforeEach(function (to, from, next) {
     //to => where we want to go
     //from => current route
     if (to.matched.some(function (record) {
-        return record.meta.forVisitors;
-    })) {
-        if (Vue.auth.isAuthenticated()) {
-            next({
-                path: '/statistics'
-            });
-        } else next();
-    } else if (to.matched.some(function (record) {
         return record.meta.forAuth;
     })) {
         if (!Vue.auth.isAuthenticated()) {
             next({
                 path: '/login'
             });
-        } else next();
+        } else next(Vue.auth.isAuthenticatedAndAdmin());
     } else next();
     //$route.matched
 });
@@ -60368,6 +60360,11 @@ if (typeof window !== 'undefined' && window.Vue) {
             }
         },
 
+        isAuthenticatedAndAdmin: function isAuthenticatedAndAdmin() {
+            var isAdmin = this.getAuthenticatedUser();
+            console.log(isAdmin.body);
+        },
+
         setAuthenticatedUser: function setAuthenticatedUser(data) {
             authenticatedUser = data;
         },
@@ -60518,7 +60515,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             this.$auth.destroyToken();
             console.log("Logout OK!");
             //Redirecionar user após este ficar autenticado
-            this.$router.push("/index");
+            this.$router.push("/statistics");
         }
     }
 });
@@ -76966,10 +76963,11 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             currentUser: null,
             users: [],
             games: [],
-            authUser: '',
+            authUser: null,
             singleplayergames: '',
             multiplayergames: '',
-            totalgamesplayed: ''
+            totalgamesplayed: '',
+            topthree: ''
         };
     },
     methods: {
@@ -76999,7 +76997,6 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
             axios.get('api/multiplayergames').then(function (response) {
                 _this4.multiplayergames = response.data;
-                //console.log("resposta multi" + response);
             });
         },
         getTotalPlayedGames: function getTotalPlayedGames() {
@@ -77009,6 +77006,14 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                 _this5.totalgamesplayed = response.data;
             });
         },
+        /* getTopThree: function(){
+             axios.get('api/topthree').then(response => {
+                 
+                 console.log("entras aqui ze");
+                 this.topthree = response.data;
+                 console.log(response);
+             });
+         },*/
         /*getGameWinner: function () {
                 axios.get('api/users/' + game.winner)
                     .then(response => {
@@ -77029,6 +77034,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         this.getUsers();
         this.getGames();
         this.getSingleplayerGames();
+        // this.getTopThree();
         this.getMultiplayerGames();
         this.getTotalPlayedGames();
     }
@@ -77043,7 +77049,9 @@ var render = function() {
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
   return _c("div", { staticStyle: { "text-align": "center" } }, [
-    _vm._m(0),
+    _vm.authUser != null
+      ? _c("div", { staticClass: "row" }, [_vm._m(0)])
+      : _vm._e(),
     _vm._v(" "),
     _c("div", { staticClass: "row" }, [
       _c("div", { staticClass: "card mb-3" }, [
@@ -77078,9 +77086,7 @@ var render = function() {
           ])
         ])
       ])
-    ]),
-    _vm._v(" "),
-    _vm._m(3)
+    ])
   ])
 }
 var staticRenderFns = [
@@ -77088,13 +77094,11 @@ var staticRenderFns = [
     var _vm = this
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "row" }, [
-      _c("div", { staticClass: "card mb-3" }, [
-        _c("div", [
-          _c("h3", { staticClass: "text-center" }, [_vm._v("Your Statistics")]),
-          _vm._v(" "),
-          _c("br")
-        ]),
+    return _c("div", { staticClass: "card mb-3" }, [
+      _c("div", [
+        _c("h3", { staticClass: "text-center" }, [_vm._v("Your Statistics")]),
+        _vm._v(" "),
+        _c("br"),
         _vm._v(" "),
         _c("div", { staticClass: "card-body" }, [
           _c("div", { staticClass: "table-responsive" }, [
@@ -77107,11 +77111,11 @@ var staticRenderFns = [
               [
                 _c("thead", [
                   _c("tr", [
-                    _c("th", [_vm._v("Your Single Player")]),
+                    _c("th", [_vm._v("Your Single Player Games")]),
                     _vm._v(" "),
-                    _c("th", [_vm._v("Your Multi Player")]),
+                    _c("th", [_vm._v("Your Multi Player Games")]),
                     _vm._v(" "),
-                    _c("th", [_vm._v("All Your Games")]),
+                    _c("th", [_vm._v("All Your  Games")]),
                     _vm._v(" "),
                     _c("th", [_vm._v("Your Wins")])
                   ])
@@ -77151,31 +77155,11 @@ var staticRenderFns = [
     var _c = _vm._self._c || _h
     return _c("thead", [
       _c("tr", [
-        _c("th", [_vm._v("Single Player")]),
+        _c("th", [_vm._v("Single Player Games")]),
         _vm._v(" "),
-        _c("th", [_vm._v("Multi Player")]),
+        _c("th", [_vm._v("Multi Player Games")]),
         _vm._v(" "),
         _c("th", [_vm._v("All Games")])
-      ])
-    ])
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "row" }, [
-      _c("div", { staticClass: "card mb-3" }, [
-        _c("div", [
-          _c("h3", { staticClass: "text-center" }, [_vm._v("Top 3")])
-        ]),
-        _vm._v(" "),
-        _c("div", { staticClass: "card-body" }, [
-          _c("h1", [_c("p", [_vm._v("Jauqim")])]),
-          _vm._v(" "),
-          _c("h2", [_c("p", [_vm._v("JUCA")])]),
-          _vm._v(" "),
-          _c("h3", [_c("p", [_vm._v("FIGAYREDO")])])
-        ])
       ])
     ])
   }

@@ -1,20 +1,20 @@
 <template>
     <div style="text-align: center">
-        <div class="row">
-            <div class="card mb-3">
+        <div v-if="authUser != null"  class="row">
+            <div  class="card mb-3">
 
                 <div>
                     <h3 class="text-center">Your Statistics</h3>
                     <br>
-                </div>
+               
                 <div class="card-body">
                     <div class="table-responsive">
                         <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
                             <thead>
                             <tr>
-                                <th>Your Single Player</th>
-                                <th>Your Multi Player</th>
-                                <th>All Your Games</th>
+                                <th>Your Single Player Games</th>
+                                <th>Your Multi Player Games</th>
+                                <th>All Your  Games</th>
                                 <th>Your Wins</th>
                             </tr>
                             </thead>
@@ -33,6 +33,7 @@
                 </div>
             </div>
         </div>
+         </div>
         <div class="row">
             <div class="card mb-3">
 
@@ -45,8 +46,8 @@
                         <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
                             <thead>
                             <tr>
-                                <th>Single Player</th>
-                                <th>Multi Player</th>
+                                <th>Single Player Games</th>
+                                <th>Multi Player Games</th>
                                 <th>All Games</th>
                             </tr>
                             </thead>
@@ -64,20 +65,19 @@
                 </div>
             </div>
         </div>
-        <div class="row">
+
+       <!-- <div class="row">
             <div class="card mb-3">
 
                 <div>
-                    <h3 class="text-center">Top 3</h3>
+                    <h1 class="text-center">Top 3</h1>
                 </div>
                 <div class="card-body">
-                        <h1><p>Jauqim</p></h1>
-                        <h2><p>JUCA</p></h2>
-                        <h3><p>FIGAYREDO</p></h3>
+                      <h2>{{ topthree }} </h2>
                 </div>
             </div>
         </div>
-    </div>
+    </div>-->
 
 
 
@@ -112,10 +112,11 @@
                 currentUser: null,
                 users: [],
                 games: [],
-                authUser: '',
+                authUser: null,
                 singleplayergames: '',
                 multiplayergames: '',
-                totalgamesplayed: ''
+                totalgamesplayed: '',
+                topthree: ''
             }
         },
         methods: {
@@ -139,7 +140,6 @@
         getMultiplayerGames: function(){
             axios.get('api/multiplayergames').then(response => {
                 this.multiplayergames = response.data;
-                //console.log("resposta multi" + response);
             });
         },
         getTotalPlayedGames: function(){
@@ -147,6 +147,14 @@
                 this.totalgamesplayed = response.data;
             });
         },
+       /* getTopThree: function(){
+            axios.get('api/topthree').then(response => {
+                
+                console.log("entras aqui ze");
+                this.topthree = response.data;
+                console.log(response);
+            });
+        },*/
         /*getGameWinner: function () {
                 axios.get('api/users/' + game.winner)
                     .then(response => {
@@ -168,6 +176,7 @@
             this.getUsers();
             this.getGames();
             this.getSingleplayerGames();
+           // this.getTopThree();
             this.getMultiplayerGames();
             this.getTotalPlayedGames();
         },
