@@ -29,6 +29,6 @@ class Registration extends Mailable
     public function build()
     {
 
-        return $this->markdown('email.registration')->with('content',$this->content);
+        return $this->view('email.registration');
     }
 }

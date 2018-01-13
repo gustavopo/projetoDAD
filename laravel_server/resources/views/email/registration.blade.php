@@ -5,7 +5,7 @@
     <title></title>
 </head>
 <body>
-Email To verify your account
+<h1>Email To verify your account</h1>
 
 </body>
 

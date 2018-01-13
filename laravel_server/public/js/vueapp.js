@@ -73826,13 +73826,7 @@ var render = function() {
           "a",
           {
             staticClass: "btn btn-xl btn-primary",
-            staticStyle: { "margin-right": "40px" },
-            on: {
-              click: function($event) {
-                $event.preventDefault()
-                _vm.redirectUploadProfilePhoto($event)
-              }
-            }
+            staticStyle: { "margin-right": "40px" }
           },
           [_vm._v("Upload Image")]
         ),
@@ -74366,9 +74360,25 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         },
 
         sentVerifyEmail: function sentVerifyEmail() {
+
+            /* axios.get('api/verifyEmail')
+                 .then((response) => {
+                     console.log(response);
+                     this.resetUser()
+                  })
+                 .catch((error) => {
+                     //Show errors
+                     let data = error.response.data;
+                     console.log(data);
+                 });
+              alert("Verify Email to Activate  Account");*/
+        },
+
+        sendRegisterEmail: function sendRegisterEmail(newUser) {
             var _this = this;
 
-            axios.get('api/verifyEmail').then(function (response) {
+            var user = newUser;
+            axios.get('api/sendRegisterEmail', user).then(function (response) {
                 console.log(response);
                 _this.resetUser();
             }).catch(function (error) {
@@ -74376,9 +74386,8 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                 var data = error.response.data;
                 console.log(data);
             });
-
-            alert("Verify Email to Activate  Account");
         },
+
         registerUser: function registerUser() {
             var _this2 = this;
 
@@ -74412,7 +74421,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                 }
             });
 
-            this.sentVerifyEmail();
+            //this.sendRegisterEmail(newUser);
 
             console.log("UTILIZADOR CRIADO COM SUCESSO");
 

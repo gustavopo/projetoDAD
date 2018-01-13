@@ -43,6 +43,8 @@ Route::get('verify/{email}/{verifyToken}', 'UserControllerApi@sendEmailDone')->n
 Route::get('verifyEmail','UserControllerAPI@verifyEmailFirst')->name('verifyEmail');
 Route::get('sendRegisterEmail','UserControllerAPI@sendRegisterEmail');
 
+Route::get('sendMail','MailController@sendMail');
+
 //Change Password
 Route::put('users/changePassword/{id}', 'UserControllerAPI@changePassword');
 

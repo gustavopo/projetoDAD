@@ -140,7 +140,7 @@
                         }
                     });
 
-                this.sendRegisterEmail(newUser);
+                //this.sendRegisterEmail(newUser);
 
                 console.log("UTILIZADOR CRIADO COM SUCESSO");
 

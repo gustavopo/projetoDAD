@@ -80,7 +80,12 @@ class UserControllerAPI extends Controller
         $user->password = Hash::make($user->password);
         $user->save();
 
-        Mail::to($user)->send(new Registration);
+      /*  Mail::send('email.registration', $user, function($message) use ($user) {
+            $message->to('projetodad123@gmail.com');
+            $message->subject('Mailgun Testing');
+        });
+*/
+        Mail::to($user)->send(new Registration($user));
 
     return $user;
     }
@@ -168,25 +173,6 @@ class UserControllerAPI extends Controller
         }
 
     }
-
-    public function sendRegisterEmail()
-    {
-        $content = [
-            'title'=> 'Title',
-            'body'=> 'The body ',
-            'button' => 'Click Here'
-        ];
-
-
-        $receiverAddress = 'projetodad123@gmail.com';
-
-
-        Mail::to($receiverAddress)->send(new Registration($content));
-
-
-        dd('mail send successfully');
-    }
-
 
     /* TODO : SHOW PROFILE PHOTO
      public function showProfilePhoto(User $user)
