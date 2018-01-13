@@ -7,7 +7,7 @@ use Illuminate\Mail\Mailable;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Contracts\Queue\ShouldQueue;
 
-class Registration extends Mailable
+class MailBlockUser extends Mailable
 {
     use Queueable, SerializesModels;
 
@@ -18,7 +18,7 @@ class Registration extends Mailable
      */
     public function __construct()
     {
-        //$this->content = $content;
+        //
     }
 
     /**
@@ -28,7 +28,6 @@ class Registration extends Mailable
      */
     public function build()
     {
-
-        return $this->view('email.registration');
+        return $this->view('email.block');
     }
 }

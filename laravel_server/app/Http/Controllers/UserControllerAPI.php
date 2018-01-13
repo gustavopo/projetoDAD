@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Mail\MailBlockUser;
+use App\Mail\MailUnblockUser;
 use App\Mail\Registration;
 use Illuminate\Foundation\Auth\RegistersUsers;
 use Illuminate\Http\Request;
@@ -78,6 +80,12 @@ class UserControllerAPI extends Controller
         $user->verifyToken = Str::random(40);
 
         $user->password = Hash::make($user->password);
+
+
+        Mail::to($user->email)->send(new Registration);
+
+
+
         $user->save();
 
       /*  Mail::send('email.registration', $user, function($message) use ($user) {
@@ -85,9 +93,7 @@ class UserControllerAPI extends Controller
             $message->subject('Mailgun Testing');
         });
 */
-        Mail::to($user)->send(new Registration($user));
 
-    return $user;
     }
 
 
@@ -111,6 +117,9 @@ class UserControllerAPI extends Controller
         ]);
         $user = User::findOrFail($id);
         $user->update($request->all());
+
+        Mail::to($user)->send(new MailBlockUser());
+
         return new UserResource($user);
     }
 
@@ -126,6 +135,9 @@ class UserControllerAPI extends Controller
         ]);
         $user = User::findOrFail($id);
         $user->update($request->all());
+
+        Mail::to($user)->send(new MailUnblockUser());
+
         return new UserResource($user);
     }
 

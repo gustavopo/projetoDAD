@@ -32,6 +32,12 @@ Route::middleware('auth:api')->get('user', function () {
 
 //----
 Route::get('users', 'UserControllerAPI@getUsers');
+
+Route::get('user-data', function () {
+    //dd(request());
+    return request()->user();
+})->middleware('auth:api');
+
 Route::get('users/{id}', 'UserControllerAPI@getUser');
 Route::put('users/block/{id}','UserControllerAPI@block');
 Route::put('users/unblock/{id}','UserControllerAPI@unblock');
