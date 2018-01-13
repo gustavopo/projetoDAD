@@ -91,6 +91,8 @@
 
         methods: {
             saveUser: function () {
+
+                console.log(this.authUser.name);
                 axios.put('api/users/' + this.authUser.id, this.authUser)
                     .then(response => {
                         // Copy object properties from response.data.data to this.user

@@ -29,5 +29,6 @@ class MailUnblockUser extends Mailable
     public function build()
     {
         return $this->view('email.unblock');
+
     }
 }
