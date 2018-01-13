@@ -7,10 +7,8 @@ use Illuminate\Http\Request;
 define('YOUR_SERVER_URL', 'http://projetodad.dad');
 // Check "oauth_clients" table for next 2 values:
 define('CLIENT_ID', '2');
-define('CLIENT_SECRET','6IVql9kz1i1zlG6ShqRVxP57VHjU8aO73tQ8OSaf');
+define('CLIENT_SECRET','eZqrxZXlObSsI4H2hYL9hmzuYBoYYhpgsZBPrAlA');
 
-define('CLIENT_ID', '4');
-define('CLIENT_SECRET','c6XspeYb9HICv04Pfaisy1kQKlvLqZ23Yc25rxhd');
 
 class LoginControllerAPI extends Controller
 {
@@ -28,9 +26,11 @@ class LoginControllerAPI extends Controller
 			],
 			'exceptions' => false,
 		]);
-		$errorCode= $response->getStatusCode();
 
-        if ($errorCode=='200') {
+
+
+		$errorCode= $response->getStatusCode();
+        if ($errorCode === 200) {
 			return json_decode((string) $response->getBody(), true);
 		} else {
 			return response()->json(

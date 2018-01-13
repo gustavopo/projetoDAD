@@ -58,7 +58,7 @@
                             <a v-on:click.prevent="editUser(this.authUser)" data-original-title="Edit this user"
                                data-toggle="tooltip" type="button"
                                class="btn btn-sm btn-warning"><i class="glyphicon glyphicon-edit"></i></a>
-                            <a data-original-title="Remove this user" data-toggle="tooltip" type="button"
+                            <a v-on:click.prevent="deleteUser(this.authUser)" data-original-title="Remove this user" data-toggle="tooltip" type="button"
                                class="btn btn-sm btn-danger"><i class="glyphicon glyphicon-remove"></i></a>
                         </span>
         </div>
@@ -107,6 +107,14 @@
                 this.showSuccess = false;
             },
 
+            deleteUser: function (user) {
+                console.log(user.data);
+               /* axios.delete('api/users/'+user.id)
+                    .then(response => {
+                        this.$router.push('/statistics');
+                    });
+                    this.$auth.destroyToken();*/
+            },
 
             savedUser: function(){
                 this.showSuccess = true;

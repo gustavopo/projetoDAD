@@ -2,10 +2,10 @@
     <div style="text-align: center">
         <div v-if="authUser != null"  class="row">
             <div  class="card mb-3">
-
                 <div>
-                    <h3 class="text-center">Your Statistics</h3>
+                    <h2 class="text-center">Your Statistics</h2>
                     <br>
+                   
                
                 <div class="card-body">
                     <div class="table-responsive">
@@ -25,7 +25,6 @@
                                 <td>  </td>
                                 <td>  </td> 
                                 <td>  </td> 
-                               
                             </tr>
                             </tbody>
                         </table>
@@ -38,7 +37,7 @@
             <div class="card mb-3">
 
                 <div>
-                    <h3 class="text-center">Games Statistics</h3>
+                    <h2 class="text-center">Games Statistics</h2>
                     <br>
                 </div>
                 <div class="card-body">
@@ -66,18 +65,20 @@
             </div>
         </div>
 
-       <!-- <div class="row">
+         <div class="row">
             <div class="card mb-3">
 
                 <div>
-                    <h1 class="text-center">Top 3</h1>
+                    <h1 class="text-center" >Top Three</h1>
+                </div class="text-center">
+                   
+                        <h2>1st<p>{{ topthree[0].name }} AKA {{topthree[0].nickname}} with {{ topthree[0].wins }} wins!</p></h2>
+                        <h3>2nd<p>{{ topthree[1].name }} AKA {{topthree[1].nickname}} with {{ topthree[1].wins }} wins!</p></h3>
+                        <h4>3rd<p>{{ topthree[2].name }} AKA {{topthree[2].nickname}} with {{ topthree[2].wins }} wins!</p></h4> 
+                
                 </div>
-                <div class="card-body">
-                      <h2>{{ topthree }} </h2>
-                </div>
-            </div>
+            
         </div>
-    </div>-->
 
 
 
@@ -107,31 +108,15 @@
         data: function(){
             return {
                 title: 'Statistics',
-                showSuccess: false,
-                successMessage: '',
-                currentUser: null,
-                users: [],
-                games: [],
                 authUser: null,
                 singleplayergames: '',
                 multiplayergames: '',
                 totalgamesplayed: '',
-                topthree: ''
+                topthree: [],
             }
         },
         methods: {
-        getUsers: function () {
-                axios.get('api/users')
-                    .then(response => {
-                        this.users = response.data.data;
-                    });
-        },
-        getGames: function () {
-                axios.get('api/games')
-                    .then(response => {
-                        this.games = response.data.data;
-                    });
-        },
+        
         getSingleplayerGames: function(){
             axios.get('api/singleplayergames').then(response => {
                 this.singleplayergames = response.data;
@@ -147,38 +132,27 @@
                 this.totalgamesplayed = response.data;
             });
         },
-       /* getTopThree: function(){
+        getTopThree: function(){
             axios.get('api/topthree').then(response => {
-                
-                console.log("entras aqui ze");
-                this.topthree = response.data;
-                console.log(response);
+            this.topthree = response.data;
+
             });
-        },*/
-        /*getGameWinner: function () {
-                axios.get('api/users/' + game.winner)
-                    .then(response => {
-                        this.games.winnerName = response.data.data;
-                        console.log(response.data.data);
-                    });
-        },*/
+        },
         getAuthUser() {
                 let user = this.$auth.getAuthenticatedUser();
                 console.log(user);
                 this.authUser = user;
-            },
+        },
     },
         beforeMount() {
-            this.getAuthUser();          
+            this.getSingleplayerGames();
+            this.getTopThree();
+            this.getMultiplayerGames();
+            this.getTotalPlayedGames();       
         },
 
         mounted() {
-            this.getUsers();
-            this.getGames();
-            this.getSingleplayerGames();
-           // this.getTopThree();
-            this.getMultiplayerGames();
-            this.getTotalPlayedGames();
+            this.getAuthUser();
         },
       
     } 

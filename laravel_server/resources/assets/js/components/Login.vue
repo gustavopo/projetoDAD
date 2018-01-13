@@ -70,7 +70,6 @@
                         username: this.email,
                         password: this.password
                     };*/
-
                 let userLogin =
                     {
                         email: this.email,
@@ -82,15 +81,32 @@
                     .then(function (response) {
                         console.log(response);
                         this.$auth.setToken(response.body.access_token, response.body.expires_in + Date.now());
-                        console.log("Auth user" + JSON.stringify(this.$auth.getAuthenticatedUser()));
-                        //Redirecionar user após este ficar autenticado
+                        let self=this;//Redirecionar user após este ficar autenticado
+
+
+                        axios.get('api/user-data', {
+                            headers:{
+                                'Authorization': 'Bearer ' + this.$auth.getToken(),
+                                'Accept': 'application/json'
+                            }
+                        }).then(function (response) {
+
+                            //console.log(response.data);
+                            self.$auth.setAuthenticatedUser(response.data);
+
+                            });
+                        //Route::get('users/{id}', 'UserControllerAPI@getUser');
+
                         this.$router.push("/multimemorygame");
+
+
 
                     }).catch((error) => {
                     swal('Invalid Credentials! ');
                     console.log(error);
                 });
 
+                console.log(this.$auth.getAuthenticatedUser());
             },
             toogleLoginType() {
 

@@ -29,6 +29,12 @@ export default function (Vue) {
             destroyToken: function () {
                 localStorage.removeItem('token');
                 localStorage.removeItem('expiration');
+
+                localStorage.removeItem('name', data.name);
+                localStorage.removeItem('email', data.email);
+                localStorage.removeItem('nickname', data.nickname);
+                localStorage.removeItem('admin', data.admin);
+                localStorage.removeItem('blocked', data.blocked);
             },
 
 
@@ -47,13 +53,32 @@ export default function (Vue) {
             },
 
             setAuthenticatedUser(data){
-                authenticatedUser=data
+                localStorage.setItem('authUser', data);
+                localStorage.setItem('name', data.name);
+                localStorage.setItem('email', data.email);
+                localStorage.setItem('nickname', data.nickname);
+                localStorage.setItem('admin', data.admin);
+                localStorage.setItem('blocked', data.blocked);
             },
 
             getAuthenticatedUser()
             {
-                return authenticatedUser
+                return localStorage.getItem('authUser');
+            },
+            getAuthenticatedUserName()
+            {
+                return localStorage.getItem('name');
+            },
+            getAuthenticatedEmail()
+            {
+                return localStorage.getItem('email');
+            },
+
+            getAuthenticatedAdmin()
+            {
+                return localStorage.getItem('admin');
             }
+
         }
 
     Object.defineProperties(Vue.prototype, {
