@@ -42,7 +42,7 @@ const imagesList = Vue.component('imagesList', require('./components/User/admin/
 const uploadImage = Vue.component('uploadImage', require('./components/User/admin/uploadImage.vue'));
 const passwordEdit = Vue.component('passwordEdit', require('./components/User/passwordEdit.vue'));
 
-
+const adminPasswordEdit = Vue.component('adminPasswordEdit', require('./components/User/admin/adminPasswordEdit.vue'));
 
 const routes = [
     {path: '/', redirect: '/statistics', component: statistics},
@@ -57,6 +57,7 @@ const routes = [
     {path: '/imagesManagement', component: imagesManagement, meta: {forAuth: true}},
     {path: '/uploadImage', component: uploadImage, meta: {forAuth: true}},
     {path: '/passwordEdit', component: passwordEdit, meta: {forAuth: true}},
+    {path: '/adminPasswordEdit', component: adminPasswordEdit, meta: {forAuth: true}},
 ];
 
 const router = new VueRouter({

@@ -14,6 +14,6 @@
 Route::get('/','VueController@index');
 
 
-Route::get('verifyEmailFirst.blade.php','UserControllerAPI@verifyEmailFirst.blade.php')->name('verifyEmail');
+//Route::get('verifyEmailFirst.blade.php','UserControllerAPI@verifyEmailFirst.blade.php')->name('verifyEmail');
+//Route::get('verify/{email}/{verifyToken}', 'UserControllerApi@sendEmailDone');
 Route::get('verify/{email}/{verifyToken}', 'UserControllerApi@sendEmailDone');
-

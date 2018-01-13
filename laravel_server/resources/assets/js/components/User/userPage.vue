@@ -54,6 +54,7 @@
             <a data-original-title="Broadcast Message" data-toggle="tooltip" type="button"
                class="btn btn-sm btn-primary"><i class="glyphicon glyphicon-envelope"></i></a>
             <span class="pull-right">
+                   <a class="btn btn-xl btn-primary" style="margin-right: 40px" v-on:click.prevent="redirectUploadProfilePhoto" >Upload Image</a>
                             <a v-on:click.prevent="editUser(this.authUser)" data-original-title="Edit this user"
                                data-toggle="tooltip" type="button"
                                class="btn btn-sm btn-warning"><i class="glyphicon glyphicon-edit"></i></a>
@@ -114,6 +115,11 @@
             cancelEdit: function(){
                 this.editingUser =false;
                 this.showSuccess = false;
+            },
+
+            redirectUploadProfilePhoto: function () {
+                console.log("redirect upload profile");
+                this.$router.push('/uploadImage');
             },
 
 

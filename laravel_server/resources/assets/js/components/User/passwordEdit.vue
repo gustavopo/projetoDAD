@@ -4,7 +4,7 @@
         <div class="form-group">
             <label for="oldPassword">Old Password</label>
             <input
-                    type="text" class="form-control" v-model="user.oldPassword"
+                    type="password" class="form-control" v-model="user.oldPassword"
                     name="name" id="oldPassword"
                     placeholder="Old Password"/>
         </div>
@@ -12,7 +12,7 @@
         <div class="form-group">
             <label for="newPassword">New Password</label>
             <input
-                    type="text" class="form-control"  v-model="user.password"
+                    type="password" class="form-control"  v-model="user.password"
                     name="name" id="newPassword"
                     placeholder="New Password"/>
         </div>

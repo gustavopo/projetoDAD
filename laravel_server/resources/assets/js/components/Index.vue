@@ -16,6 +16,8 @@
             <div align="right">
                 <router-link v-if="isAuth" to="/userPage">Gestão da Conta</router-link>
                 -
+                <router-link to="/adminPasswordEdit"> AdminPasswordChange</router-link>
+                -
                 <button @click="logoutClick" v-if="isAuth" to="/logout">Logout</button>
                 -
                 <router-link v-if="!isAuth" to="/login"> Login</router-link>

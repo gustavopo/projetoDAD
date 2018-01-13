@@ -74,20 +74,18 @@ class UserControllerAPI extends Controller
         ]);
 
         $user = new User();
-       // $request['password'] =bcrypt($request['password']);
         $user->fill($request->all());
         $user->verifyToken = Str::random(40);
 
         $user->password = Hash::make($user->password);
         $user->save();
-    //    $thisUser = User::findOrFail($user->id);
-     //   $this->sendEmail($thisUser);
 
-        //SEND EMAIL TEST LARACAST
-      //  \Mail::to($user)->send(new Registration($user));
+        Mail::to($user)->send(new Registration);
 
     return $user;
     }
+
+
 
     public function update(Request $request, $id)
     {
@@ -169,6 +167,24 @@ class UserControllerAPI extends Controller
             return 'user not found';
         }
 
+    }
+
+    public function sendRegisterEmail()
+    {
+        $content = [
+            'title'=> 'Title',
+            'body'=> 'The body ',
+            'button' => 'Click Here'
+        ];
+
+
+        $receiverAddress = 'projetodad123@gmail.com';
+
+
+        Mail::to($receiverAddress)->send(new Registration($content));
+
+
+        dd('mail send successfully');
     }
 
 

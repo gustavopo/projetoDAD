@@ -77,20 +77,35 @@
             },
             sentVerifyEmail: function () {
 
-                axios.get('api/verifyEmail')
+                /* axios.get('api/verifyEmail')
+                     .then((response) => {
+                         console.log(response);
+                         this.resetUser()
+
+                     })
+                     .catch((error) => {
+                         //Show errors
+                         let data = error.response.data;
+                         console.log(data);
+                     });
+
+                 alert("Verify Email to Activate  Account");*/
+            },
+
+            sendRegisterEmail: function (newUser) {
+                let user= newUser;
+                axios.get('api/sendRegisterEmail',user)
                     .then((response) => {
                         console.log(response);
                         this.resetUser()
 
-                    })
-                    .catch((error) => {
-                        //Show errors
-                        let data = error.response.data;
-                        console.log(data);
-                    });
-
-                alert("Verify Email to Activate  Account");
+                    }).catch((error) => {
+                    //Show errors
+                    let data = error.response.data;
+                    console.log(data);
+                });
             },
+
             registerUser() {
                 let newUser =
                     {
@@ -125,8 +140,7 @@
                         }
                     });
 
-
-                this.sentVerifyEmail();
+                this.sendRegisterEmail(newUser);
 
                 console.log("UTILIZADOR CRIADO COM SUCESSO");
 
