@@ -59,11 +59,11 @@ class GameControllerAPI extends Controller
     }
 
     public function allYourGames ($id){
-        return DB::table('games')->where('winner',$id)->count();
+        return DB::table('games')->where('winner',$id)->whereRaw('status like "terminated"')->count();
     } 
 
     public function allYourSingleWins ($id){
-        return DB::table('games')->where('winner',$id)->whereRaw('type like "singleplayer"and status like "terminated"')->count();
+        return DB::table('games')->where('winner',$id)->whereRaw('type like "singleplayer" and status like "terminated"')->count();
     }
 
     public function allYourMultiWins ($id){
