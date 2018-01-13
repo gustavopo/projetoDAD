@@ -46,14 +46,13 @@ const adminPasswordEdit = Vue.component('adminPasswordEdit', require('./componen
 
 const routes = [
     {path: '/', redirect: '/statistics', component: statistics},
-    {path: '/users', component: user},
+    {path: '/users', component: user, meta: {forAuth:true}},
     {path: '/userPage', component: userPage},
-    {path: '/multimemorygame', component: multiplayerGame},
     {path: '/singlememorygame', component: singleplayerGame, meta: {forAuth: true}},
     {path: '/multimemorygame', component: multiplayerGame, meta: {forAuth: true}},
-    {path: '/statistics', component: statistics, meta: {forAuth: true}},
-    {path: '/login', component: login, meta: {forVisitors: true}},
-    {path: '/register', component: register, meta: {forVisitors: true} },
+    {path: '/statistics', component: statistics},
+    {path: '/login', component: login },
+    {path: '/register', component: register },
     {path: '/imagesManagement', component: imagesManagement, meta: {forAuth: true}},
     {path: '/uploadImage', component: uploadImage, meta: {forAuth: true}},
     {path: '/passwordEdit', component: passwordEdit, meta: {forAuth: true}},
@@ -71,19 +70,13 @@ router.beforeEach(
         //#NavigationGuard
         //to => where we want to go
         //from => current route
-        if (to.matched.some(record => record.meta.forVisitors)) {
-            if (Vue.auth.isAuthenticated()) {
-                next({
-                    path: '/statistics'
-                })
-            } else next()
-
-        } else if (to.matched.some(record => record.meta.forAuth)) {
+        if (to.matched.some(record => record.meta.forAuth)) {
             if (!Vue.auth.isAuthenticated()) {
                 next({
                     path: '/login'
                 })
-            } else next()
+            } else next(
+                Vue.auth.isAuthenticatedAndAdmin())
         } else next()
         //$route.matched
     }

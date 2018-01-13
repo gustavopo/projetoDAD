@@ -38,13 +38,17 @@ export default {
     },
     computed: {
         ownPlayerNumber() {
-            console.log('game socket: ' +this.game.player1SocketID );
+       /*     console.log('game socket: ' +this.game.player1SocketID );
             console.log('parent socket: ' +this.$parent.socketId );
-            console.log('socketProps: '+this.socketParent);
+            console.log('socketProps: '+this.socketParent);*/
             if (this.game.player1SocketID == this.$parent.socketId) {
                 return 1;
             } else if (this.game.player2SocketID == this.$parent.socketId) {
                 return 2;
+            } else if (this.game.player3SocketID == this.$parent.socketId) {
+                return 3;
+            }   else if (this.game.player4SocketID == this.$parent.socketId) {
+                return 4;
             }
             return 0;
         },
@@ -64,17 +68,15 @@ export default {
         ownPlayerName() {
             var ownNumber = this.ownPlayerNumber;
             if (ownNumber == 1)
-                return this.game.playerOne.name;
+                return this.game.playersArray[0].name;
             if (ownNumber == 2)
-                return this.game.playerTwo.name;
+                return this.game.playersArray[1].name;
             return "Unknown";
         },
         adversaryPlayerName() {
             var ownNumber = this.ownPlayerNumber;
-            if (ownNumber == 1)
-                return this.game.playerTwo.name;
-            if (ownNumber == 2)
-                return this.game.playerOne.name;
+            console.log('player turno name: ' +this.game.playersArray[this.game.playerTurn-1].name)
+return this.game.playersArray[this.game.playerTurn-1].name;
             return "Unknown";
         },
         message() {
@@ -133,6 +135,7 @@ export default {
           if (!this.game.gameEnded) {
             if (this.game.playerTurn != this.ownPlayerNumber) {
                 alert("It's not your turn to play");
+                alert("you are: " + this.ownPlayerNumber+ " and its this guy's turn: "+ this.game.playerTurn);
             } else {
                 this.$parent.play(this.game, r1, c1);
             }

@@ -9,6 +9,9 @@ define('YOUR_SERVER_URL', 'http://projetodad.dad');
 define('CLIENT_ID', '2');
 define('CLIENT_SECRET','6IVql9kz1i1zlG6ShqRVxP57VHjU8aO73tQ8OSaf');
 
+define('CLIENT_ID', '4');
+define('CLIENT_SECRET','c6XspeYb9HICv04Pfaisy1kQKlvLqZ23Yc25rxhd');
+
 class LoginControllerAPI extends Controller
 {
 	public function login(Request $request)

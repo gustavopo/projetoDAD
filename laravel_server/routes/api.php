@@ -39,14 +39,16 @@ Route::post('users', 'UserControllerAPI@store');
 Route::put('users/{id}', 'UserControllerAPI@update');
 Route::delete('users/{id}', 'UserControllerAPI@delete');
 Route::post('register','UserControllerAPI@store');
+Route::get('verifyEmail','UserControllerAPI@verifyEmail')->name('verifyEmail');
 Route::get('verify/{email}/{verifyToken}', 'UserControllerApi@sendEmailDone')->name('sendEmailDone');
-Route::get('verifyEmail','UserControllerAPI@verifyEmailFirst')->name('verifyEmail');
 Route::get('sendRegisterEmail','UserControllerAPI@sendRegisterEmail');
+Route::get('verifyEmail','UserControllerAPI@verifyEmailFirst')->name('verifyEmail');
 
 Route::get('sendMail','MailController@sendMail');
 
 //Change Password
 Route::put('users/changePassword/{id}', 'UserControllerAPI@changePassword');
+
 
 //GetAuthenthicatedUser
 Route::middleware('auth:api')->get('user', function(Request $request)
@@ -67,6 +69,8 @@ Route::post('images/storeImage','ImageControllerAPI@store');
 //Games
 
 Route::get('games', 'GameControllerAPI@index');
+
+Route::get('topthree', 'GameControllerAPI@topthree');
 Route::get('totalgamesplayed', 'GameControllerAPI@totalgamesplayed');
 Route::get('multiplayergames', 'GameControllerAPI@multiplayergames');
 Route::get('singleplayergames', 'GameControllerAPI@singleplayergames');

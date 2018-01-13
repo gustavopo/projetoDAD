@@ -78,7 +78,7 @@
                         this.$auth.destroyToken();
                       console.log("Logout OK!");
                         //Redirecionar user após este ficar autenticado
-                        this.$router.push("/index");
+                        this.$router.push("/statistics");
             }
         }
     }

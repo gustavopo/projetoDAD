@@ -19,6 +19,6 @@ class Game extends Model
     {
        // return $this->winner;
         //return "Unknown Winner";
-        return $this->hasOne('App\User' , 'winner');
+        return $this->hasOne('App\User');
     }
 }
