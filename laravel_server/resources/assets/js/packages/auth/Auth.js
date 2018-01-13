@@ -82,7 +82,7 @@ export default function (Vue) {
                 return localStorage.getItem('email');
             },
 
-            getAuthenticatedAdmin()
+            isAdmin: function()
             {
                 return localStorage.getItem('admin');
             },
