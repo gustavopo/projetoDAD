@@ -4,8 +4,6 @@
             <h3 class="text-center">{{title}}</h3>
             <br>
             <h2>Seu nome atual: {{currentPlayer}}</h2>
-            <p>Alterar nome atual <input v-model.trim="currentPlayer"></p>
-            <p><em></em></p>
             <hr>
             <h3 class="text-center">Lobby</h3>
             <p>
@@ -15,7 +13,6 @@
             <createGame v-if="createGameShow" @game-saved="gameSaved"></createGame>
             <hr>
             <h4>Jogos Pendentes (<a @click.prevent="loadLobby">Refresh</a>)
-                {{numberGames}}
             </h4>
             <lobby :games="lobbyGames" @join-click="join"></lobby>
             <template v-for="game in activeGames">
@@ -34,7 +31,7 @@ export default {
     data: function () {
         return {
             title: 'Jogo da Memória Multiplayer',
-            currentPlayer: 'Player X',
+            currentPlayer: '',
             lobbyGames: [],
             activeGames: [],
             socketId: "ola mundo",
@@ -42,7 +39,8 @@ export default {
             maxPlayers:[],
             authUser: null,
             name:'joao',
-            numberGames:''
+            numberGames:'',
+            emptyPlayerName:true
         }
     },
     sockets: {
@@ -92,7 +90,7 @@ export default {
             }
         },
         timer_changed(game){  
-         for (var lobbyGame of this.lobbyGames) {
+           for (var lobbyGame of this.lobbyGames) {
             if (game.gameID == lobbyGame.gameID) {
                 Object.assign(lobbyGame, game);
                 break;
@@ -146,7 +144,7 @@ methods: {
             this.getNumberGames();
             this.registerGame(maxPlayers);
             setTimeout(function () { self.$socket.emit('create_game', {gameID: self.numberGames, playerName: self.currentPlayer, name, maxPlayers, format});}, 2000);
-           
+
             this.createGameShow = false;
         }
     },
@@ -165,7 +163,7 @@ methods: {
         {
             type:"multiplayer",
             total_players:maxPlayers,
-            created_by:"1",
+            created_by:this.$auth.getAuthenticatedUserId(),
             status:"pending"
         }
 
@@ -219,34 +217,31 @@ methods: {
 
             close(game) {
                 this.$socket.emit('remove_game', {gameID: game.gameID});
+            },
+
+            updateStuff(){
+                this.currentPlayer = this.$auth.getAuthenticatedNickname();
             }
 
-        },
-        components: {
-            'lobby': Lobby,
-            'game': Game,
-            'createGame': CreateGame
-        },
-        mounted() {
-            this.loadLobby();
-   // console.log("socketID " +this.socketId);
+    },
+    components: {
+        'lobby': Lobby,
+        'game': Game,
+        'createGame': CreateGame
+    },
+    mounted() {
+        this.loadLobby();
+        if(this.currentPlayer==null){
+
+        setTimeout(this.updateStuff, 1200);
+    }
 
 
-
-   // let teste = this.$auth.getAuthenticatedUser().name;
-   // this.currentPlayer = teste;
 },
 beforeMount() {
-    //this.getAuthUser();
 
+    this.currentPlayer = this.$auth.getAuthenticatedNickname();
 
-    //console.log("socketID " +this.socketId);
-
-    //this.$auth.getAuthenticatedUser();
-   // this.currentPlayer = "dasdas";
-
-   // console.log(this.$auth.getAuthenticatedUser());
-   // this.currentPlayer=this.authUser.name;
 },
 
 
