@@ -70,7 +70,7 @@ Route::post('images/storeImage','ImageControllerAPI@store');
 
 Route::get('games', 'GameControllerAPI@index');
 
-Route::get('topthree', 'GameControllerAPI@topthree');
+Route::get('topthree', 'GameControllerAPI@topThreePlayers');
 Route::get('totalgamesplayed', 'GameControllerAPI@totalgamesplayed');
 Route::get('multiplayergames', 'GameControllerAPI@multiplayergames');
 Route::get('singleplayergames', 'GameControllerAPI@singleplayergames');
