@@ -75,11 +75,6 @@ Route::post('images/storeImage','ImageControllerAPI@store');
 //Games
 
 Route::get('games', 'GameControllerAPI@index');
-
-Route::get('topthree', 'GameControllerAPI@topThreePlayers');
-Route::get('totalgamesplayed', 'GameControllerAPI@totalgamesplayed');
-Route::get('multiplayergames', 'GameControllerAPI@multiplayergames');
-Route::get('singleplayergames', 'GameControllerAPI@singleplayergames');
 Route::get('games/lobby', 'GameControllerAPI@lobby');
 Route::get('games/status/{status}', 'GameControllerAPI@gamesStatus');
 Route::get('games/{id}', 'GameControllerAPI@getGame');
@@ -88,3 +83,12 @@ Route::post('games', 'GameControllerAPI@store');
 Route::patch('games/{id}/join-start', 'GameControllerAPI@joinAndStart');
 Route::put('games/{id}/endgame/{winner}', 'GameControllerAPI@endgame');
 
+//statistics
+
+Route::get('allyourmultiplayergames/{id}', 'GameControllerAPI@allYourMultiWins');
+Route::get('allyoursingleplayergames/{id}', 'GameControllerAPI@allYourSingleWins');
+Route::get('allyourgames/{id}', 'GameControllerAPI@allYourGames');
+Route::get('topthree', 'GameControllerAPI@topThreePlayers');
+Route::get('totalgamesplayed', 'GameControllerAPI@totalgamesplayed');
+Route::get('multiplayergames', 'GameControllerAPI@multiplayergames');
+Route::get('singleplayergames', 'GameControllerAPI@singleplayergames');

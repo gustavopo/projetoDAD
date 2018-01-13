@@ -1,6 +1,6 @@
 <template>
     <div style="text-align: center">
-        <div v-if="authUser != null"  class="row">
+        <div v-if="authUserName != null"  class="row">
             <div  class="card mb-3">
                 <div>
                     <h2 class="text-center">Your Statistics</h2>
@@ -12,19 +12,17 @@
                         <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
                             <thead>
                             <tr>
-                                <th>Your Single Player Games</th>
-                                <th>Your Multi Player Games</th>
-                                <th>All Your  Games</th>
-                                <th>Your Wins</th>
+                                <th>Your Single Player Wins</th>
+                                <th>Your Multi Player Wins</th>
+                                <th>All Your Wins</th>
                             </tr>
                             </thead>
                             <tbody>
                                   
                              <tr>
-                                <td>  </td> 
-                                <td>  </td>
-                                <td>  </td> 
-                                <td>  </td> 
+                                <td>{{yourSinglePlayerWins}}</td> 
+                                <td>{{yourMultiplayerWins}}</td>
+                                <td> {{allYourWins}} </td> 
                             </tr>
                             </tbody>
                         </table>
@@ -108,11 +106,15 @@
         data: function(){
             return {
                 title: 'Statistics',
-                authUser: null,
+                authUserName: this.$auth.getAuthenticatedUserName(),
+                authUserId: this.$auth.getAuthenticatedUserId(),
                 singleplayergames: '',
                 multiplayergames: '',
                 totalgamesplayed: '',
                 topthree: [],
+                yourSinglePlayerWins: '',
+                yourMultiplayerWins: '',
+                allYourWins: '',
             }
         },
         methods: {
@@ -135,24 +137,39 @@
         getTopThree: function(){
             axios.get('api/topthree').then(response => {
             this.topthree = response.data;
-
             });
         },
-        getAuthUser() {
-                let user = this.$auth.getAuthenticatedUser();
-                console.log(user);
-                this.authUser = user;
+        getAllYourGames: function(){
+            axios.get('api/allyourgames/'+this.authUserId).then(response => {
+                console.log(response.data.data);
+                this.allYourWins = response.data;
+            })
         },
+        getAllYourSinglePlayer: function(){
+            axios.get('api/allyoursingleplayergames/'+this.authUserId).then(response => {
+                console.log(response.data.data);
+                this.yourSinglePlayerWins = response.data;
+            })
+        },
+        getAllYourSMultiPlayer: function(){
+            axios.get('api/allyourmultiplayergames/'+this.authUserId).then(response => {
+                console.log(response.data.data);
+                this.yourMultiplayerWins = response.data;
+            })
+        },
+        
     },
         beforeMount() {
             this.getSingleplayerGames();
             this.getTopThree();
             this.getMultiplayerGames();
-            this.getTotalPlayedGames();       
+            this.getTotalPlayedGames();    
+            this.getAllYourGames();  
+            this.getAllYourSinglePlayer();
+            this.getAllYourSMultiPlayer(); 
         },
 
         mounted() {
-            this.getAuthUser();
         },
       
     } 

@@ -56,7 +56,19 @@ class GameControllerAPI extends Controller
         $topThreePlayers = DB::table('users')->join('games','users.id','=','games.winner')->select('users.name','users.nickname', DB::raw('count(games.winner) as wins'))->groupBy('users.name','users.nickname')->orderBy('wins','desc')->limit(3)->get();
         return $topThreePlayers;
 
-}
+    }
+
+    public function allYourGames ($id){
+        return DB::table('games')->where('winner',$id)->whereRaw('status like "terminated"')->count();
+    } 
+
+    public function allYourSingleWins ($id){
+        return DB::table('games')->where('winner',$id)->whereRaw('type like "singleplayer" and status like "terminated"')->count();
+    }
+
+    public function allYourMultiWins ($id){
+        return DB::table('games')->where('winner',$id)->whereRaw('type like "multiplayer" and status like "terminated"')->count();
+    }
 
     public function store(Request $request)
     {
