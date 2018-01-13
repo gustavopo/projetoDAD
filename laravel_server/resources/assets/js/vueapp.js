@@ -75,14 +75,8 @@ router.beforeEach(
                 next({
                     path: '/login'
                 })
-            }
-            else {
-                if (!Vue.auth.isAuthenticated()) {
-                    next({
-                        path: '/login'
-                    })
-                }
-            }
+            } else next(
+                Vue.auth.isAuthenticatedAndAdmin())
         } else next()
         //$route.matched
     }
