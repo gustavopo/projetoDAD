@@ -17,8 +17,6 @@ class Game extends Resource
         return [
             'id' => $this->id,
             'status' => $this->status,
-            'player1' => $this->player1,
-            'player2' => $this->player2,
             'winner' => $this->winner,
             'winnerName' => $this->getWinnerName(),
         ];

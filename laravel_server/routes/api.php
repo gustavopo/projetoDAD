@@ -75,7 +75,7 @@ Route::post('images/storeImage','ImageControllerAPI@store');
 //Games
 
 Route::get('games', 'GameControllerAPI@index');
-
+Route::get('allyourgames/{id}', 'GameControllerAPI@allYourGames');
 Route::get('topthree', 'GameControllerAPI@topThreePlayers');
 Route::get('totalgamesplayed', 'GameControllerAPI@totalgamesplayed');
 Route::get('multiplayergames', 'GameControllerAPI@multiplayergames');
