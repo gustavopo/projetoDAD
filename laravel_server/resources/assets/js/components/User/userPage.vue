@@ -62,6 +62,7 @@
                 successMessage: '',
                 editingUser: false,
                 authUser: {
+                    id: '',
                     name: '',
                     nickname: '',
                     email: '',
@@ -74,10 +75,10 @@
         methods: {
             getAuthUser() {
 
-                this.authUser.name = this.$auth.getAuthenticatedUserName();
-                this.authUser.nickname = this.$auth.getAuthenticatedNickname();
-                this.authUser.email = this.$auth.getAuthenticatedEmail();
-
+                this.authUser.id=this.$auth.getAuthenticatedUserId();
+                this.authUser.name=this.$auth.getAuthenticatedUserName();
+                this.authUser.nickname=this.$auth.getAuthenticatedNickname();
+                this.authUser.email=this.$auth.getAuthenticatedEmail();
 
             },
 
@@ -125,8 +126,7 @@
         },
 
         beforeMount() {
-            this.getAuthUser();
-            console.log(this.$auth.getAuthenticatedUser());
+            setTimeout(this.getAuthUser(), 1200);
         },
 
     }

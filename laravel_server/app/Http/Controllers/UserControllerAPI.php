@@ -25,7 +25,8 @@ class UserControllerAPI extends Controller
 {
     use RegistersUsers;
 
-    public function getAuthUser(){
+    public function getAuthUser()
+    {
         return $authUser = Auth::user();
     }
 
@@ -43,7 +44,7 @@ class UserControllerAPI extends Controller
         return new UserResource(User::find($id));
     }
 
-    public function changePassword(Request $request , $id)
+    public function changePassword(Request $request, $id)
     {
 
         // Session::flash('status', 'Registered! But verify your email to activate your account!');
@@ -54,19 +55,19 @@ class UserControllerAPI extends Controller
 
         $user = User::findOrFail($id);
 
-       // $request['password'] =bcrypt($request['password']);
+        // $request['password'] =bcrypt($request['password']);
         //$user->password = Hash::make($user->password);
 
         $user->fill($request->all());
         $user->password = Hash::make($user->password);
         $user->save();
-         return $user;
+        return $user;
     }
 
     public function store(Request $request)
     {
 
-       // Session::flash('status', 'Registered! But verify your email to activate your account!');
+        // Session::flash('status', 'Registered! But verify your email to activate your account!');
         $request->validate([
             'name' => 'required|string|max:255',
             'nickname' => 'required|string|max:255',
@@ -84,14 +85,13 @@ class UserControllerAPI extends Controller
         $user->save();
         Mail::to($user->email)->send(new Registration);
 
-      /*  Mail::send('email.registration', $user, function($message) use ($user) {
-            $message->to('projetodad123@gmail.com');
-            $message->subject('Mailgun Testing');
-        });
-*/
+        /*  Mail::send('email.registration', $user, function($message) use ($user) {
+              $message->to('projetodad123@gmail.com');
+              $message->subject('Mailgun Testing');
+          });
+  */
 
     }
-
 
 
     public function update(Request $request, $id)
@@ -99,13 +99,14 @@ class UserControllerAPI extends Controller
         $request->validate([
             'name' => 'required',
             'nickname' => 'required',
-            'email' => 'required|email|unique:users,email,'.$id,
+            'email' => 'email|unique:users,email,' . $id,
         ]);
         $user = User::findOrFail($id);
         $user->update($request->all());
         return new UserResource($user);
     }
-     public function block(Request $request, $id)
+
+    public function block(Request $request, $id)
     {
         $request->validate([
             'blocked' => 'required',
@@ -138,7 +139,6 @@ class UserControllerAPI extends Controller
     }
 
 
-
     public function delete($id)
     {
         $user = User::findOrFail($id);
@@ -164,39 +164,16 @@ class UserControllerAPI extends Controller
 
     }
 
-    public function sendEmail($thisUser)
-    {
-        Mail::to($thisUser['email'])->send(new verifyEmail($thisUser));
-    }
-
     public function sendEmailDone($email, $verifyToken)
     {
-        $user = User::where(['email'=>$email, 'verifyToken'=> $verifyToken])->first();
-        if($user)
-        {
-            return  user::where(['email'=>$email, 'verifyToken'=> $verifyToken])->update(['status'=>'1', 'verifyToken'=> NULL]);
+        $user = User::where(['email' => $email, 'verifyToken' => $verifyToken])->first();
+        if ($user) {
+            return user::where(['email' => $email, 'verifyToken' => $verifyToken])->update(['status' => '1', 'verifyToken' => NULL]);
 
-        }else{
+        } else {
             return 'user not found';
         }
 
     }
 
-    /* TODO : SHOW PROFILE PHOTO
-     public function showProfilePhoto(User $user)
-    {
-        $path = $user->file('profile_photo')->storeAs(storage_path() . '/app/public/profiles/', $user->profile_photo);
-        $user->profile_photo = $path;
-
-        //$user->file('profile_photo')->move(storage_path().'/app/public/profiles/', $user->profile_photo);
-
-        //storage_path().'/app/public/profiles/', $user->profile_photo
-
-        // $path = storage_path('app/public/profiles/'.$user->profile_photo);
-
-        return Image::make($path)->response();
-
-    }
-
-     */
 }
