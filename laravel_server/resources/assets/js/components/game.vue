@@ -13,7 +13,6 @@
                     <div class="board-row">
                         <div v-for="(r,r1) in game.rows">
                             <img v-bind:src="pieceImageURL(game.board[r1][c1])" v-on:click="clickPiece(r1,c1)">
-                            {{game.board[r1][c1].image}}
                         </div>
                     </div>
                 </div>
