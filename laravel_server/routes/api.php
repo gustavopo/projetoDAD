@@ -49,8 +49,10 @@ Route::get('verifyEmail','UserControllerAPI@verifyEmail')->name('verifyEmail');
 Route::get('verify/{email}/{verifyToken}', 'UserControllerApi@sendEmailDone')->name('sendEmailDone');
 Route::get('sendRegisterEmail','UserControllerAPI@sendRegisterEmail');
 Route::get('verifyEmail','UserControllerAPI@verifyEmailFirst')->name('verifyEmail');
-
 Route::get('sendMail','MailController@sendMail');
+Route::get('forgot-password','UserControllerAPI@forgotPassword');
+Route::post('forgot-password','UserControllerAPI@postForgotPassword');
+
 
 //Change Password
 Route::put('users/changePassword/{id}', 'UserControllerAPI@changePassword');

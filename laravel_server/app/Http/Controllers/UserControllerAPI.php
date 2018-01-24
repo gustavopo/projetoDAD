@@ -158,6 +158,29 @@ class UserControllerAPI extends Controller
     }
 
 
+    public function forgotPassword()
+    {
+        //no tutorial isto é só para ir para a vista
+        //aqui nao uso pq é com router.push (SPA)
+
+        //se nao mexeres nisto apaga
+        
+    }
+
+    public function postForgotPassword(Request $request)
+    {
+        $user = UserResource::whereEmail($request)->first();
+
+        if(count($user) ==0)
+        {
+            return redirect()->back()->with(['success' => ' Reset code was sent to your email.']);
+        }
+
+
+     //   return $request;
+    }
+
+
     public function verifyEmailFirst()
     {
         return view('email.registration');

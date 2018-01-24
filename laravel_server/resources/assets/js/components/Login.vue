@@ -11,16 +11,19 @@
 
                         <!--Email-->
                         <div v-if="loginByEmail" class="form-group">
+                            <label>Email: </label>
                             <input v-model="email" class="form-control" type="email" placeholder="Email"/>
                         </div>
 
                         <!--Nickname-->
                         <div v-if="!loginByEmail" class="form-group">
+                            <label>Nickname: </label>
                             <input v-model="nickname" class="form-control" type="text" placeholder="Nickname"/>
                         </div>
 
                         <!--Password-->
                         <div class="form-group">
+                            <label>Password: </label>
                             <input v-model="password" class="form-control" type="password" placeholder="Password"/>
                         </div>
 
@@ -29,12 +32,18 @@
                             <button @click="loginClick" class="btn btn-success pull-right">
                                 Login
                             </button>
+
                             <button v-if="!loginByEmail" @click="toogleLoginType" class="btn btn-success pull-right">
                                 Login by Email
                             </button>
                             <button v-if="loginByEmail" @click="toogleLoginType" class="btn btn-success pull-right">
                                 Login by Nickname
                             </button>
+
+                            <a @click="forgotPassword">
+                                Forgot your Password ?
+                            </a>
+
                         </div>
 
                     </div>
@@ -47,20 +56,20 @@
 </template>
 
 <script>
-    export default {
-        data() {
-            return {
-                title: 'Login',
-                email: '',
-                nickname: '',
-                password: '',
-                loginByEmail: true,
-            }
-        },
+export default {
+    data() {
+        return {
+            title: 'Login',
+            email: '',
+            nickname: '',
+            password: '',
+            loginByEmail: true,
+        }
+    },
 
 
-        methods: {
-            loginClick() {
+    methods: {
+        loginClick() {
                /* let data =
                     {
                         client_id: 2,
@@ -69,14 +78,14 @@
                         username: this.email,
                         password: this.password
                     };*/
-                let userLogin =
+                    let userLogin =
                     {
                         email: this.email,
                         nickname:this.nickname,
                         password: this.password
                     };
 
-                this.$http.post("/api/login", userLogin)
+                    this.$http.post("/api/login", userLogin)
                     .then(function (response) {
                         console.log(response);
                         this.$auth.setToken(response.body.access_token, response.body.expires_in + Date.now());
@@ -92,7 +101,7 @@
                             console.log(response.data);
                             self.$auth.setAuthenticatedUser(response.data);
 
-                            });
+                        });
                         //Route::get('users/{id}', 'UserControllerAPI@getUser');
 
                         location.reload();
@@ -101,18 +110,24 @@
 
 
                     }).catch((error) => {
-                    swal('Invalid Credentials! ');
-                    console.log(error);
-                });
+                        swal('Invalid Credentials! ');
+                        console.log(error);
+                    });
 
-                console.log(this.$auth.getAuthenticatedUser());
-            },
-            toogleLoginType() {
+                    console.log(this.$auth.getAuthenticatedUser());
+                },
+                toogleLoginType() {
 
-                this.loginByEmail = !this.loginByEmail;
-            }
+                    this.loginByEmail = !this.loginByEmail;
+                },
 
+        forgotPassword ()
+        {
+            this.$router.push("/forgotPassword");
         }
-    }
-</script>
+
+
+            }
+        }
+        </script>
 

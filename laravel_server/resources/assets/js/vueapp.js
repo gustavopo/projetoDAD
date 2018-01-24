@@ -43,6 +43,7 @@ const uploadImage = Vue.component('uploadImage', require('./components/User/admi
 const passwordEdit = Vue.component('passwordEdit', require('./components/User/passwordEdit.vue'));
 
 const adminPasswordEdit = Vue.component('adminPasswordEdit', require('./components/User/admin/adminPasswordEdit.vue'));
+const forgotPassword = Vue.component('forgotPassword', require('./components/User/forgotPassword.vue'));
 
 const routes = [
     {path: '/', redirect: '/statistics', component: statistics},
@@ -52,6 +53,7 @@ const routes = [
     {path: '/multimemorygame', component: multiplayerGame, meta: {forAuth:true}},
     {path: '/statistics', component: statistics},
     {path: '/login', component: login },
+    {path: '/forgotPassword', component: forgotPassword },
     {path: '/register', component: register },
     {path: '/imagesManagement', component: imagesManagement, meta: {forAuth: true}},
     {path: '/uploadImage', component: uploadImage, meta: {forAuth: true}},
