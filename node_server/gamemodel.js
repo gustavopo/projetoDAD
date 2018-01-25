@@ -5,8 +5,6 @@ var Tile = require('./Tile.js');
 var Player = require('./Player.js');
 const axios = require("axios");
 var url = "http://projetodad.dad";
-var intervalT;
-var intervalJoin;
 
 
 class Game {
@@ -31,9 +29,10 @@ class Game {
         this.contadorParesMatched=0;
         this.playersArray =  new Array(this.maxPlayers);
         this.playersArray[0] = new Player(0,1,player1Name);
-        this.timer = 30;
         this.setFormat(format);
         this.currentNumberPlayers=1;
+        this.playerWinner =  this.playersArray[0];
+        this.winner = this.playerWinner.playerNumber;
 
 
 
@@ -78,9 +77,6 @@ join(player2Name, gameID,game,io){
 
 
     this.gameStarted = true;
-
-    this.decrementTime(io, gameID, game);
-    intervalJoin=setInterval(function() {io.to(gameID).emit('game_changed',game);}, 1001);
 }
 
 checkGameEnded(){
@@ -96,36 +92,20 @@ checkGameEnded(){
 
 checkWinner(){
 
-    let playerWinner =  this.playersArray[0];
-    this.winner = playerWinner.playerNumber;
+
 
     for(let i=1; i<this.playersArray.length; i++){
-        if(this.playersArray[i].pairsCombined>playerWinner.pairsCombined){
+        if(this.playersArray[i].pairsCombined>this.playerWinner.pairsCombined){
+            console.log('WInner number: ' + this.winner);
 
-            playerWinner = this.playersArray[i];
+            this.playerWinner = this.playersArray[i];
             this.winner =  this.playersArray[i].playerNumber;
 
         }
     }
+
 }
 
-    /*checkGameEnded(){
-       /* if (this.hasRow(1)) {
-            this.winner = 1;
-            this.gameEnded = true;
-            return true;
-        } else if (this.hasRow(2)) {
-            this.winner = 2;
-            this.gameEnded = true;
-            return true;
-        } else if (this.isBoardComplete()) {
-            this.winner = 0;
-            this.gameEnded = true;
-            return true;
-        }
-        return false;
-    }
-    */
     isBoardComplete(){
         for (let value of this.board) {
             if (value === 0) {
@@ -146,9 +126,10 @@ checkWinner(){
             return false;
         }
 
-       /* if (this.board[r1][c1] !== 0) {
+        if (this.board[r1][c1].image == 'empty') {
             return false;
-        }*/
+        }
+
         this.board[r1][c1].tileFlipped = true;
 
         this.chooseCard(r1,c1);
@@ -174,15 +155,7 @@ checkWinner(){
 changeTurn(io, gameID, game){
 
     this.playerTurn = this.playerTurn == this.maxPlayers ? 1 : this.playerTurn+1;
-
-
     this.picksTurn = 0;
-
-    clearInterval(intervalJoin);
-    clearInterval(intervalT);
-    this.timer = 30;
-    this.decrementTime(io, gameID, game);
-    intervalJoin=setInterval(function() {io.to(gameID).emit('game_changed',game);}, 1001);
 
 }
 
@@ -193,6 +166,8 @@ chooseCard(posicaoLinha,posicaoColuna){
         console.log("ja foram selecionadas 2 cartas");
         return;
     }
+
+
 
 
     if (this.picks === 0) {
@@ -217,18 +192,6 @@ chooseCard(posicaoLinha,posicaoColuna){
                }
            }
 
-           decrementTime(io, gameID, game){
-            intervalT = setInterval(() =>{
-                if(this.timer===0){
-                    this.changeTurn(io, gameID, game);
-                   // intervalT=setInterval(function() {io.to(gameID).emit('timer_changed',game);}, 1001);
-               }
-               this.timer--;
-           }, 1000);
-
-        }
-
-
 
         checkCards(io, gameID, game){
 
@@ -241,10 +204,6 @@ chooseCard(posicaoLinha,posicaoColuna){
                    setTimeout(function () {self.firstChoice.image='empty'}, 500);
                    setTimeout(function () {self.secondChoice.image='empty';}, 500);
 
-                   //clear no timer!!!
-                   clearInterval(intervalT);
-                   this.timer = 30;
-                   this.decrementTime(io, gameID, game);
                    
                    this.matched = true;
                    this.picks = 0;
@@ -300,7 +259,6 @@ chooseCard(posicaoLinha,posicaoColuna){
 
                             //meter imagens no array de imagens
                             this.imagesArray[contadorImagens] = this.randomImage;
-                            console.log('imagem: ' + this.imagesArray[contadorImagens]);
                             contadorImagens++;
                         }
                     }
