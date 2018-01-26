@@ -50,8 +50,16 @@ Route::get('verify/{email}/{verifyToken}', 'UserControllerApi@sendEmailDone')->n
 Route::get('sendRegisterEmail','UserControllerAPI@sendRegisterEmail');
 Route::get('verifyEmail','UserControllerAPI@verifyEmailFirst')->name('verifyEmail');
 Route::get('sendMail','MailController@sendMail');
-Route::get('forgot-password','UserControllerAPI@forgotPassword');
-Route::post('forgot-password','UserControllerAPI@postForgotPassword');
+
+/** FIRST TRY BUT WRONG
+Route::post('forgot-password/email', 'Auth\ForgotPasswordController@getResetToken');
+Route::post('forgot-password/reset', 'Auth\ResetPasswordController@reset');
+**/
+
+Route::get('password/reset','Auth\ForgotPasswordController@showLinkRequestForm')->name('password.request');
+Route::post('password/email','Auth\ForgotPasswordController@sendResetLinkEmail')->name('password.email');
+Route::get('password/reset/{token}','Auth\ResetPasswordController@showResetForm')->name('password.reset');
+Route::post('password/reset','Auth\ResetPasswordController@reset');
 
 
 //Change Password

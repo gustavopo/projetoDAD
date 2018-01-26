@@ -92,7 +92,7 @@
                                 //if(old password != inputOldPassword)
                                 //swal password antiga está errada
                                 //if password are diferentes
-                                //swal passwords do not match
+                                //swal password do not match
 
                                 swal('Password do not match');
                             }

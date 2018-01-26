@@ -15672,7 +15672,7 @@ module.exports = Component.exports
 /***/ (function(module, exports, __webpack_require__) {
 
 __webpack_require__(87);
-module.exports = __webpack_require__(300);
+module.exports = __webpack_require__(303);
 
 
 /***/ }),
@@ -15732,8 +15732,9 @@ var uploadImage = Vue.component('uploadImage', __webpack_require__(293));
 var passwordEdit = Vue.component('passwordEdit', __webpack_require__(51));
 
 var adminPasswordEdit = Vue.component('adminPasswordEdit', __webpack_require__(296));
+var forgotPassword = Vue.component('forgotPassword', __webpack_require__(299));
 
-var routes = [{ path: '/', redirect: '/statistics', component: statistics }, { path: '/users', component: user, meta: { forAuth: true } }, { path: '/userPage', component: userPage }, { path: '/singlememorygame', component: singleplayerGame, meta: { forAuth: true } }, { path: '/multimemorygame', component: multiplayerGame, meta: { forAuth: true } }, { path: '/statistics', component: statistics }, { path: '/login', component: login }, { path: '/register', component: register }, { path: '/imagesManagement', component: imagesManagement, meta: { forAuth: true } }, { path: '/uploadImage', component: uploadImage, meta: { forAuth: true } }, { path: '/passwordEdit', component: passwordEdit, meta: { forAuth: true } }, { path: '/adminPasswordEdit', component: adminPasswordEdit, meta: { forAuth: true } }];
+var routes = [{ path: '/', redirect: '/statistics', component: statistics }, { path: '/users', component: user, meta: { forAuth: true } }, { path: '/userPage', component: userPage }, { path: '/singlememorygame', component: singleplayerGame, meta: { forAuth: true } }, { path: '/multimemorygame', component: multiplayerGame, meta: { forAuth: true } }, { path: '/statistics', component: statistics }, { path: '/login', component: login }, { path: '/forgotPassword', component: forgotPassword }, { path: '/register', component: register }, { path: '/imagesManagement', component: imagesManagement, meta: { forAuth: true } }, { path: '/uploadImage', component: uploadImage, meta: { forAuth: true } }, { path: '/passwordEdit', component: passwordEdit, meta: { forAuth: true } }, { path: '/adminPasswordEdit', component: adminPasswordEdit, meta: { forAuth: true } }];
 
 var router = new __WEBPACK_IMPORTED_MODULE_0_vue_router__["a" /* default */]({
     routes: routes
@@ -15761,7 +15762,7 @@ var app = new Vue({
 
 }).$mount('#app');
 
-Vue.component('example-component', __webpack_require__(299));
+Vue.component('example-component', __webpack_require__(302));
 
 /***/ }),
 /* 88 */
@@ -62834,7 +62835,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                         //if(old password != inputOldPassword)
                         //swal password antiga está errada
                         //if password are diferentes
-                        //swal passwords do not match
+                        //swal password do not match
 
                         swal('Password do not match');
                     }
@@ -74043,6 +74044,15 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
     data: function data() {
@@ -74101,6 +74111,9 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         toogleLoginType: function toogleLoginType() {
 
             this.loginByEmail = !this.loginByEmail;
+        },
+        forgotPassword: function forgotPassword() {
+            this.$router.push("/forgotPassword");
         }
     }
 });
@@ -74124,6 +74137,8 @@ var render = function() {
           _c("div", { staticClass: "panel-body" }, [
             _vm.loginByEmail
               ? _c("div", { staticClass: "form-group" }, [
+                  _c("label", [_vm._v("Email: ")]),
+                  _vm._v(" "),
                   _c("input", {
                     directives: [
                       {
@@ -74150,6 +74165,8 @@ var render = function() {
             _vm._v(" "),
             !_vm.loginByEmail
               ? _c("div", { staticClass: "form-group" }, [
+                  _c("label", [_vm._v("Nickname: ")]),
+                  _vm._v(" "),
                   _c("input", {
                     directives: [
                       {
@@ -74175,6 +74192,8 @@ var render = function() {
               : _vm._e(),
             _vm._v(" "),
             _c("div", { staticClass: "form-group" }, [
+              _c("label", [_vm._v("Password: ")]),
+              _vm._v(" "),
               _c("input", {
                 directives: [
                   {
@@ -74240,7 +74259,13 @@ var render = function() {
                       )
                     ]
                   )
-                : _vm._e()
+                : _vm._e(),
+              _vm._v(" "),
+              _c("a", { on: { click: _vm.forgotPassword } }, [
+                _vm._v(
+                  "\n                            Forgot your Password ?\n                        "
+                )
+              ])
             ])
           ])
         ])
@@ -77100,7 +77125,16 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             topthree: [],
             yourSinglePlayerWins: '',
             yourMultiplayerWins: '',
-            allYourWins: ''
+            allYourWins: '',
+            name: '',
+            nickname: '',
+            wins: '',
+            name1: '',
+            nickname1: '',
+            wins1: '',
+            name2: '',
+            nickname2: '',
+            wins2: ''
         };
     },
     methods: {
@@ -77132,6 +77166,24 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             axios.get('api/topthree').then(function (response) {
                 _this4.topthree = response.data;
             });
+
+            if (this.name == '') {
+                this.name = this.topthree[0].name;
+                this.nickname = this.topthree[0].nickname;
+                this.wins = this.topthree[0].wins;
+            }
+
+            if (this.name1 == '') {
+                this.name1 = this.topthree[1].name;
+                this.nickname1 = this.topthree[1].nickname;
+                this.wins1 = this.topthree[1].wins;
+            }
+
+            if (this.name2 == '') {
+                this.name2 = this.topthree[2].name;
+                this.nickname2 = this.topthree[2].nickname;
+                this.wins2 = this.topthree[2].wins;
+            }
         },
         getAllYourGames: function getAllYourGames() {
             var _this5 = this;
@@ -77161,14 +77213,16 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
     },
     beforeMount: function beforeMount() {
         this.getSingleplayerGames();
-        this.getTopThree();
+        // this.getTopThree();
         this.getMultiplayerGames();
         this.getTotalPlayedGames();
         this.getAllYourGames();
         this.getAllYourSinglePlayer();
         this.getAllYourSMultiPlayer();
     },
-    mounted: function mounted() {}
+    mounted: function mounted() {
+        setInterval(this.getTopThree, 2000);
+    }
 });
 
 /***/ }),
@@ -77268,11 +77322,11 @@ var render = function() {
           _vm._v("1st"),
           _c("p", [
             _vm._v(
-              _vm._s(_vm.topthree[0].name) +
+              _vm._s(_vm.name) +
                 " AKA " +
-                _vm._s(_vm.topthree[0].nickname) +
+                _vm._s(_vm.nickname) +
                 " with " +
-                _vm._s(_vm.topthree[0].wins) +
+                _vm._s(_vm.wins) +
                 " wins!"
             )
           ])
@@ -77282,11 +77336,11 @@ var render = function() {
           _vm._v("2nd"),
           _c("p", [
             _vm._v(
-              _vm._s(_vm.topthree[1].name) +
+              _vm._s(_vm.name1) +
                 " AKA " +
-                _vm._s(_vm.topthree[1].nickname) +
+                _vm._s(_vm.nickname1) +
                 " with " +
-                _vm._s(_vm.topthree[1].wins) +
+                _vm._s(_vm.wins1) +
                 " wins!"
             )
           ])
@@ -77296,11 +77350,11 @@ var render = function() {
           _vm._v("3rd"),
           _c("p", [
             _vm._v(
-              _vm._s(_vm.topthree[2].name) +
+              _vm._s(_vm.name2) +
                 " AKA " +
-                _vm._s(_vm.topthree[2].nickname) +
+                _vm._s(_vm.nickname2) +
                 " with " +
-                _vm._s(_vm.topthree[2].wins) +
+                _vm._s(_vm.wins2) +
                 " wins!"
             )
           ])
@@ -78158,7 +78212,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                         //if(old password != inputOldPassword)
                         //swal password antiga está errada
                         //if password are diferentes
-                        //swal passwords do not match
+                        //swal password do not match
 
                         swal('Password do not match');
                     }
@@ -78276,6 +78330,199 @@ if (false) {
 /* 299 */
 /***/ (function(module, exports, __webpack_require__) {
 
+var disposed = false
+var normalizeComponent = __webpack_require__(3)
+/* script */
+var __vue_script__ = __webpack_require__(300)
+/* template */
+var __vue_template__ = __webpack_require__(301)
+/* template functional */
+var __vue_template_functional__ = false
+/* styles */
+var __vue_styles__ = null
+/* scopeId */
+var __vue_scopeId__ = null
+/* moduleIdentifier (server only) */
+var __vue_module_identifier__ = null
+var Component = normalizeComponent(
+  __vue_script__,
+  __vue_template__,
+  __vue_template_functional__,
+  __vue_styles__,
+  __vue_scopeId__,
+  __vue_module_identifier__
+)
+Component.options.__file = "resources/assets/js/components/User/forgotPassword.vue"
+
+/* hot reload */
+if (false) {(function () {
+  var hotAPI = require("vue-hot-reload-api")
+  hotAPI.install(require("vue"), false)
+  if (!hotAPI.compatible) return
+  module.hot.accept()
+  if (!module.hot.data) {
+    hotAPI.createRecord("data-v-300c973b", Component.options)
+  } else {
+    hotAPI.reload("data-v-300c973b", Component.options)
+  }
+  module.hot.dispose(function (data) {
+    disposed = true
+  })
+})()}
+
+module.exports = Component.exports
+
+
+/***/ }),
+/* 300 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
+/* harmony default export */ __webpack_exports__["default"] = ({
+    data: function data() {
+        return {
+            title: 'Forgot Password',
+            email: ''
+
+        };
+    },
+
+
+    methods: {
+        sendCode: function sendCode() {
+
+            var userToSend = {
+                email: this.email
+            };
+
+            console.log(userToSend);
+
+            if (userToSend.email != '') {
+                axios.post('/api/password/email', userToSend).then(function (response) {
+                    console.log(response);
+                }).catch(function (error) {
+                    console.log(error);
+                });
+            } else {
+                swal('Email field is empty!');
+            }
+        }
+    }
+});
+
+/***/ }),
+/* 301 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _c("div", [
+    _c("div", [
+      _c("h3", { staticClass: "text-center" }, [_vm._v(_vm._s(_vm.title))])
+    ]),
+    _vm._v(" "),
+    _c("div", { staticClass: "row" }, [
+      _c("div", { staticClass: "col-md-6 col-md-offset-3" }, [
+        _c("div", { staticClass: "panel panel-default" }, [
+          _c("div", { staticClass: "panel-body" }, [
+            _c("div", { staticClass: "form-group" }, [
+              _c("label", [_vm._v("Email: ")]),
+              _vm._v(" "),
+              _c("input", {
+                directives: [
+                  {
+                    name: "model",
+                    rawName: "v-model",
+                    value: _vm.email,
+                    expression: "email"
+                  }
+                ],
+                staticClass: "form-control",
+                attrs: { type: "email", placeholder: "Email" },
+                domProps: { value: _vm.email },
+                on: {
+                  input: function($event) {
+                    if ($event.target.composing) {
+                      return
+                    }
+                    _vm.email = $event.target.value
+                  }
+                }
+              })
+            ]),
+            _vm._v(" "),
+            _c("div", [
+              _c(
+                "button",
+                {
+                  staticClass: "btn btn-success pull-right",
+                  on: { click: _vm.sendCode }
+                },
+                [
+                  _vm._v(
+                    "\n                            Submit (Send Code)\n                        "
+                  )
+                ]
+              )
+            ])
+          ])
+        ])
+      ])
+    ])
+  ])
+}
+var staticRenderFns = []
+render._withStripped = true
+module.exports = { render: render, staticRenderFns: staticRenderFns }
+if (false) {
+  module.hot.accept()
+  if (module.hot.data) {
+    require("vue-hot-reload-api")      .rerender("data-v-300c973b", module.exports)
+  }
+}
+
+/***/ }),
+/* 302 */
+/***/ (function(module, exports, __webpack_require__) {
+
 var normalizeComponent = __webpack_require__(3)
 /* script */
 var __vue_script__ = null
@@ -78303,7 +78550,7 @@ module.exports = Component.exports
 
 
 /***/ }),
-/* 300 */
+/* 303 */
 /***/ (function(module, exports) {
 
 // removed by extract-text-webpack-plugin

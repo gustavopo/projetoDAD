@@ -157,16 +157,6 @@ class UserControllerAPI extends Controller
         return response()->json($totalEmail == 0);
     }
 
-
-    public function forgotPassword()
-    {
-        //no tutorial isto é só para ir para a vista
-        //aqui nao uso pq é com router.push (SPA)
-
-        //se nao mexeres nisto apaga
-        
-    }
-
     public function postForgotPassword(Request $request)
     {
         $user = UserResource::whereEmail($request)->first();

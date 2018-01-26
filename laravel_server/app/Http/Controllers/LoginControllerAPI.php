@@ -7,7 +7,7 @@ use Illuminate\Http\Request;
 define('YOUR_SERVER_URL', 'http://projetodad.dad');
 
 define('CLIENT_ID', '2');
-define('CLIENT_SECRET','iYok94vsxyazFzh7ifppM2Rl096P4sBHMFwq2h8x');
+define('CLIENT_SECRET','x33Qt9XjT1WN6i0QfziETaFooYikfKLhVy1uS5iw');
 
 
 class LoginControllerAPI extends Controller

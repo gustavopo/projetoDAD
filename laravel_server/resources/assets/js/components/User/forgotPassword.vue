@@ -49,13 +49,15 @@
 
             sendCode() {
 
-                let email=this.email;
+                let userToSend = {
+                    email: this.email,
+                };
 
-                console.log(email);
+                console.log(userToSend);
 
-                if(this.email != '')
+                if(userToSend.email != '')
                 {
-                axios.post('/api/forgot-password', email )
+                axios.post('/api/password/email', userToSend )
                     .then(function (response) {
                         console.log(response);
                     })
