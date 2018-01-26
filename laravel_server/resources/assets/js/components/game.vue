@@ -8,18 +8,17 @@
             <div class="alert" :class="alerttype">
                 <strong>{{ message }} &nbsp;&nbsp;&nbsp;&nbsp;<a v-show="game.gameEnded" v-on:click.prevent="closeGame">Close Game</a></strong>
             </div>
+            <h2>Pontuação: {{combinations}}</h2>
             <div id="board" class="board">
                 <div v-for="(c,c1) in game.columns" >
                     <div class="board-row">
                         <div v-for="(r,r1) in game.rows">
                             <img v-bind:src="pieceImageURL(game.board[r1][c1])" v-on:click="clickPiece(r1,c1)">
+                            {{game.board[r1][c1].image}}
                         </div>
                     </div>
                 </div>
-            </div>
-            <div id="timer">
-                {{game.timer}}
-            </div>  
+            </div> 
             <table id="espaco">
             </table>
 
@@ -34,6 +33,7 @@ export default {
     props: ['game','socketParent'],
     data: function () {
         return {
+            combinations:0,
         }
     },
     computed: {
@@ -85,13 +85,16 @@ export default {
             } else if (this.game.gameEnded) {
                 this.setWinner();
                 if (this.game.winner == this.ownPlayerNumber) {
+                    this.combinations = this.game.playersArray[this.ownPlayerNumber-1].pairsCombined;
                     return "Game has ended. You Win with: " + this.getWinner.pairsCombined +" pairs";
                 } else if (this.game.winner == 0) {
                     return "Game has ended. There was a tie.";
                 }
+                this.combinations = this.game.playersArray[this.ownPlayerNumber-1].pairsCombined;
                 return "Game has ended and " + this.adversaryPlayerName + " has won. You lost.";
             } else {
                 if (this.game.playerTurn == this.ownPlayerNumber) {
+                    this.combinations = this.game.playersArray[this.ownPlayerNumber-1].pairsCombined;
                     return "It's your turn";
                 } else {
                     return "It's " + this.adversaryPlayerName + " turn";
